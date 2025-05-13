@@ -1,0 +1,48 @@
+<dialog #modal class="dialog">
+    <div class="titulo">
+        <div class="titulo-modal">
+            <span>Cadastrar destino</span>
+        </div>
+        <div class="btn-fechar-modal">
+            <button (click)="fecharModal()"> x </button>
+        </div>
+    </div>
+    <form (ngSubmit)="salvar()">
+        <div class="grid">
+            <div class="col-3 label-control">
+                <label> Nome </label>
+            </div>
+            <div class="col-9">
+                <input [(ngModel)]="destino.nome" class="form-control" type="text" name="nome">
+            </div>
+        </div>
+
+        <br />
+        <div class="grid">
+            <div class="col-3 label-control">
+                <label>
+                    Descrição </label>
+            </div>
+            <div class="col-9">
+                <textarea [(ngModel)]="destino.descricao" class="form-control" name="descricao" id=""
+                    rows="5"></textarea>
+            </div>
+        </div>
+        <br />
+        <div class="grid">
+            <div class="col-3 label-control">
+                <label>
+                    Localização </label>
+            </div>
+            <div class="col-9">
+                <textarea [(ngModel)]="destino.localizacao" class="form-control" name="localizacao" id=""></textarea>
+            </div>
+
+        </div>
+        <br />
+        <div class="grid" style="justify-content: end;">
+            <button> Salvar destino </button>
+        </div>
+        
+    </form>
+</dialog>

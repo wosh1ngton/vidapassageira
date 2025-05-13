@@ -1,0 +1,12 @@
+<section>
+    <ul>
+        @for (destino of destinos; track $index) {
+            <li>{{ destino.nome }}</li>
+        }    
+    </ul>
+</section>
+
+<section>
+    <app-form-destino [(modalStatus)]="modalDialog"></app-form-destino>
+    <button (click)="abrirDestinoDialog()">Cadastrar destino </button>
+</section>
