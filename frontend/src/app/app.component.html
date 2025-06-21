@@ -1,7 +1,19 @@
+
+<p-message></p-message>
+<ng-container *ngIf=!token>
+  <button (click)="login()">Login with Google</button>
+  <button (click)="cadastrar()">Cadastrar-se</button>
+</ng-container>
+<ng-container *ngIf="token">
 <header>
   <div class="banner">
     <h1>Vida Passageira</h1>
   </div>  
+
+  <div class="logout">
+    <span *ngIf="usuario">{{ usuario.name }}</span>
+     <button (click)="logout()">Sair</button>
+  </div>
 </header>
 <main>
   <section class="menu-principal">
@@ -16,3 +28,4 @@
     <router-outlet></router-outlet>
   </section>
 </main>
+</ng-container>

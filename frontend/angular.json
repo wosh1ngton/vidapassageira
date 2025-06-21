@@ -24,10 +24,12 @@
               {
                 "glob": "**/*",
                 "input": "public"
-              }
+              },
+               "src/silent-refresh.html"
+
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css"              
             ],
             "scripts": []
           },

@@ -1,0 +1,17 @@
+<form #formSubmit (ngSubmit)="salvar()">
+<div>
+    <label for="username">Usuário</label>
+    <input pInputText [(ngModel)]="usuario.username" name="username" />
+</div>
+<div>
+    <label for="email">Email</label>
+    <input pInputText [(ngModel)]="usuario.email" name="email" />
+</div>
+<div>
+    <label for="password">Password</label>
+    <input pInputText [(ngModel)]="usuario.password" name="password" />
+</div>
+<div>    
+    <input type="submit" label="Cadastrar" />
+</div>
+</form>

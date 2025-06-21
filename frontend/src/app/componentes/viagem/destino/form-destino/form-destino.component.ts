@@ -1,46 +1,62 @@
-import { afterRender, Component, ElementRef, model, viewChild } from '@angular/core';
-import { Destino } from '../../../../model/destino';
+import {
+  afterRender,
+  Component,
+  ElementRef,
+  EventEmitter,
+  model,
+  Output,
+  viewChild,
+} from '@angular/core';
+
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { PrimeNgModule } from '../../../../shared/prime.module';
+import { DestinosService } from '../../../../services/destinos.service';
+import { DestinoCreateDTO } from '../../../../model/destino';
 
 @Component({
   selector: 'app-form-destino',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, PrimeNgModule],
   templateUrl: './form-destino.component.html',
-  styleUrl: './form-destino.component.css'
+  styleUrl: './form-destino.component.css',
 })
 export class FormDestinoComponent {
-
-  destinoDialog = viewChild.required<ElementRef<HTMLDialogElement>>('modal');
   modalStatus = model(false);
-  
-  destino: Destino = {
-    nome : '',
+  visible: boolean = false;
+  @Output() destinoSalvo = new EventEmitter<any>();
+
+  destino: DestinoCreateDTO = {
+    nome: '',
     descricao: '',
-    localizacao: ''
+    localizacao: '',
   };
 
-  constructor(){
-    afterRender(() => {
-      if(this.modalStatus()){
-        this.destinoDialog().nativeElement.showModal();
-      } else {
-        this.destinoDialog().nativeElement.close();
-      }
-    })
-  }
+  constructor(private destinoService: DestinosService) {}
 
   fecharModal() {
     this.modalStatus.set(false);
   }
 
   salvar() {
-    const novoDestino = new Destino(
-      this.destino.nome,
-      this.destino.descricao,
-      this.destino.localizacao
-    );
-    this.fecharModal();
+  
+    const novoDestino = {
+      nome: this.destino.nome,
+      descricao: this.destino.descricao,
+      localizacao: this.destino.localizacao
+    };
+    
+    this.destinoService.save(novoDestino)
+      .subscribe({
+        next: (destinoSalvo) => {
+          this.destinoSalvo.emit(destinoSalvo);
+          this.fecharModal();
+        },
+        error: (error) => {
+          console.error('Erro ao salvar destino:', error);
+        }
+      });    
     
   }
+
+
 }

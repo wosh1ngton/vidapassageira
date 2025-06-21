@@ -1,6 +1,13 @@
-export class Destino {
-    constructor(public readonly nome: string,
-                public readonly descricao: string,
-                public readonly localizacao: string
-    ) {}
+export interface DestinoCreateDTO {
+  nome: string;
+  descricao: string;
+  localizacao: string;
 }
+
+export interface DestinoResponseDTO {
+  id: number;
+  nome: string;
+  descricao: string;
+  localizacao: string;
+}
+
