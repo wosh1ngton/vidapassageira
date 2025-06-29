@@ -17,7 +17,8 @@ public interface DestinoMapper {
     @Mapping(target = "id", ignore = true)
     Destino toEntity(DestinoCreateDTO dto);
 
-    DestinoReponseDTO toResponseDto(Destino destino);
+    @Mapping(target = "imagemBase64", ignore = true)
+    DestinoReponseDTO toResponseDto(Destino destino);    
     
     void updateEntity(DestinoCreateDTO dto, @MappingTarget Destino destino);
 

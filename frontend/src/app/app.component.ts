@@ -6,15 +6,16 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { RegistroComponent } from './componentes/registro/registro.component';
-import { MessageModule } from 'primeng/message';
+import { PrimeNgModule } from './shared/prime.module';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterModule, CommonModule, MessageModule],
+  imports: [RouterModule, CommonModule, PrimeNgModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   standalone: true,
-  providers: [DialogService]
+  providers: [DialogService, MessageService],
 })
 export class AppComponent implements OnInit {
   title = 'frontend';
@@ -22,9 +23,11 @@ export class AppComponent implements OnInit {
   dialogCadastroUsuarioRef: DynamicDialogRef | undefined;
 
   constructor(
-    private primeng: PrimeNG, 
+    private primeng: PrimeNG,
     private oauthService: OAuthService,
-    private dialogService: DialogService) {}
+    private dialogService: DialogService,
+    private messageService: MessageService
+  ) {}
 
   ngOnInit() {
     this.getUserInfo();
@@ -34,7 +37,6 @@ export class AppComponent implements OnInit {
     this.oauthService.loadDiscoveryDocumentAndTryLogin().then(() => {
       this.oauthService.getAccessToken();
     });
-    
   }
 
   login() {
@@ -46,7 +48,7 @@ export class AppComponent implements OnInit {
 
     if (claims) {
       this.usuario.email = claims['email'];
-      this.usuario.name = claims['name'];      
+      this.usuario.name = claims['name'];
     }
   }
 
@@ -59,17 +61,20 @@ export class AppComponent implements OnInit {
   }
 
   cadastrar() {
-    this.dialogCadastroUsuarioRef = this.dialogService.open(RegistroComponent,
-      {
-        header: 'Cadastrar Usuário',
-        width: '50%',
-        contentStyle: { 'overflow': 'auto' },
-        data: {
-          usuario: this.usuario
-        },
-        closeOnEscape: true,        
-        
-      }
-    )
+    this.dialogCadastroUsuarioRef = this.dialogService.open(RegistroComponent, {      
+      width: '50%',
+      header: 'Cadastro de Usuário',
+      
+      closable: true      
+    });
+    this.dialogCadastroUsuarioRef.onClose.subscribe((response) => {
+      if (response?.sucesso) {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Sucesso',
+          detail: `Usuário criado com sucesso`,
+        });
+      } 
+    });
   }
 }

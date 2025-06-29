@@ -10,7 +10,7 @@ public class BackendApplication {
 
 	public static void main(String[] args) {
 		Dotenv dotenv = Dotenv.configure().directory("backend")
-    .filename(".env")
+    	.filename(".env")
     .load();
 		System.setProperty("spring.datasource.url", dotenv.get("DATABASE_URL"));
 		System.setProperty("spring.datasource.username", dotenv.get("DATABASE_USERNAME"));

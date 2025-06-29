@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -26,4 +27,8 @@ public class Destino {
 
     @Column(name = "DS_DESTINO", nullable = true)
     private String descricao;
+
+    @Lob
+    @Column(name = "FL_DESTINO", columnDefinition = "LONGBLOG")
+    private byte[] imagem;
 }

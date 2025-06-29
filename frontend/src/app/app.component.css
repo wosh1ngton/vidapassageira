@@ -1,25 +1,36 @@
-.banner h1 {
-    font-family: var(--font-primaria);
-}
-.menu-principal {
-    background-color: var(--cor-primaria);
-    height: 2rem;
-    display: flex;
-    align-items: center;
-}
-
-.menu-principal ul {
-    display: flex;    
-    list-style: none;    
-    padding: 0;
-    margin: 0;
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #f4f4f4;
+  font-family: var(--font-primaria);
 }
 
-.menu-principal ul li a {
-    font-family: var(--font-primaria);
-    font-weight: bold;
-    color: var(--cor-secundaria);
-    text-decoration: none;
-    padding: 3px;
-    margin: 3px;
+.auth-content {
+  text-align: center;
+  padding: 1rem;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  font-family: var(--font-primaria);  
+}
+
+.app-header {
+  background: linear-gradient(90deg, #f4f4f4 0%, #cccccc 100%);
+  color: var(--cor-primaria);
+  font-weight: 500;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
 }

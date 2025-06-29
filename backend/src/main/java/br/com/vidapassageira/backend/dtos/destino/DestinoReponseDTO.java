@@ -8,4 +8,6 @@ public class DestinoReponseDTO {
     private String nome;
     private String localizacao;
     private String descricao;
+    private String imagemBase64;
+
 }

@@ -1,40 +1,38 @@
-<p-dialog #modal class="dialog" [(visible)]="modalStatus">    
-    <form #formSubmit (ngSubmit)="salvar()">
-        <div class="grid">
-            <div class="col-3 label-control">
-                <label> Nome </label>
-            </div>
-            <div class="col-9">
-                <input pInputText [(ngModel)]="destino.nome" class="form-control" type="text" name="nome">
-            </div>
+<p-dialog #modal header="Cadastrar Destino" [(visible)]="modalStatus" [modal]="true" [style]="{width: '500px'}"
+    [closable]="true">
+    <form #formSubmit="ngForm" (ngSubmit)="salvar()" class="p-fluid" enctype="multipart/form-data">
+
+        <div class="field text-left">
+            <label for="nome">Nome</label>
+            <input class="w-full" pInputText id="nome" name="nome" [(ngModel)]="destino.nome" required />
         </div>
 
-        <br />
-        <div class="grid">
-            <div class="col-3 label-control">
-                <label>
-                    Descrição </label>
-            </div>
-            <div class="col-9">
-                <textarea pTextarea [(ngModel)]="destino.descricao" class="form-control" name="descricao" id=""
-                    rows="5"></textarea>
-            </div>
+        <div class="field text-left">
+            <label for="descricao">Descrição</label>
+            <textarea class="w-full" pInputTextarea id="descricao" name="descricao" [(ngModel)]="destino.descricao"
+                rows="4"></textarea>
         </div>
-        <br />
-        <div class="grid">
-            <div class="col-3 label-control">
-                <label>
-                    Localização </label>
-            </div>
-            <div class="col-9">
-                <textarea pTextarea [(ngModel)]="destino.localizacao" class="form-control" name="localizacao" id=""></textarea>
-            </div>
+
+        <div class="field text-left">
+            <label for="localizacao">Localização</label>
+            <textarea class="w-full" pInputTextarea id="localizacao" name="localizacao"
+                [(ngModel)]="destino.localizacao" rows="2"></textarea>
+        </div>
+
+        <div class="field text-left">
+            <label for="localizacao">Imagem</label>
+            <p-toast />
+
+            <p-fileupload #fu mode="basic" chooseLabel="Selecionar" chooseIcon="pi pi-upload" name="demo[]" accept="image/*"
+                maxFileSize="1000000" (onSelect)="onSelect($event)" />
+
 
         </div>
-        <br />
-        <div class="grid" style="justify-content: end;">
-            <p-button type="submit" label="Salvar"></p-button>
+
+        <div class="flex justify-content-end mt-4">
+            <button pButton type="submit" label="Salvar" icon="pi pi-check" class="p-button-success"></button>
         </div>
-        
+
+
     </form>
 </p-dialog>

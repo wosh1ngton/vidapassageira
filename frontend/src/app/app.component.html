@@ -1,31 +1,50 @@
 
-<p-message></p-message>
-<ng-container *ngIf=!token>
-  <button (click)="login()">Login with Google</button>
-  <button (click)="cadastrar()">Cadastrar-se</button>
-</ng-container>
-<ng-container *ngIf="token">
-<header>
-  <div class="banner">
-    <h1>Vida Passageira</h1>
-  </div>  
-
-  <div class="logout">
-    <span *ngIf="usuario">{{ usuario.name }}</span>
-     <button (click)="logout()">Sair</button>
+<p-toast></p-toast>
+<ng-container *ngIf="!token">
+  <div class="auth-container">
+    <p-card header="Bem-vindo ao Vida Passageira">
+      <div class="auth-content">
+        <p>Escolha uma opção para continuar:</p>
+        <div class="button-group">
+          <button pButton type="button" label="Login" class="p-button-rounded p-button-success" (click)="login()"></button>
+          <button pButton type="button" label="Cadastrar-se" class="p-button-rounded p-button-secondary" (click)="cadastrar()"></button>
+        </div>
+      </div>
+    </p-card>
   </div>
-</header>
-<main>
-  <section class="menu-principal">
-    <ul>
-      <li><a href="">Viagens</a> <br /> </li>
-      <li><a routerLink="destinos">Destinos</a></li>
-    </ul>
+</ng-container>
 
+<ng-container *ngIf="token">
+  <div class="layout-wrapper">
+    <!-- HEADER -->
+    <header class="app-header flex justify-content-between align-items-center px-4 py-3 surface-200">
+      <h2 class="m-0">🌍 Vida Passageira</h2>
+      <div class="flex align-items-center gap-2">
+        <span *ngIf="usuario" class="font-medium text-primary">{{ usuario.name }}</span>
+        <button pButton type="button" icon="pi pi-sign-out" label="Sair" class="p-button-default" (click)="logout()"></button>
+      </div>
+    </header>
 
-  </section>
-  <section>
-    <router-outlet></router-outlet>
-  </section>
-</main>
+    <!-- MAIN CONTENT -->
+    <div class="grid">
+      <!-- SIDEBAR MENU -->
+      <div class="col-12 md:col-3 lg:col-2 p-3">
+        <p-panel header="Menu">
+          <ul class="list-none p-0 m-0">
+            <li class="mb-2">
+              <a routerLink="" class="text-primary hover:underline">Viagens</a>
+            </li>
+            <li class="mb-2">
+              <a routerLink="destinos" class="text-primary hover:underline">Destinos</a>
+            </li>
+          </ul>
+        </p-panel>
+      </div>
+
+      <!-- ROUTED VIEW -->
+      <div class="col-12 md:col-9 lg:col-10 p-3">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
 </ng-container>

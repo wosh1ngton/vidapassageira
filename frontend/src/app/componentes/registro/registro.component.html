@@ -1,17 +1,24 @@
-<form #formSubmit (ngSubmit)="salvar()">
-<div>
-    <label for="username">Usuário</label>
-    <input pInputText [(ngModel)]="usuario.username" name="username" />
-</div>
-<div>
-    <label for="email">Email</label>
-    <input pInputText [(ngModel)]="usuario.email" name="email" />
-</div>
-<div>
-    <label for="password">Password</label>
-    <input pInputText [(ngModel)]="usuario.password" name="password" />
-</div>
-<div>    
-    <input type="submit" label="Cadastrar" />
-</div>
-</form>
+<p-toast></p-toast>
+  <form #formSubmit="ngForm" (ngSubmit)="salvar()">
+    <div class="p-fluid formgrid grid">
+      <div class="field col-12">
+        <label for="username">Usuário</label>
+        <input class="w-full" pInputText name="username" [(ngModel)]="usuario.username" required />
+      </div>
+
+      <div class="field col-12">
+        <label for="email">Email</label>
+        <input class="w-full" pInputText name="email" [(ngModel)]="usuario.email" type="email" required />
+      </div>
+
+      <div class="field col-12">
+        <label for="password">Senha</label>
+        <input class="w-full" pPassword name="password" [(ngModel)]="usuario.password" required [feedback]="false" />
+      </div>
+
+      <div class="field col-12 text-right">
+        <button pButton type="submit" label="Cadastrar" class="p-button-rounded p-button-primary"></button>
+      </div>
+    </div>
+  </form>
+

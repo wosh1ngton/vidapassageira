@@ -1,13 +1,32 @@
-<section>
-    <p-dataview #dv [value]="destinos">
-        <ng-template #list let-items>            
-            <div class="grid grid-cols-12" *ngFor="let item of items; let first = first">
-                {{item.nome}}
-            </div>
-        </ng-template>
-    </p-dataview>
+<section class="p-4">
+    <section class="pb-3" style="text-align: right;">
+        <app-form-destino [destinoParaEditar]="destinoSelecionado" (destinoSalvo)="atualizaListagemDestinos()" [(modalStatus)]="modalDialog">
+        </app-form-destino>
+        <button pButton type="button" label="Cadastrar destino" (click)="abrirDestinoDialog()"></button>
+    </section>
+    <section>
 
-<section>
-    <app-form-destino (destinoSalvo)="atualizaListagemDestinos()" [(modalStatus)]="modalDialog"></app-form-destino>
-    <button (click)="abrirDestinoDialog()">Cadastrar destino </button>
-</section>
+        <div class="grid">
+            <div class="col-12 md:col-4" *ngFor="let destino of destinos">
+                <p-card [header]="destino.nome" [subheader]="destino.localizacao">
+                    <img [src]="destino.imagemBase64" alt="Imagem" class="w-full mb-3 border-round" />
+
+
+                    <p>{{ destino.descricao }}</p>
+
+                    <ng-template pTemplate="footer">
+                        <div class="flex justify-content-end gap-1">
+                            <button pButton type="button" icon="pi pi-pencil" class="p-button-sm p-button-outlined"
+                                (click)="editarDestino(destino)"></button>
+
+                            <button pButton type="button" icon="pi pi-trash" class="p-button-sm p-button-danger"
+                                (click)="deletarDestino(destino)"></button>
+
+                            <button pButton type="button" icon="pi pi-telegram" label="Planejar Viagem"
+                                class="p-button-sm p-button-default" (click)="deletarDestino(destino)"></button>
+                        </div>
+                    </ng-template>
+                </p-card>
+            </div>
+        </div>
+    </section>

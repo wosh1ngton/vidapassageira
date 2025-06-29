@@ -4,6 +4,14 @@ import { DataViewModule } from 'primeng/dataview';
 import { InputTextModule } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
 import { DialogModule } from 'primeng/dialog';
+import { ToastModule } from 'primeng/toast';
+import { CardModule } from 'primeng/card';
+import { PasswordModule } from 'primeng/password';
+import { PanelModule } from 'primeng/panel';
+import { PaginatorModule } from 'primeng/paginator';
+import { ImageModule } from 'primeng/image';
+import { FileUploadModule } from 'primeng/fileupload';
+
 
 @NgModule({
     imports: [],
@@ -13,7 +21,14 @@ import { DialogModule } from 'primeng/dialog';
         DataViewModule,
         InputTextModule,
         TextareaModule,
-        DialogModule
+        DialogModule,
+        ToastModule,
+        CardModule,
+        PasswordModule,
+        PanelModule,
+        PaginatorModule,
+        ImageModule,
+        FileUploadModule
     ],
 })
 export class PrimeNgModule {

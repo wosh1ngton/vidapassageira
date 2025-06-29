@@ -2,23 +2,28 @@ package br.com.vidapassageira.backend.resources;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
 import br.com.vidapassageira.backend.dtos.destino.DestinoCreateDTO;
 import br.com.vidapassageira.backend.dtos.destino.DestinoReponseDTO;
 import br.com.vidapassageira.backend.services.DestinosService;
+
+import java.io.IOException;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/destinos")
-public class DestinosResource {   
+public class DestinosResource {
 
     @Autowired
     private DestinosService destinosService;
@@ -28,17 +33,29 @@ public class DestinosResource {
         return ResponseEntity.ok(destinosService.listar());
     }
 
-    @PostMapping
-    public ResponseEntity<DestinoReponseDTO> cadastrar(@RequestBody DestinoCreateDTO request) {
-        DestinoReponseDTO response = destinosService.cadastrar(request);
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<DestinoReponseDTO> cadastrar(
+            @RequestPart("imagem") MultipartFile imagem,
+            @RequestPart("nome") String nome,
+            @RequestPart("descricao") String descricao,
+            @RequestPart("localizacao") String localizacao) throws IOException
+
+    {
+        DestinoReponseDTO response = destinosService.cadastrar(nome, descricao, localizacao, imagem.getBytes());
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<DestinoReponseDTO> atualizar(
-        @RequestBody DestinoCreateDTO request,
-        @PathVariable Long id) {
-        DestinoReponseDTO response = destinosService.atualizar(request, id);
+            @RequestPart("destino") DestinoCreateDTO destino,
+            @RequestPart(value = "imagem", required=false) MultipartFile imagem,
+            @PathVariable Long id) throws IOException {
+
+        if (imagem != null && !imagem.isEmpty()) {
+            destino.setImagem(imagem.getBytes());
+        }
+        
+        DestinoReponseDTO response = destinosService.atualizar(destino, id);
         return ResponseEntity.ok(response);
     }
 
@@ -52,5 +69,5 @@ public class DestinosResource {
     public ResponseEntity<DestinoReponseDTO> getById(@PathVariable Long id) {
         DestinoReponseDTO response = destinosService.getById(id);
         return ResponseEntity.ok(response);
-    }   
+    }
 }

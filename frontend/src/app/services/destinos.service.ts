@@ -20,10 +20,17 @@ export class DestinosService {
     return this.http.get(`${this.baseUrl}/destinos`);
   }
 
-  save(destino: DestinoCreateDTO): Observable<DestinoResponseDTO> {
+  save(formData: FormData): Observable<DestinoResponseDTO> {
     return this.http.post<DestinoResponseDTO>(
       `${this.baseUrl}/destinos`,
-      destino
+      formData
+    );
+  }
+
+  atualizar(formData: FormData, id: number): Observable<DestinoResponseDTO> {
+    return this.http.put<DestinoResponseDTO>(
+      `${this.baseUrl}/destinos/${id}`,
+      formData
     );
   }
 }

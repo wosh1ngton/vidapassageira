@@ -3,6 +3,7 @@ import { FormDestinoComponent } from '../form-destino/form-destino.component';
 import { PrimeNgModule } from '../../../../shared/prime.module';
 import { CommonModule } from '@angular/common';
 import { DestinosService } from '../../../../services/destinos.service';
+import { DestinoCreateDTO, DestinoResponseDTO } from '../../../../model/destino';
 
 @Component({
   selector: 'app-destino',
@@ -18,7 +19,8 @@ export class DestinoComponent implements OnInit {
       this.listarDestinos();
   }
   modalDialog = model(false);
-  
+  destinoSelecionado?: DestinoResponseDTO;
+
   destinos: any = [];
 
   listarDestinos() {
@@ -27,13 +29,20 @@ export class DestinoComponent implements OnInit {
     });  
   }
 
-  abrirDestinoDialog() {
+  abrirDestinoDialog() { 
+    this.destinoSelecionado = undefined;   
     this.modalDialog.set(true);
   }
 
   atualizaListagemDestinos() {
     this.listarDestinos()
   }
-  
+
+  editarDestino(destino: DestinoResponseDTO) {
+    this.destinoSelecionado = destino;
+    this.modalDialog.set(true);
+
+  }
+  deletarDestino(destino: DestinoCreateDTO) {}
   
 }

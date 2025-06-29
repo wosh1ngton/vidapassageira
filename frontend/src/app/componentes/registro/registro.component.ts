@@ -2,44 +2,45 @@ import { Component } from '@angular/core';
 import { UsuarioService } from '../../services/usuario.service';
 import { UsuarioCreateDTO } from '../../model/usuario';
 import { CommonModule } from '@angular/common';
-import { BrowserModule } from '@angular/platform-browser';
 import { PrimeNgModule } from '../../shared/prime.module';
 import { FormsModule } from '@angular/forms';
-import { DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { MessageService } from 'primeng/api';
-import { MessageModule } from 'primeng/message';
 
 @Component({
   selector: 'app-registro',
   imports: [CommonModule, FormsModule, PrimeNgModule],
   templateUrl: './registro.component.html',
   providers: [MessageService],
-  styleUrl: './registro.component.css'
+  styleUrl: './registro.component.css',
 })
 export class RegistroComponent {
-
-  constructor(private usuarioService: UsuarioService,
-    private messageService: MessageService
+  constructor(
+    private usuarioService: UsuarioService,
+    private messageService: MessageService,
+    private dialogService: DialogService,
+    private ref: DynamicDialogRef
   ) {}
-  dialogCadastroUsuarioRef: DynamicDialogRef | undefined;
 
-  usuario : UsuarioCreateDTO = {
+  usuario: UsuarioCreateDTO = {
     username: '',
     password: '',
-    email: ''    
+    email: '',
   };
-  
+
   salvar() {
     this.usuarioService.save(this.usuario).subscribe({
       next: (response) => {
-        console.log('Usuário criado com sucesso:', response);
-        this.dialogCadastroUsuarioRef?.close();
+        this.ref.close({ sucesso: true, usuarioCriado: response });
       },
       error: (error) => {
-        this.messageService.add({ severity: 'error', summary: 'Erro', detail: `Erro ao criar usuário ${error.message}` });      
-        this.dialogCadastroUsuarioRef?.close();
-      }
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erro',
+          detail: `${error.error.message}`,
+        });
+      },
     });
-    console.log(this.usuario);
+   
   }
 }

@@ -2,6 +2,7 @@ export interface DestinoCreateDTO {
   nome: string;
   descricao: string;
   localizacao: string;
+  imagem: File | undefined;
 }
 
 export interface DestinoResponseDTO {
@@ -9,5 +10,6 @@ export interface DestinoResponseDTO {
   nome: string;
   descricao: string;
   localizacao: string;
+
 }
 
