@@ -131,10 +131,10 @@ export class FormDestinoComponent implements OnInit {
 
     const destinoSemImage = { ...this.destino };
     delete destinoSemImage.imagem;
-
+    
     formData.append(
       'destino',
-      new Blob([JSON.stringify(destinoSemImage)], { type: 'application/json' })
+      new Blob([JSON.stringify(this.destino)], { type: 'application/json' })
     );
     if (this.destino.imagem) {
       formData.append('imagem', this.destino.imagem);

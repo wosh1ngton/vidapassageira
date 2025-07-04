@@ -11,6 +11,8 @@ import { PanelModule } from 'primeng/panel';
 import { PaginatorModule } from 'primeng/paginator';
 import { ImageModule } from 'primeng/image';
 import { FileUploadModule } from 'primeng/fileupload';
+import { CalendarModule } from 'primeng/calendar';
+import { DropdownModule } from "primeng/dropdown";
 
 
 @NgModule({
@@ -28,7 +30,9 @@ import { FileUploadModule } from 'primeng/fileupload';
         PanelModule,
         PaginatorModule,
         ImageModule,
-        FileUploadModule
+        FileUploadModule,
+        CalendarModule,
+        DropdownModule
     ],
 })
 export class PrimeNgModule {

@@ -23,10 +23,14 @@
                                 (click)="deletarDestino(destino)"></button>
 
                             <button pButton type="button" icon="pi pi-telegram" label="Planejar Viagem"
-                                class="p-button-sm p-button-default" (click)="deletarDestino(destino)"></button>
+                                class="p-button-sm p-button-default" (click)="planejarViagem(destino)"></button>
                         </div>
                     </ng-template>
                 </p-card>
             </div>
         </div>
     </section>
+    
+    <p-dialog [header]="'Cadastrar Viagem'" [(visible)]="showPlanejarViagem" [style]="{ width: '35rem' }">
+        <app-form-viagem [destinoParaViagem]="destinoViagem" (closeDialog)="showPlanejarViagem = false"> </app-form-viagem>
+    </p-dialog>

@@ -30,12 +30,13 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.getUserInfo();
+    
     this.primeng.ripple.set(true);
     this.oauthService.configure(authCodeFlowConfig);
     this.oauthService.setupAutomaticSilentRefresh();
     this.oauthService.loadDiscoveryDocumentAndTryLogin().then(() => {
       this.oauthService.getAccessToken();
+      this.getUserInfo();
     });
   }
 

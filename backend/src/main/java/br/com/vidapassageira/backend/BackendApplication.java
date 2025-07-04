@@ -9,7 +9,7 @@ import io.github.cdimascio.dotenv.Dotenv;
 public class BackendApplication {
 
 	public static void main(String[] args) {
-		Dotenv dotenv = Dotenv.configure().directory("backend")
+		Dotenv dotenv = Dotenv.configure()
     	.filename(".env")
     .load();
 		System.setProperty("spring.datasource.url", dotenv.get("DATABASE_URL"));

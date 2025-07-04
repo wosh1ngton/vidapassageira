@@ -84,8 +84,7 @@ public class KeycloakUserService {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(token);
         headers.setContentType(MediaType.APPLICATION_JSON);
-
-        // Step 1: Find user ID by username
+    
         String searchUrl = serverUrl + "/admin/realms/" + targetRealm + "/users?username=" + username;
 
         ResponseEntity<UserRepresentation[]> response = new RestTemplate()
@@ -96,9 +95,8 @@ public class KeycloakUserService {
             throw new RuntimeException("User not found in Keycloak");
         }
 
-        String userId = users[0].getId(); // ← got the UUID!
-
-        // Step 2: Set password
+        String userId = users[0].getId();
+      
         Map<String, Object> passwordPayload = new HashMap<>();
         passwordPayload.put("type", "password");
         passwordPayload.put("value", password);

@@ -1,0 +1,23 @@
+<form #formViagem="ngForm" (ngSubmit)="salvar()">
+    <div class="formgrid grid">
+        <div class="field col-12">
+            <label for="destino"> Destino </label>
+            {{destino.id}}
+            <input type="hidden" name="idDestino" [(ngModel)]="viagem.idDestino">
+            <input type="text" name="destino" class="w-full" pInputText [value]=destino.nome [disabled]="true" />
+        </div>
+        <div class="field col-6 ">
+            <label for="dataIda">Data de Ida</label>
+            <p-calendar [(ngModel)]="viagem.dataIda" inputId="icondisplay" dateFormat="dd/mm/yy" [iconDisplay]="'input'"
+                [showIcon]="true" appendTo="body" name="dataIda"> </p-calendar>
+        </div>
+        <div class="field col-6 p-fluid">
+            <label for="dataVolta">Data de Retorno</label>
+            <p-calendar [(ngModel)]="viagem.dataVolta" inputId="icondisplay" dateFormat="dd/mm/yy"
+                [iconDisplay]="'input'" [showIcon]="true" appendTo="body" name="dataVolta"></p-calendar>
+        </div>
+        <div class="field col-12 text-right">
+            <button pButton label="Salvar"></button>
+        </div>
+    </div>
+</form>

@@ -10,6 +10,6 @@ export interface DestinoResponseDTO {
   nome: string;
   descricao: string;
   localizacao: string;
-
+  imagemBase64: string;
 }
 
