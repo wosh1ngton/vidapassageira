@@ -49,13 +49,9 @@ public class DestinosResource {
     public ResponseEntity<DestinoReponseDTO> atualizar(
             @RequestPart("destino") DestinoCreateDTO destino,
             @RequestPart(value = "imagem", required=false) MultipartFile imagem,
-            @PathVariable Long id) throws IOException {
-
-        if (imagem != null && !imagem.isEmpty()) {
-            destino.setImagem(imagem.getBytes());
-        }
+            @PathVariable Long id) throws IOException {       
         
-        DestinoReponseDTO response = destinosService.atualizar(destino, id);
+        DestinoReponseDTO response = destinosService.atualizar(destino, id, imagem.getBytes());
         return ResponseEntity.ok(response);
     }
 

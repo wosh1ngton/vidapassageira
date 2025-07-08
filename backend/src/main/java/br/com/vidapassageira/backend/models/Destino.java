@@ -29,6 +29,6 @@ public class Destino {
     private String descricao;
 
     @Lob
-    @Column(name = "FL_DESTINO", columnDefinition = "LONGBLOG")
+    @Column(name = "FL_DESTINO", columnDefinition = "LONGBLOB")
     private byte[] imagem;
 }

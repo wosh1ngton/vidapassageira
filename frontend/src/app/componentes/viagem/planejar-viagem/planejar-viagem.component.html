@@ -1,0 +1,12 @@
+<h2>Planejamento da Viagem</h2>
+<h3>Onde Ficar?</h3>
+    <a href="#"> Opinião da IA</a>
+<h3>Como chegar?</h3>
+    <a href="#"> Opinião da IA</a>
+<h3>Onde Ir?</h3>
+    <button pButton (click)="gerarOpiniaoOndeIr()"> Opinião da IA</button>
+
+
+<div *ngIf="resultado">
+  <markdown [data]="resultado"></markdown>
+</div>

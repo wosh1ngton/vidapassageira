@@ -7,7 +7,8 @@ export interface ViagemCreateDTO {
     idDestino: number;
 }
 
-export interface ViagemResponseDTO {    
+export interface ViagemResponseDTO {  
+    id: number;  
     dataIda: Date;
     dataVolta: Date;
     destino: DestinoResponseDTO;

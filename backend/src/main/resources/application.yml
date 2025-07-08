@@ -31,3 +31,7 @@ keycloak:
   username: ${KEYCLOAK_USERNAME}
   password: ${KEYCLOAK_PASSWORD}    
   target-realm: VP
+deepseek:
+  api:
+    key: ${DEEPSEEK_API_KEY}
+    url: https://api.deepseek.com/v1/chat/completions

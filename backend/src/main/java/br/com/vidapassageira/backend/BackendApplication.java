@@ -18,6 +18,7 @@ public class BackendApplication {
 		System.setProperty("keycloak.client-id", dotenv.get("KEYCLOAK_CLIENT_ID"));
 		System.setProperty("keycloak.username", dotenv.get("KEYCLOAK_USERNAME"));
 		System.setProperty("keycloak.password", dotenv.get("KEYCLOAK_PASSWORD"));
+		System.setProperty("deepseek.api.key", dotenv.get("DEEPSEEK_API_KEY"));
 		SpringApplication.run(BackendApplication.class, args);
 	}
 

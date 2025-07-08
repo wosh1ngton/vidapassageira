@@ -7,6 +7,7 @@ import { routes } from './app.routes';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { provideOAuthClient } from 'angular-oauth2-oidc';
 import { AuthInterceptor } from './interceptors/auth-interceptor';
+import { provideMarkdown } from 'ngx-markdown';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -25,6 +26,7 @@ export const appConfig: ApplicationConfig = {
       },
     }),
     provideHttpClient(),
+    provideMarkdown(),
     provideOAuthClient(), 
     provideHttpClient(withInterceptorsFromDi()),   
     {

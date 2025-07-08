@@ -20,8 +20,14 @@ public class DestinosService {
     private DestinoRepository destinoRepository;
 
     public DestinoReponseDTO cadastrar(String nome, String descricao, String localizacao, byte[] imagem) {
-        DestinoCreateDTO dto = new DestinoCreateDTO(nome, descricao, localizacao, imagem);
+        
+        DestinoCreateDTO dto = new DestinoCreateDTO(nome, descricao, localizacao);
+
         Destino destino = DestinoMapper.INSTANCE.toEntity(dto);
+        
+        if (imagem != null) {
+            destino.setImagem(imagem);
+        }
         destino = destinoRepository.save(destino);
         return DestinoMapper.INSTANCE.toResponseDto(destino);
     }
@@ -40,12 +46,17 @@ public class DestinosService {
 
     }
 
-    public DestinoReponseDTO atualizar(DestinoCreateDTO dto, Long id) {
+    public DestinoReponseDTO atualizar(DestinoCreateDTO dto, Long id, byte[] imagem) {
 
         Destino destino = destinoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Destino não encontrado"));
 
-        DestinoMapper.INSTANCE.updateEntity(dto, destino);        
+        DestinoMapper.INSTANCE.updateEntity(dto, destino);
+
+        if (imagem != null) {
+            destino.setImagem(imagem);
+        }
+
         destinoRepository.save(destino);
         return DestinoMapper.INSTANCE.toResponseDto(destino);
     }

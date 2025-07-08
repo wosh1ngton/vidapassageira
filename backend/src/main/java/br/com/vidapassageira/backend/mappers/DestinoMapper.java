@@ -15,6 +15,7 @@ public interface DestinoMapper {
     DestinoMapper INSTANCE = Mappers.getMapper(DestinoMapper.class);   
     
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "imagem", ignore = true)
     Destino toEntity(DestinoCreateDTO dto);
 
     @Mapping(target = "imagemBase64", ignore = true)

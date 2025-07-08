@@ -1,4 +1,6 @@
 <section class="p-4">
+    <p-toast />
+    <p-confirmdialog />
     <section class="pb-3" style="text-align: right;">
         <app-form-destino [destinoParaEditar]="destinoSelecionado" (destinoSalvo)="atualizaListagemDestinos()" [(modalStatus)]="modalDialog">
         </app-form-destino>
@@ -20,9 +22,9 @@
                                 (click)="editarDestino(destino)"></button>
 
                             <button pButton type="button" icon="pi pi-trash" class="p-button-sm p-button-danger"
-                                (click)="deletarDestino(destino)"></button>
+                                (click)="confirmarDelecao(destino.id)"></button>
 
-                            <button pButton type="button" icon="pi pi-telegram" label="Planejar Viagem"
+                            <button pButton type="button" icon="pi pi-telegram" label="Agendar Viagem"
                                 class="p-button-sm p-button-default" (click)="planejarViagem(destino)"></button>
                         </div>
                     </ng-template>

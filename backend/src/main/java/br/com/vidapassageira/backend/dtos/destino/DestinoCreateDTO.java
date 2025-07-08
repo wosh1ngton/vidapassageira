@@ -12,6 +12,5 @@ import lombok.Setter;
 public class DestinoCreateDTO {    
     private String nome;
     private String descricao;
-    private String localizacao;
-    private byte[] imagem;
+    private String localizacao;   
 }

@@ -7,6 +7,7 @@ import lombok.Data;
 
 @Data
 public class ViagemResponseDTO {
+    private Long id;
     private LocalDate dataIda;
     private LocalDate dataVolta;
     private DestinoReponseDTO destino;

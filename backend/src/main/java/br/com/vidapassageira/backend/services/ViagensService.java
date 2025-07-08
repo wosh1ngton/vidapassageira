@@ -38,4 +38,14 @@ public class ViagensService {
         return viagensDto;
 
     }
+
+    public ViagemResponseDTO buscarPorId(Long id) {
+        Viagem viagem = this.viagemRepository.findById(id).orElseThrow(() -> new RuntimeException("Viagem não encontrada"));
+        ViagemResponseDTO viagemDTO = ViagemMapper.INSTANCE.toResponseDTO(viagem);
+        if (viagem.getDestino().getImagem() != null) {
+            String base64 = java.util.Base64.getEncoder().encodeToString(viagem.getDestino().getImagem());
+            viagemDTO.getDestino().setImagemBase64("data:image/jpeg;base64, " + base64);
+        }
+        return viagemDTO;
+    }
 }

@@ -17,7 +17,8 @@ public class SecurityConfig {
         http
             .cors(cors -> Customizer.withDefaults())
             .csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(auth -> auth
+            .authorizeHttpRequests(auth -> auth  
+            .requestMatchers("/api/planejamento-ia/**").permitAll()          
             .requestMatchers("/api/auth/**").permitAll()
             .requestMatchers("/api/public").permitAll()
             .anyRequest().authenticated())

@@ -33,4 +33,8 @@ export class DestinosService {
       formData
     );
   }
+
+  deletar(id: number) {
+    return this.http.delete(`${this.baseUrl}/destinos/${id}`);
+  }
 }

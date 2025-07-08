@@ -13,6 +13,7 @@ import { ImageModule } from 'primeng/image';
 import { FileUploadModule } from 'primeng/fileupload';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from "primeng/dropdown";
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { DropdownModule } from "primeng/dropdown";
         ImageModule,
         FileUploadModule,
         CalendarModule,
-        DropdownModule
+        DropdownModule,
+        ConfirmDialogModule
     ],
 })
 export class PrimeNgModule {
