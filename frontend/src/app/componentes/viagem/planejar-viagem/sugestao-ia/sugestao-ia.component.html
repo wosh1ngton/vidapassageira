@@ -1,0 +1,6 @@
+<div *ngIf="sugestao">
+    <markdown [data]="sugestao"></markdown>   
+</div>
+<div *ngIf="!sugestao">
+    <p class="text-red-500 font-semibold"> Ainda não há sugestões </p>
+</div>

@@ -14,10 +14,8 @@ import { filter } from 'rxjs';
 })
 export class ListarViagemComponent implements OnInit {
   viagens: ViagemResponseDTO[] = [];
-  exibirLista = true;
-  constructor(private viagemService: ViagemService,
-    private activatedRoute: ActivatedRoute,
-    private router: Router
+  
+  constructor(private viagemService: ViagemService    
   ) {}
 
   ngOnInit(): void {
@@ -27,12 +25,7 @@ export class ListarViagemComponent implements OnInit {
           this.viagens = viagens;
         });
 
-      this.router.events
-        .pipe(filter(event => event instanceof NavigationEnd))
-        .subscribe(() => {
-          const childRoute = this.activatedRoute.firstChild;
-          this.exibirLista = !childRoute?.snapshot?.url.length;
-        })
+     
   }
 
   editarViagem() {

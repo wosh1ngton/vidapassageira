@@ -1,34 +1,30 @@
-<section>
-
-    <div class="grid">
-        <div *ngIf="exibirLista">
-            <div class="col-4" *ngFor="let viagem of viagens">
-                <p-card [header]="viagem.destino.nome" [subheader]="viagem.destino.localizacao">
-                    <img [src]="viagem.destino.imagemBase64" alt="Imagem" class="w-full mb-3 border-round" />
+<div class="grid col-12">
+    
+        <div *ngFor="let viagem of viagens" class="col-12" style="width: 400px;">
+            <p-card [header]="viagem.destino.nome" [subheader]="viagem.destino.localizacao">
+                <img [src]="viagem.destino.imagemBase64" alt="Imagem" class="w-full mb-3 border-round" />
 
 
-                    <p>{{ viagem.dataIda }} até {{ viagem.dataVolta }} </p>
+                <p>{{ viagem.dataIda }} até {{ viagem.dataVolta }} </p>
 
-                    <ng-template pTemplate="footer">
-                        <div class="flex justify-content-end gap-1">
-                            <button pButton type="button" icon="pi pi-pencil" class="p-button-sm p-button-outlined"
-                                (click)="editarViagem()"></button>
+                <ng-template pTemplate="footer">
+                    <div class="flex justify-content-end gap-1">
+                        <button pButton type="button" icon="pi pi-pencil" class="p-button-sm p-button-outlined"
+                            (click)="editarViagem()"></button>
 
-                            <button pButton type="button" icon="pi pi-trash" class="p-button-sm p-button-danger"
-                                (click)="deletarViagem(viagem)"></button>
+                        <button pButton type="button" icon="pi pi-trash" class="p-button-sm p-button-danger"
+                            (click)="deletarViagem(viagem)"></button>
 
-                            <a icon="pi pi-telegram" class="p-button-sm p-button-default"
-                                [routerLink]="['planejar',viagem.id]">
-                                Planejar Viagem
-                            </a>
-                        </div>
-                    </ng-template>
-                </p-card>
-            </div>
+                        <button pButton icon="pi pi-telegram" class="p-button-sm p-button-default"
+                            [routerLink]="['/planejar',viagem.id]">
+                            Planejar Viagem
+                        </button>
+                    </div>
+                </ng-template>
+
+            </p-card>
+
         </div>
-        <div class="col-8">
-            <router-outlet></router-outlet>
-        </div>
-    </div>
-
-</section>
+    
+   
+</div>

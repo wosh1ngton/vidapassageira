@@ -29,4 +29,8 @@ export class ViagemService {
       viagem
     );
   }
+
+  findById(id: number): Observable<ViagemResponseDTO> {
+    return this.http.get<ViagemResponseDTO>(`${this.baseUrl}/viagens/${id}`);
+  }
 }

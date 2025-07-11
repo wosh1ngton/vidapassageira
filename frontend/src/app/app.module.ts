@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { OAuthModule } from 'angular-oauth2-oidc';
@@ -12,8 +12,12 @@ import { OAuthModule } from 'angular-oauth2-oidc';
     CommonModule,    
     RouterModule,
     BrowserModule,    
+    DatePipe, 
     OAuthModule.forRoot()
   ],
+  exports: [
+    
+  ]
 
 })
 export class AppModule { }

@@ -40,4 +40,55 @@ export class IAService {
       };
     });
   }
+
+
+  comoChegarStream(idDestino: number): Observable<string> {
+    return new Observable<string>((observer) => {
+      const eventSource = new EventSource(
+        `${
+          environment.mainUrlAPI
+        }/planejamento-ia/como-chegar-async?destino=${encodeURIComponent(idDestino)}`
+      );
+
+      eventSource.onmessage = (event) => {        
+        const data = event.data;        
+        observer.next(data);
+      };
+
+      eventSource.onerror = () => {        
+        eventSource.close();
+      };
+
+      return () => {
+        eventSource.close();
+        console.log('EventSource cleaned up');
+      };
+    });
+  }
+
+
+  ondeFicarStream(idDestino: number): Observable<string> {
+    return new Observable<string>((observer) => {
+      const eventSource = new EventSource(
+        `${
+          environment.mainUrlAPI
+        }/planejamento-ia/onde-ficar-async?destino=${encodeURIComponent(idDestino)}`
+      );
+
+      eventSource.onmessage = (event) => {        
+        const data = event.data;        
+        observer.next(data);
+      };
+
+      eventSource.onerror = () => {        
+        eventSource.close();
+      };
+
+      return () => {
+        eventSource.close();
+        console.log('EventSource cleaned up');
+      };
+    });
+  }
+
 }

@@ -1,4 +1,3 @@
-
 <p-toast></p-toast>
 <ng-container *ngIf="!token">
   <div class="auth-container">
@@ -6,8 +5,10 @@
       <div class="auth-content">
         <p>Escolha uma opção para continuar:</p>
         <div class="button-group">
-          <button pButton type="button" label="Login" class="p-button-rounded p-button-success" (click)="login()"></button>
-          <button pButton type="button" label="Cadastrar-se" class="p-button-rounded p-button-secondary" (click)="cadastrar()"></button>
+          <button pButton type="button" label="Login" class="p-button-rounded p-button-success"
+            (click)="login()"></button>
+          <button pButton type="button" label="Cadastrar-se" class="p-button-rounded p-button-secondary"
+            (click)="cadastrar()"></button>
         </div>
       </div>
     </p-card>
@@ -21,14 +22,15 @@
       <h2 class="m-0">🌍 Vida Passageira</h2>
       <div class="flex align-items-center gap-2">
         <span *ngIf="usuario" class="font-medium text-primary">{{ usuario.name }}</span>
-        <button pButton type="button" icon="pi pi-sign-out" label="Sair" class="p-button-default" (click)="logout()"></button>
+        <p-button [text]="true" icon="pi pi-sign-out" 
+          (click)="logout()"></p-button>
       </div>
     </header>
 
     <!-- MAIN CONTENT -->
     <div class="grid">
       <!-- SIDEBAR MENU -->
-      <div class="col-12 md:col-3 lg:col-2 p-3">
+      <div class="md:col-3 lg:col-2 p-3">
         <p-panel header="Menu">
           <ul class="list-none p-0 m-0">
             <li class="mb-2">
@@ -42,7 +44,7 @@
       </div>
 
       <!-- ROUTED VIEW -->
-      <div class="col-12 md:col-9 lg:col-10 p-3">
+      <div class="md:col-9 lg:col-10 p-3">
         <router-outlet></router-outlet>
       </div>
     </div>

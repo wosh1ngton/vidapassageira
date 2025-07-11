@@ -24,10 +24,34 @@ public class IAResource {
     }   
 
     @GetMapping(value = "/onde-ir-async", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public SseEmitter askQuestionAsync(@RequestParam Long destino) {
+    public SseEmitter ondIrAsync(@RequestParam Long destino) {
         SseEmitter emitter = new SseEmitter(60_000L);
         ViagemResponseDTO viagemDto = this.viagensService.buscarPorId(destino);
+
         String questaoCompleta = "O que fazer em " + viagemDto.getDestino().getLocalizacao() + "?";
+
+        iaservice.streamCompletion(questaoCompleta, emitter);
+        return emitter;
+    }
+
+    @GetMapping(value = "/onde-ficar-async", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public SseEmitter ondFicarAsync(@RequestParam Long destino) {
+        SseEmitter emitter = new SseEmitter(60_000L);
+        ViagemResponseDTO viagemDto = this.viagensService.buscarPorId(destino);
+
+        String questaoCompleta = "Me dê as melhores localizações para hospedagem em " + viagemDto.getDestino().getLocalizacao() + "?";
+
+        iaservice.streamCompletion(questaoCompleta, emitter);
+        return emitter;
+    }
+
+    @GetMapping(value = "/como-chegar-async", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public SseEmitter comoChegarAsync(@RequestParam Long destino) {
+        SseEmitter emitter = new SseEmitter(60_000L);
+        ViagemResponseDTO viagemDto = this.viagensService.buscarPorId(destino);
+
+        String questaoCompleta = "Me dê sugestões de melhor meio de transporte para chegar em " + viagemDto.getDestino().getLocalizacao() + ", considere custo-benefício e tempo de viagem";
+
         iaservice.streamCompletion(questaoCompleta, emitter);
         return emitter;
     }

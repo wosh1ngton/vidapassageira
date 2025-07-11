@@ -1,12 +1,34 @@
-<h2>Planejamento da Viagem</h2>
-<h3>Onde Ficar?</h3>
-    <a href="#"> Opinião da IA</a>
-<h3>Como chegar?</h3>
-    <a href="#"> Opinião da IA</a>
-<h3>Onde Ir?</h3>
-    <button pButton (click)="gerarOpiniaoOndeIr()"> Opinião da IA</button>
+<div class="grid">
+
+    <div class="col-12">
+        <p style="font-size: larger; background-color: #f3f3f3;">
+            <p-button icon="pi pi-arrow-left" [rounded]="true" [text]="true" (click)="voltar()" />
+
+            <strong> {{viagem?.destino?.nome}}
+            </strong> - {{viagem?.dataIda | date:'dd/MM/yyyy'}} a {{viagem?.dataVolta | date:'dd/MM/yyyy'}}
+        </p>
+    </div>
 
 
-<div *ngIf="resultado">
-  <markdown [data]="resultado"></markdown>
+    <div>
+        <p-button (click)="gerarOpiniaoOndeFicar()" icon="pi pi-home" severity="secondary" label=" Onde Ficar?" />
+        <app-sugestao-ia [sugestao]="ondeFicar"> </app-sugestao-ia>
+
+        <p-button (click)="gerarOpiniaoComoChegar()" label="Como Chegar?" icon="pi pi-map-marker"
+            severity="secondary" />          
+        <app-sugestao-ia [sugestao]="comoChegar"> </app-sugestao-ia>
+
+        <p-button class="" label="Onde Ir?" (click)="gerarOpiniaoOndeIr()" icon="pi pi-search" severity="secondary" />
+        <app-sugestao-ia [sugestao]="ondeIr"> </app-sugestao-ia>
+
+        <div class="col-12">        
+
+            <div *ngIf="resultado">
+                <markdown [data]="resultado"></markdown>
+                <p-button label="Salvar Opinião" (click)="salvarOpiniaoIA(resultado)">
+
+                </p-button>
+            </div>
+        </div>
+    </div>
 </div>
