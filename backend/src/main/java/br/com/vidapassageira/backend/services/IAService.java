@@ -31,6 +31,8 @@ public class IAService {
         this.objectMapper = objectMapper;
     }
 
+    
+
     public void streamCompletion(String prompt, SseEmitter emitter) {
         IARequestDTO request = new IARequestDTO(
                 "deepseek-chat",

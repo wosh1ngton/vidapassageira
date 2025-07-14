@@ -36,8 +36,10 @@ export class PlanejarViagemComponent implements OnInit {
   ondeFicar: string = "";
   ondeIr: string = "";
   comoChegar: string = "";
+  ondeComer: string = "";
   tipoSugestao : number = 0; 
-
+  tipoSugestaoEnum = TipoSugestaoIaEnum;
+  
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe((params) => {
       this.viagemId = params.get('id');
@@ -52,6 +54,7 @@ export class PlanejarViagemComponent implements OnInit {
         this.ondeFicar = res.filter(val => val.idTipoSugestaoIa === 1).map(val => val.sugestao)['0'];
         this.comoChegar = res.filter(val => val.idTipoSugestaoIa === 2).map(val => val.sugestao)['0'];
         this.ondeIr = res.filter(val => val.idTipoSugestaoIa === 3).map(val => val.sugestao)['0'];
+        this.ondeComer = res.filter(val => val.idTipoSugestaoIa === 4).map(val => val.sugestao)['0'];
       });
   }
 
@@ -60,45 +63,11 @@ export class PlanejarViagemComponent implements OnInit {
       this.viagem = viagem;
     });
   }
+  
 
-  gerarOpiniaoOndeFicar() {
-    this.tipoSugestao = TipoSugestaoIaEnum.ONDE_FICAR;
-    this.resultado = '';
-    this.iaService.ondeFicarStream(this.viagemId).subscribe({
-      next: (chunk: string) => {
-        const decodedChunk = JSON.parse(chunk);
-        this.resultado += decodedChunk;
-        this.cdRef.detectChanges();
-      },
-      error: (err) => {
-        console.error('Erro:', err);
-        this.resultado = 'Erro ao gerar opinião. Tente novamente mais tarde.';
-        this.cdRef.detectChanges();
-      },
-    });
-  }
-
-  gerarOpiniaoComoChegar() {
-    this.resultado = '';
-    this.tipoSugestao = TipoSugestaoIaEnum.COMO_CHEGAR;
-    this.iaService.comoChegarStream(this.viagemId).subscribe({
-      next: (chunk: string) => {
-        const decodedChunk = JSON.parse(chunk);
-        this.resultado += decodedChunk;
-        this.cdRef.detectChanges();
-      },
-      error: (err) => {
-        console.error('Erro:', err);
-        this.resultado = 'Erro ao gerar opinião. Tente novamente mais tarde.';
-        this.cdRef.detectChanges();
-      },
-    });
-  }
-
-  gerarOpiniaoOndeIr() {
-    this.resultado = '';
-    this.tipoSugestao = TipoSugestaoIaEnum.ONDE_IR;
-    this.iaService.ondeIrStream(this.viagemId).subscribe({
+  gerarOpiniao(tipoSugestao: TipoSugestaoIaEnum) {
+    this.resultado = '';   
+    this.iaService.gerarOpiniaoStream(this.viagemId, tipoSugestao).subscribe({
       next: (chunk: string) => {
         const decodedChunk = JSON.parse(chunk);
         this.resultado += decodedChunk;

@@ -11,14 +11,17 @@
 
 
     <div>
-        <p-button (click)="gerarOpiniaoOndeFicar()" icon="pi pi-home" severity="secondary" label=" Onde Ficar?" />
+        <p-button (click)="gerarOpiniao(tipoSugestaoEnum.ONDE_FICAR)" icon="pi pi-home" severity="secondary" label=" Onde Ficar?" />
         <app-sugestao-ia [sugestao]="ondeFicar"> </app-sugestao-ia>
 
-        <p-button (click)="gerarOpiniaoComoChegar()" label="Como Chegar?" icon="pi pi-map-marker"
+        <p-button (click)="gerarOpiniao(tipoSugestaoEnum.COMO_CHEGAR)" label="Como Chegar?" icon="pi pi-map-marker"
             severity="secondary" />          
         <app-sugestao-ia [sugestao]="comoChegar"> </app-sugestao-ia>
 
-        <p-button class="" label="Onde Ir?" (click)="gerarOpiniaoOndeIr()" icon="pi pi-search" severity="secondary" />
+        <p-button class="" label="Onde Ir?" (click)="gerarOpiniao(tipoSugestaoEnum.ONDE_IR)" icon="pi pi-search" severity="secondary" />
+        <app-sugestao-ia [sugestao]="ondeIr"> </app-sugestao-ia>
+
+        <p-button class="" label="Onde Comer?" (click)="gerarOpiniao(tipoSugestaoEnum.ONDE_COMER)" icon="pi pi-search" severity="secondary" />
         <app-sugestao-ia [sugestao]="ondeIr"> </app-sugestao-ia>
 
         <div class="col-12">        

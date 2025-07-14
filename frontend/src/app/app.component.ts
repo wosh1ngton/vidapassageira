@@ -29,14 +29,35 @@ export class AppComponent implements OnInit {
     private messageService: MessageService
   ) {}
 
-  ngOnInit() {
-    
+  async ngOnInit() {
     this.primeng.ripple.set(true);
     this.oauthService.configure(authCodeFlowConfig);
     this.oauthService.setupAutomaticSilentRefresh();
-    this.oauthService.loadDiscoveryDocumentAndTryLogin().then(() => {
-      this.oauthService.getAccessToken();
-      this.getUserInfo();
+
+    try {
+
+      await this.oauthService.loadDiscoveryDocumentAndTryLogin();
+      if (this.oauthService.hasValidAccessToken()) {
+        this.getUserInfo();
+      } else {
+       
+        if (this.oauthService.state && location.hash.includes('error=')) {
+          console.error('Erro de autenticação:', location.hash);          
+        }
+      }
+    } catch (error) {
+      console.error('OAuth initialization error:', error);      
+    }
+
+    
+    this.oauthService.events.subscribe((event) => {
+      if (event.type === 'token_received') {
+        console.log('Novo token recebido');
+        this.getUserInfo();
+      }
+      if (event.type === 'token_refresh_error') {
+        console.error('Token refresh falhou:', event);
+      }
     });
   }
 
@@ -62,11 +83,11 @@ export class AppComponent implements OnInit {
   }
 
   cadastrar() {
-    this.dialogCadastroUsuarioRef = this.dialogService.open(RegistroComponent, {      
+    this.dialogCadastroUsuarioRef = this.dialogService.open(RegistroComponent, {
       width: '50%',
       header: 'Cadastro de Usuário',
-      
-      closable: true      
+
+      closable: true,
     });
     this.dialogCadastroUsuarioRef.onClose.subscribe((response) => {
       if (response?.sucesso) {
@@ -75,7 +96,7 @@ export class AppComponent implements OnInit {
           summary: 'Sucesso',
           detail: `Usuário criado com sucesso`,
         });
-      } 
+      }
     });
   }
 }

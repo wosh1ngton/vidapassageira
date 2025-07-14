@@ -5,8 +5,12 @@ export const authCodeFlowConfig: AuthConfig = {
     redirectUri: window.location.origin,
     clientId: 'vp-frontend',
     responseType: 'code',
-    scope: 'openid profile email',
+    scope: 'openid profile email offline_access',
     showDebugInformation: true,    
-    useSilentRefresh: true, 
-    silentRefreshRedirectUri: window.location.origin + '/silent-refresh.html',
+    useSilentRefresh: false,    
+    timeoutFactor: 0.75,
+    clearHashAfterLogin: false,
+    silentRefreshRedirectUri: window.location.origin + '/silent-refresh.html',    
+    strictDiscoveryDocumentValidation: false,
+    skipIssuerCheck: true
 }

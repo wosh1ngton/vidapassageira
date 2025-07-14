@@ -25,7 +25,11 @@
                 "glob": "**/*",
                 "input": "public"
               },
-               "src/silent-refresh.html"
+              {
+                "input": "src",
+                "output": "/",
+                "glob": "silent-refresh.html"
+              }
 
             ],
             "styles": [

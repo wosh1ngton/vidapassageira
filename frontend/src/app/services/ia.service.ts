@@ -2,27 +2,21 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../environment';
 import { Observable } from 'rxjs';
+import { TipoSugestaoIaEnum } from '../model/enums/TipoSugestaoIA.enum';
 
 @Injectable({
   providedIn: 'root',
 })
 export class IAService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {} 
 
-  ondeIr(destino: string): Observable<string> {
-    return this.http.post<string>(
-      `${environment.mainUrlAPI}/planejamento-ia/onde-ir-async`,
-      destino,
-      { responseType: 'text' as 'json' }
-    );
-  }
 
-  ondeIrStream(idDestino: number): Observable<string> {
+   gerarOpiniaoStream(idDestino: number, tipoSugestao: TipoSugestaoIaEnum): Observable<string> {
     return new Observable<string>((observer) => {
       const eventSource = new EventSource(
         `${
           environment.mainUrlAPI
-        }/planejamento-ia/onde-ir-async?destino=${encodeURIComponent(idDestino)}`
+        }/planejamento-ia/gerar-async?destino=${encodeURIComponent(idDestino)}&tipo=${encodeURIComponent(tipoSugestao)}`
       );
 
       eventSource.onmessage = (event) => {        
@@ -41,54 +35,5 @@ export class IAService {
     });
   }
 
-
-  comoChegarStream(idDestino: number): Observable<string> {
-    return new Observable<string>((observer) => {
-      const eventSource = new EventSource(
-        `${
-          environment.mainUrlAPI
-        }/planejamento-ia/como-chegar-async?destino=${encodeURIComponent(idDestino)}`
-      );
-
-      eventSource.onmessage = (event) => {        
-        const data = event.data;        
-        observer.next(data);
-      };
-
-      eventSource.onerror = () => {        
-        eventSource.close();
-      };
-
-      return () => {
-        eventSource.close();
-        console.log('EventSource cleaned up');
-      };
-    });
-  }
-
-
-  ondeFicarStream(idDestino: number): Observable<string> {
-    return new Observable<string>((observer) => {
-      const eventSource = new EventSource(
-        `${
-          environment.mainUrlAPI
-        }/planejamento-ia/onde-ficar-async?destino=${encodeURIComponent(idDestino)}`
-      );
-
-      eventSource.onmessage = (event) => {        
-        const data = event.data;        
-        observer.next(data);
-      };
-
-      eventSource.onerror = () => {        
-        eventSource.close();
-      };
-
-      return () => {
-        eventSource.close();
-        console.log('EventSource cleaned up');
-      };
-    });
-  }
 
 }
