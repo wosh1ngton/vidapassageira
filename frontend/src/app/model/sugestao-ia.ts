@@ -1,7 +1,9 @@
+import { TipoSugestaoIaEnum } from "./enums/TipoSugestaoIA.enum";
+
 export interface SugestaoIaCreateDTO {
     id: number;
     idViagem: number;
-    idTipoSugestaoIa: number;
+    tipoSugestaoIaEnum: TipoSugestaoIaEnum;
     sugestao: string;
 }
 

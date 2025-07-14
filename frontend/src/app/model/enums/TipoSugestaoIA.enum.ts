@@ -1,7 +1,7 @@
 export enum TipoSugestaoIaEnum {
-    ONDE_FICAR = "ONDE_FICAR",
-    COMO_CHEGAR = "COMO_CHEGAR",
-    ONDE_IR = "ONDE_IR",
-    ONDE_COMER = "ONDE_COMER",
+    ONDE_FICAR = 1,
+    COMO_CHEGAR = 2,
+    ONDE_IR = 3,
+    ONDE_COMER = 4,
 }
 

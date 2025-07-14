@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import br.com.vidapassageira.backend.dtos.sugestaoIa.SugestaoIaCreateDTO;
 import br.com.vidapassageira.backend.dtos.sugestaoIa.SugestaoIaResponseDTO;
 import br.com.vidapassageira.backend.dtos.viagem.ViagemResponseDTO;
+import br.com.vidapassageira.backend.exceptions.SugestaoDuplicadaException;
 import br.com.vidapassageira.backend.mappers.SugestaoIAMapper;
 import br.com.vidapassageira.backend.models.SugestaoIA;
 import br.com.vidapassageira.backend.models.enums.TipoSugestaoEnum;
@@ -51,21 +52,26 @@ public class SugestaoIAService {
     }
 
     public SugestaoIaCreateDTO save(SugestaoIaCreateDTO sugestao) {        
+        boolean exists = sugestaoIARepository.existsByViagem_IdAndTipoSugestaoIA_IdAndIdNot(
+            sugestao.getIdViagem(), sugestao.getTipoSugestaoIaEnum() , sugestao.getId() == null ? -1L : sugestao.getId());
         
+        if(exists) {
+            throw new SugestaoDuplicadaException("Já existe sugestão para esta viagem e para este tipo de pergunta");
+        }
         SugestaoIA sugestaoIA = SugestaoIAMapper.INSTANCE.toEntity(sugestao);        
-        SugestaoIaCreateDTO sugestaoIASaved = SugestaoIAMapper.INSTANCE.tCreateDTO(this.sugestaoIARepository.save(sugestaoIA));
+        SugestaoIaCreateDTO sugestaoIASaved = SugestaoIAMapper.INSTANCE.toCreateDTO(this.sugestaoIARepository.save(sugestaoIA));
         return sugestaoIASaved;
     }
 
     public SugestaoIaResponseDTO getByViagemIdAndTipo(Long viagemId, Integer tipoSugestaoId) {
         SugestaoIA sugestaoIA = this.sugestaoIARepository.findByViagem_IdAndTipoSugestaoIA_Id(viagemId, tipoSugestaoId);
-        return SugestaoIAMapper.INSTANCE.tResponseDTO(sugestaoIA);
+        return SugestaoIAMapper.INSTANCE.toResponseDTO(sugestaoIA);
     }
 
     public List<SugestaoIaResponseDTO> getByViagemId(Long viagemId) {
         List<SugestaoIA> sugestoesIa = this.sugestaoIARepository.findByViagem_Id(viagemId);
         List<SugestaoIaResponseDTO> sugestoesDTO = sugestoesIa.stream()
-                    .map(SugestaoIAMapper.INSTANCE::tResponseDTO).toList();
+                    .map(SugestaoIAMapper.INSTANCE::toResponseDTO).toList();
         return sugestoesDTO;
     }
 }

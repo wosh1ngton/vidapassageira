@@ -6,10 +6,11 @@ import { PrimeNgModule } from '../../../shared/prime.module';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ViagemResponseDTO } from '../../../model/viagem';
 import { ViagemService } from '../../../services/viagem.service';
-import { SugestaoIaCreateDTO, SugestaoIaResponseDTO } from '../../../model/sugestao-ia';
+import { SugestaoIaCreateDTO,  SugestaoIaResponseDTO} from '../../../model/sugestao-ia';
 import { TipoSugestaoIaEnum } from '../../../model/enums/TipoSugestaoIA.enum';
 import { SugestaoIaService } from '../../../services/sugestao-ia.service';
 import { SugestaoIaComponent } from './sugestao-ia/sugestao-ia.component';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-planejar-viagem',
@@ -25,7 +26,8 @@ export class PlanejarViagemComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private viagemService: ViagemService,
-    private sugestaoIaService: SugestaoIaService
+    private sugestaoIaService: SugestaoIaService,
+    private messageService: MessageService
   ) {}
 
   resultado = '';
@@ -33,13 +35,11 @@ export class PlanejarViagemComponent implements OnInit {
   viagem: ViagemResponseDTO | undefined;
   sugestaoIA!: SugestaoIaCreateDTO;
   sugestoesIAResponse: SugestaoIaResponseDTO[] = [];
-  ondeFicar: string = "";
-  ondeIr: string = "";
-  comoChegar: string = "";
-  ondeComer: string = "";
-  tipoSugestao : number = 0; 
+  sugestoes: Map<TipoSugestaoIaEnum, string> = new Map();
+ 
+  tipoSugestaoSelected: TipoSugestaoIaEnum | undefined;
   tipoSugestaoEnum = TipoSugestaoIaEnum;
-  
+
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe((params) => {
       this.viagemId = params.get('id');
@@ -49,13 +49,12 @@ export class PlanejarViagemComponent implements OnInit {
   }
 
   getSugestaoByViagemId() {
-    this.sugestaoIaService.findByViagemId(this.viagemId)
-      .subscribe((res) => {
-        this.ondeFicar = res.filter(val => val.idTipoSugestaoIa === 1).map(val => val.sugestao)['0'];
-        this.comoChegar = res.filter(val => val.idTipoSugestaoIa === 2).map(val => val.sugestao)['0'];
-        this.ondeIr = res.filter(val => val.idTipoSugestaoIa === 3).map(val => val.sugestao)['0'];
-        this.ondeComer = res.filter(val => val.idTipoSugestaoIa === 4).map(val => val.sugestao)['0'];
-      });
+    this.sugestaoIaService.findByViagemId(this.viagemId).subscribe((res) => {      
+      res.forEach((val) => {
+        const tipo = val.idTipoSugestaoIa as TipoSugestaoIaEnum;
+        this.sugestoes.set(tipo, val.sugestao)
+      });    
+    });
   }
 
   getViagemById() {
@@ -63,11 +62,12 @@ export class PlanejarViagemComponent implements OnInit {
       this.viagem = viagem;
     });
   }
-  
 
   gerarOpiniao(tipoSugestao: TipoSugestaoIaEnum) {
-    this.resultado = '';   
-    this.iaService.gerarOpiniaoStream(this.viagemId, tipoSugestao).subscribe({
+    this.resultado = '';
+    this.tipoSugestaoSelected = tipoSugestao;
+    const tipoSugestaoName = TipoSugestaoIaEnum[tipoSugestao];
+    this.iaService.gerarOpiniaoStream(this.viagemId, tipoSugestaoName).subscribe({
       next: (chunk: string) => {
         const decodedChunk = JSON.parse(chunk);
         this.resultado += decodedChunk;
@@ -86,16 +86,25 @@ export class PlanejarViagemComponent implements OnInit {
   }
 
   salvarOpiniaoIA(sugestao: string) {
-    
     this.sugestaoIA = {} as SugestaoIaCreateDTO;
     this.sugestaoIA.idViagem = this.viagemId;
-    this.sugestaoIA.sugestao = sugestao;    
-    this.sugestaoIA.id =0;
-    this.sugestaoIA.idTipoSugestaoIa = this.tipoSugestao;    
-    this.sugestaoIaService.save(this.sugestaoIA)
-      .subscribe();
-   
+    this.sugestaoIA.sugestao = sugestao;
+    this.sugestaoIA.id = 0;
+    this.sugestaoIA.tipoSugestaoIaEnum = this.tipoSugestaoSelected!;
+
+    this.sugestaoIaService.save(this.sugestaoIA).subscribe({
+      next: (res) => {this.messageService.add({
+          severity: 'success',
+          summary: 'Sucesso',
+          detail: `Registro salvo com sucesso`,
+        }),
+        this.getSugestaoByViagemId();
+      },        
+      error: (err) =>  this.messageService.add({        
+          severity: 'error',
+          summary: 'Erro',
+          detail: `${err.error.message}`,        
+      })
+    });
   }
-
-
 }

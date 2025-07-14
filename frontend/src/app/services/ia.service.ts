@@ -11,7 +11,7 @@ export class IAService {
   constructor(private http: HttpClient) {} 
 
 
-   gerarOpiniaoStream(idDestino: number, tipoSugestao: TipoSugestaoIaEnum): Observable<string> {
+   gerarOpiniaoStream(idDestino: number, tipoSugestao: string): Observable<string> {
     return new Observable<string>((observer) => {
       const eventSource = new EventSource(
         `${

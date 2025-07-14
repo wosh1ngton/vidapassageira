@@ -13,16 +13,16 @@ public interface SugestaoIAMapper {
 
     SugestaoIAMapper INSTANCE = Mappers.getMapper(SugestaoIAMapper.class);
     
-    @Mapping(target = "idTipoSugestaoIa", source = "tipoSugestaoIA.id")
+    @Mapping(target = "tipoSugestaoIaEnum", source = "tipoSugestaoIA.id")
     @Mapping(target = "idViagem", source = "viagem.id")
-    SugestaoIaCreateDTO tCreateDTO(SugestaoIA entity);
+    SugestaoIaCreateDTO toCreateDTO(SugestaoIA entity);
 
     @Mapping(target = "idTipoSugestaoIa", source = "tipoSugestaoIA.id")
     @Mapping(target = "idViagem", source = "viagem.id")
-    SugestaoIaResponseDTO tResponseDTO(SugestaoIA entity);
+    SugestaoIaResponseDTO toResponseDTO(SugestaoIA entity);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "tipoSugestaoIA.id", source = "idTipoSugestaoIa")
+    @Mapping(target = "tipoSugestaoIA.id", source = "tipoSugestaoIaEnum")
     @Mapping(target = "viagem.id", source = "idViagem")
     SugestaoIA toEntity(SugestaoIaCreateDTO dto);
 

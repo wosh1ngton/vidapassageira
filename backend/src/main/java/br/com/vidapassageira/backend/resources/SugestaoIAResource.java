@@ -28,7 +28,7 @@ public class SugestaoIAResource {
     private SugestaoIAService sugestaoIAService;
 
     @PostMapping
-    public ResponseEntity<SugestaoIaCreateDTO> saveOndeIr(@RequestBody SugestaoIaCreateDTO request) {
+    public ResponseEntity<SugestaoIaCreateDTO> salvarSugestao(@RequestBody SugestaoIaCreateDTO request) {
         var sugestaoIASaved = this.sugestaoIAService.save(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(sugestaoIASaved);
     }

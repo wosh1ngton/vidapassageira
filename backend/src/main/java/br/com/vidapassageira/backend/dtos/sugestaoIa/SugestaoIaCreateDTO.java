@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class SugestaoIaCreateDTO {
     private Long id;
-    private Long idTipoSugestaoIa;
+    private Integer tipoSugestaoIaEnum;
     private Long idViagem;
     private String sugestao;
 }
