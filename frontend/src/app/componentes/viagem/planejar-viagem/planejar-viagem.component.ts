@@ -6,11 +6,15 @@ import { PrimeNgModule } from '../../../shared/prime.module';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ViagemResponseDTO } from '../../../model/viagem';
 import { ViagemService } from '../../../services/viagem.service';
-import { SugestaoIaCreateDTO,  SugestaoIaResponseDTO} from '../../../model/sugestao-ia';
+import {
+  SugestaoIaCreateDTO,
+  SugestaoIaResponseDTO,
+} from '../../../model/sugestao-ia';
 import { TipoSugestaoIaEnum } from '../../../model/enums/TipoSugestaoIA.enum';
 import { SugestaoIaService } from '../../../services/sugestao-ia.service';
 import { SugestaoIaComponent } from './sugestao-ia/sugestao-ia.component';
-import { MessageService } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
+import { AtividadeItinerario, AtividadeItinerarioCreateDTO } from '../../../model/atividade-itinerario';
 
 @Component({
   selector: 'app-planejar-viagem',
@@ -30,15 +34,18 @@ export class PlanejarViagemComponent implements OnInit {
     private messageService: MessageService
   ) {}
 
-  resultado = '';
+  rawResultado = '';
   viagemId: any = {};
   viagem: ViagemResponseDTO | undefined;
   sugestaoIA!: SugestaoIaCreateDTO;
   sugestoesIAResponse: SugestaoIaResponseDTO[] = [];
   sugestoes: Map<TipoSugestaoIaEnum, string> = new Map();
- 
+  atividades: AtividadeItinerario[] = [];
+  resultado: string = '';
   tipoSugestaoSelected: TipoSugestaoIaEnum | undefined;
   tipoSugestaoEnum = TipoSugestaoIaEnum;
+  items: MenuItem[] | undefined;
+  selectedTipo?: TipoSugestaoIaEnum;
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe((params) => {
@@ -46,14 +53,39 @@ export class PlanejarViagemComponent implements OnInit {
       this.getViagemById();
       this.getSugestaoByViagemId();
     });
+
+     this.items = [
+            {
+                label: 'Onde Ficar?',
+                icon: 'pi pi-home',
+              command: () => this.selectTipo(this.tipoSugestaoEnum.ONDE_FICAR)
+                
+            },
+            {
+                label: 'Como chegar?',
+                icon: 'pi pi-map-marker',
+                command: () => this.selectTipo(this.tipoSugestaoEnum.COMO_CHEGAR)
+            },
+             {
+                label: 'Onde Ir?',
+                icon: 'pi pi-search',
+                command: () => this.selectTipo(this.tipoSugestaoEnum.ONDE_IR)
+            },
+             {
+                label: 'Onde Comer?',
+                icon: 'pi pi-star',
+                command: () => this.selectTipo(this.tipoSugestaoEnum.ONDE_COMER)
+            },
+          ]
   }
 
+  
   getSugestaoByViagemId() {
-    this.sugestaoIaService.findByViagemId(this.viagemId).subscribe((res) => {      
+    this.sugestaoIaService.findByViagemId(this.viagemId).subscribe((res) => {
       res.forEach((val) => {
         const tipo = val.idTipoSugestaoIa as TipoSugestaoIaEnum;
-        this.sugestoes.set(tipo, val.sugestao)
-      });    
+        this.sugestoes.set(tipo, val.sugestao);       
+      });
     });
   }
 
@@ -64,22 +96,144 @@ export class PlanejarViagemComponent implements OnInit {
   }
 
   gerarOpiniao(tipoSugestao: TipoSugestaoIaEnum) {
-    this.resultado = '';
+    this.selectedTipo = tipoSugestao;
+    this.rawResultado = '';
     this.tipoSugestaoSelected = tipoSugestao;
+    this.atividades = [];
     const tipoSugestaoName = TipoSugestaoIaEnum[tipoSugestao];
-    this.iaService.gerarOpiniaoStream(this.viagemId, tipoSugestaoName).subscribe({
-      next: (chunk: string) => {
-        const decodedChunk = JSON.parse(chunk);
-        this.resultado += decodedChunk;
-        this.cdRef.detectChanges();
+    this.iaService
+      .gerarOpiniaoStream(this.viagemId, tipoSugestaoName)
+      .subscribe({
+        next: (chunk: string) => {
+          const decodedChunk = JSON.parse(chunk);
+          this.rawResultado += decodedChunk;
+          this.resultado = this.rawResultado.replace(/\n/g, '<br>');
+          this.cdRef.detectChanges();
+        },
+        error: (err) => {
+          console.error('Erro:', err);
+          this.rawResultado = 'Erro ao gerar opinião. Tente novamente mais tarde.';
+          this.cdRef.detectChanges();
+        },
+        complete: () => {          
+          this.parsearFormatarItinerario();
+          this.cdRef.detectChanges();
+        },
+      });
+  }
+
+  selectTipo(tipo: TipoSugestaoIaEnum) {
+    this.selectedTipo = tipo;    
+    if (!this.sugestoes.get(tipo)) {
+      this.gerarOpiniao(tipo);
+    }
+  }
+
+  private parsearFormatarItinerario(): void {
+    const blocos = this.rawResultado.split(/\n\n+/);
+    blocos.forEach(bloco => {
+      const item = this.parsearItemItinerario(bloco);
+      this.atividades.push(item);
+    });
+    this.resultado = '';
+  }
+
+  private parsearItemItinerario(bloco: string): AtividadeItinerario {
+    const linhas = bloco.split('\n');
+    const item: AtividadeItinerario = {
+      nome: '',
+      orcamento: '',
+      duracao: '',
+      categoria: '',
+      descricao: '',
+      melhorHorario: ''
+    };
+
+    linhas.forEach((linha) => {
+      if (linha.includes(':')) {
+        const [key, ...valueParts] = linha.split(':');
+        const value = valueParts.join(':').trim();
+
+        switch (key.trim()) {
+          case 'Passeio':
+            item.nome = value;
+            break;
+          case 'Orçamento':
+            item.orcamento = value;
+            break;
+          case 'Duração':
+            item.duracao = value;
+            break;
+          case 'Categoria':
+            item.categoria = value;
+            break;
+          case 'Descrição':
+            item.descricao = value;
+            break;
+          case 'Melhor horário':
+            item.melhorHorario = value;
+            break;
+        }
+      }
+    });
+    return item;
+  }
+
+  salvarItemItinerario(item: AtividadeItinerario): void {
+    const itemItinerarioDto: AtividadeItinerarioCreateDTO = {
+      id: 0,
+      nome: item.nome,
+      orcamento: this.parseOrcamento(item.orcamento),
+      duracao: this.parseDuracao(item.duracao),
+      descricao: item.descricao,
+      categoria: item.categoria,
+      melhorHorario: item.melhorHorario,
+      idViagem: this.viagemId,
+    };
+
+    this.viagemService.salvarItemItinerario(itemItinerarioDto).subscribe({
+      next: (response: any) => {
+        console.log('Item salvo com sucesso:', response);
+        // Show success message or update UI
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Sucesso',
+          detail: `${item.nome} salvo no itinerário!`
+        });
       },
-      error: (err) => {
-        console.error('Erro:', err);
-        this.resultado = 'Erro ao gerar opinião. Tente novamente mais tarde.';
-        this.cdRef.detectChanges();
-      },
+      error: (err: any) => {
+        console.error('Erro ao salvar item:', err);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erro',
+          detail: 'Erro ao salvar item no itinerário'
+        });
+      }
     });
   }
+
+  private parseOrcamento(orcamento: string): number {
+    // Convert "R$ 150,00" to 150.00
+    const cleanValue = orcamento
+      .replace('R$', '')
+      .replace('.', '')
+      .replace(',', '.')
+      .trim();
+    
+    if (orcamento.toLowerCase().includes('gratuito') || cleanValue === '0') {
+      return 0;
+    }
+    
+    return parseFloat(cleanValue) || 0;
+  }
+
+  private parseDuracao(duracao: string): number {
+    // Convert "3 horas" to 3
+    const match = duracao.match(/(\d+)\s*hora/);
+    return match ? parseInt(match[1]) : 0;
+  }
+
+  
 
   voltar() {
     this.router.navigateByUrl(`viagens`);
@@ -93,18 +247,20 @@ export class PlanejarViagemComponent implements OnInit {
     this.sugestaoIA.tipoSugestaoIaEnum = this.tipoSugestaoSelected!;
 
     this.sugestaoIaService.save(this.sugestaoIA).subscribe({
-      next: (res) => {this.messageService.add({
+      next: (res) => {
+        this.messageService.add({
           severity: 'success',
           summary: 'Sucesso',
           detail: `Registro salvo com sucesso`,
         }),
-        this.getSugestaoByViagemId();
-      },        
-      error: (err) =>  this.messageService.add({        
+          this.getSugestaoByViagemId();
+      },
+      error: (err) =>
+        this.messageService.add({
           severity: 'error',
           summary: 'Erro',
-          detail: `${err.error.message}`,        
-      })
+          detail: `${err.error.message}`,
+        }),
     });
   }
 }

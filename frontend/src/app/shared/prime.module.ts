@@ -14,7 +14,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from "primeng/dropdown";
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-
+import { MenubarModule } from 'primeng/menubar';
 
 @NgModule({
     imports: [],
@@ -34,7 +34,8 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
         FileUploadModule,
         CalendarModule,
         DropdownModule,
-        ConfirmDialogModule
+        ConfirmDialogModule,
+        MenubarModule
     ],
 })
 export class PrimeNgModule {

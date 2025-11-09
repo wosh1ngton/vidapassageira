@@ -23,27 +23,40 @@ public class SugestaoIAService {
     private SugestaoIARepository sugestaoIARepository;
 
     private static final Map<TipoSugestaoEnum, Function<ViagemResponseDTO, String>> IA_PROMPTS = Map.of(
-        
-        TipoSugestaoEnum.ONDE_IR, dto -> """
-                 O que fazer em  "%s"?   
-                """.formatted(dto.getDestino().getLocalizacao()),
 
-        TipoSugestaoEnum.ONDE_FICAR, dto -> """
-            Me dê as melhores localizações para hospedagem em "%s"
-            """.formatted(dto.getDestino().getLocalizacao()),
+            TipoSugestaoEnum.ONDE_IR,
+            dto -> """
+                     O que fazer em  "%s"?
+                     - Regras:
+                     - considere que essa resposta será utilizada em uma aplicação de viagens,
+                     apenas responda com os dados em um formato que seja fácil de parsear,
+                     não utilize linguagens como json ou xml, Mantenha uma formatação agradável e de fácil leitura.
+                     Exemplo:
+                     Passeio: Cristo Redentor \n
+                     Orçamento: R$ 100,00 \n
+                     Duração: 3 horas \n
+                     Categoria: Ponto Turístico \n
+                     Descrição: O Cristo Redentor possui uma bela vista e é um dos pontos turísticos mais visitados.... \n
+                     Melhor horário: geralmente no período da tarde \n
 
-        TipoSugestaoEnum.COMO_CHEGAR, dto -> """
-            Me dê sugestões de melhor meio de transporte para chegar em "%s",
-            considere custo-benefício e tempo de viagem
-            """.formatted(dto.getDestino().getLocalizacao()),
+                    """
+                    .formatted(dto.getDestino().getLocalizacao()),
 
-        TipoSugestaoEnum.ONDE_COMER, dto -> """
-            Me dê sugestões de almoço, lanche e jantar em "%s",
-            considere custo-benefício e intervalo da viagem, entre "%s" e "%s"
-            """.formatted(dto.getDestino().getLocalizacao(), dto.getDataIda(), dto.getDataVolta())
-    );
+            TipoSugestaoEnum.ONDE_FICAR, dto -> """
+                    Me dê as melhores localizações para hospedagem em "%s"
+                    """.formatted(dto.getDestino().getLocalizacao()),
 
-     public String gerarPrompt(TipoSugestaoEnum tipo, ViagemResponseDTO dto) {
+            TipoSugestaoEnum.COMO_CHEGAR, dto -> """
+                    Me dê sugestões de melhor meio de transporte para chegar em "%s",
+                    considere custo-benefício e tempo de viagem
+                    """.formatted(dto.getDestino().getLocalizacao()),
+
+            TipoSugestaoEnum.ONDE_COMER, dto -> """
+                    Me dê sugestões de almoço, lanche e jantar em "%s",
+                    considere custo-benefício e intervalo da viagem, entre "%s" e "%s"
+                    """.formatted(dto.getDestino().getLocalizacao(), dto.getDataIda(), dto.getDataVolta()));
+
+    public String gerarPrompt(TipoSugestaoEnum tipo, ViagemResponseDTO dto) {
         Function<ViagemResponseDTO, String> promptFunction = IA_PROMPTS.get(tipo);
         if (promptFunction == null) {
             throw new IllegalArgumentException("TipoSugestaoIA inválido: " + tipo);
@@ -51,15 +64,17 @@ public class SugestaoIAService {
         return promptFunction.apply(dto);
     }
 
-    public SugestaoIaCreateDTO save(SugestaoIaCreateDTO sugestao) {        
+    public SugestaoIaCreateDTO save(SugestaoIaCreateDTO sugestao) {
         boolean exists = sugestaoIARepository.existsByViagem_IdAndTipoSugestaoIA_IdAndIdNot(
-            sugestao.getIdViagem(), sugestao.getTipoSugestaoIaEnum() , sugestao.getId() == null ? -1L : sugestao.getId());
-        
-        if(exists) {
+                sugestao.getIdViagem(), sugestao.getTipoSugestaoIaEnum(),
+                sugestao.getId() == null ? -1L : sugestao.getId());
+
+        if (exists) {
             throw new SugestaoDuplicadaException("Já existe sugestão para esta viagem e para este tipo de pergunta");
         }
-        SugestaoIA sugestaoIA = SugestaoIAMapper.INSTANCE.toEntity(sugestao);        
-        SugestaoIaCreateDTO sugestaoIASaved = SugestaoIAMapper.INSTANCE.toCreateDTO(this.sugestaoIARepository.save(sugestaoIA));
+        SugestaoIA sugestaoIA = SugestaoIAMapper.INSTANCE.toEntity(sugestao);
+        SugestaoIaCreateDTO sugestaoIASaved = SugestaoIAMapper.INSTANCE
+                .toCreateDTO(this.sugestaoIARepository.save(sugestaoIA));
         return sugestaoIASaved;
     }
 
@@ -71,7 +86,7 @@ public class SugestaoIAService {
     public List<SugestaoIaResponseDTO> getByViagemId(Long viagemId) {
         List<SugestaoIA> sugestoesIa = this.sugestaoIARepository.findByViagem_Id(viagemId);
         List<SugestaoIaResponseDTO> sugestoesDTO = sugestoesIa.stream()
-                    .map(SugestaoIAMapper.INSTANCE::toResponseDTO).toList();
+                .map(SugestaoIAMapper.INSTANCE::toResponseDTO).toList();
         return sugestoesDTO;
     }
 }

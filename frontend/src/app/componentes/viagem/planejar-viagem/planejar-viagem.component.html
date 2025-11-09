@@ -9,34 +9,37 @@
         </p>
     </div>
 
-
-    <div>
-        <p-button (click)="gerarOpiniao(tipoSugestaoEnum.ONDE_FICAR)" icon="pi pi-home" severity="secondary" label=" Onde Ficar?" />
-        <app-sugestao-ia [tipoSugestao]="tipoSugestaoEnum.ONDE_FICAR" 
-            [sugestao]="sugestoes.get(tipoSugestaoEnum.ONDE_FICAR)"> 
+    {{ this.sugestoes | json }}
+    <div class="card">
+        <p-menubar [model]="items"></p-menubar>
+    </div>
+    
+    <div class="sugestoes-container">
+        <!-- Each IA suggestion -->
+        <app-sugestao-ia
+            *ngIf="selectedTipo"
+            [tipoSugestao]="selectedTipo"
+            [sugestao]="sugestoes.get(selectedTipo)">
         </app-sugestao-ia>
 
-        <p-button (click)="gerarOpiniao(tipoSugestaoEnum.COMO_CHEGAR)" label="Como Chegar?" icon="pi pi-map-marker"
-            severity="secondary" />          
-        <app-sugestao-ia [sugestao]="sugestoes.get(tipoSugestaoEnum.COMO_CHEGAR)">             
-        </app-sugestao-ia>
+          
+        <div class="col-12">
+            <div *ngIf="atividades.length === 0 && resultado" [innerHTML]="resultado"></div>
 
-        <p-button class="" label="Onde Ir?" (click)="gerarOpiniao(tipoSugestaoEnum.ONDE_IR)" icon="pi pi-search" severity="secondary" />
-        <app-sugestao-ia [sugestao]="sugestoes.get(tipoSugestaoEnum.ONDE_IR)">             
-        </app-sugestao-ia>
+            <div *ngFor="let activity of atividades; let i = index" class="activity-card">
+                <h3>{{ activity.nome }}</h3>
+                <p><strong>Orçamento:</strong> {{ activity.orcamento }}</p>
+                <p><strong>Duração:</strong> {{ activity.duracao }}</p>
+                <p><strong>Categoria:</strong> {{ activity.categoria }}</p>
+                <p><strong>Descrição:</strong> {{ activity.descricao }}</p>
+                <p><strong>Melhor horário:</strong> {{ activity.melhorHorario }}</p>
 
-        <p-button class="" label="Onde Comer?" (click)="gerarOpiniao(tipoSugestaoEnum.ONDE_COMER)" icon="pi pi-search" severity="secondary" />
-        <app-sugestao-ia [sugestao]="sugestoes.get(tipoSugestaoEnum.ONDE_COMER)">             
-        </app-sugestao-ia>
-
-        <div class="col-12">        
-
-            <div *ngIf="resultado">
-                <markdown [data]="resultado"></markdown>
-                <p-button label="Salvar Opinião" (click)="salvarOpiniaoIA(resultado)">
-
+                <p-button (click)="salvarItemItinerario(activity)" icon="pi pi-save" severity="success"
+                    label="Salvar no Itinerário">
                 </p-button>
             </div>
         </div>
     </div>
+
+
 </div>

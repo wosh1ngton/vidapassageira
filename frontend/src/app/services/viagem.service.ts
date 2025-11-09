@@ -3,27 +3,27 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ViagemCreateDTO, ViagemResponseDTO } from '../model/viagem';
 import { environment } from '../environment';
+import { AtividadeItinerarioCreateDTO } from '../model/atividade-itinerario';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ViagemService {
-  
   constructor(private http: HttpClient) {}
-  baseUrl: string = environment.mainUrlAPI;  
+  baseUrl: string = environment.mainUrlAPI;
 
   getAll(): Observable<ViagemResponseDTO[]> {
     return this.http.get<ViagemResponseDTO[]>(`${this.baseUrl}/viagens`);
   }
 
   save(viagem: ViagemCreateDTO): Observable<ViagemResponseDTO> {
-    return this.http.post<ViagemResponseDTO>(
-      `${this.baseUrl}/viagens`,
-      viagem
-    );
+    return this.http.post<ViagemResponseDTO>(`${this.baseUrl}/viagens`, viagem);
   }
 
-  atualizar(viagem: ViagemCreateDTO, id: number): Observable<ViagemResponseDTO> {
+  atualizar(
+    viagem: ViagemCreateDTO,
+    id: number
+  ): Observable<ViagemResponseDTO> {
     return this.http.put<ViagemResponseDTO>(
       `${this.baseUrl}/viagens/${id}`,
       viagem
@@ -32,5 +32,9 @@ export class ViagemService {
 
   findById(id: number): Observable<ViagemResponseDTO> {
     return this.http.get<ViagemResponseDTO>(`${this.baseUrl}/viagens/${id}`);
+  }
+
+  salvarItemItinerario(item: AtividadeItinerarioCreateDTO): Observable<any> {
+    return this.http.post(`${this.baseUrl}/viagens/itinerario`, item);
   }
 }

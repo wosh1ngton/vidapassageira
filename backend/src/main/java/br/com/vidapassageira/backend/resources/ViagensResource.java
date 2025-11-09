@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.vidapassageira.backend.dtos.itinerario.ItinerarioCreateDto;
+import br.com.vidapassageira.backend.dtos.itinerario.ItinerarioResponseDto;
 import br.com.vidapassageira.backend.dtos.viagem.ViagemCreateDTO;
 import br.com.vidapassageira.backend.dtos.viagem.ViagemResponseDTO;
 import br.com.vidapassageira.backend.services.ViagensService;
@@ -36,5 +38,10 @@ public class ViagensResource {
     @GetMapping("/{id}")
     public ResponseEntity<ViagemResponseDTO> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(viagensService.buscarPorId(id));
+    }
+
+    @PostMapping("/itinerario")
+    public ResponseEntity<ItinerarioResponseDto> cadastrarItinerario(@RequestBody ItinerarioCreateDto request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(viagensService.cadastrarItinerario(request));
     }
 }

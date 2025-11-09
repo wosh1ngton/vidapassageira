@@ -20,12 +20,23 @@ export class IAService {
       );
 
       eventSource.onmessage = (event) => {        
-        const data = event.data;        
-        observer.next(data);
+        // const data = event.data;        
+        observer.next(event.data);
       };
 
-      eventSource.onerror = () => {        
+      eventSource.addEventListener('complete', (event) => {
+        console.log('Stream completado', event);
+        observer.complete();
         eventSource.close();
+      })
+
+      eventSource.onerror = (error) => {        
+        observer.error(error);
+        eventSource.close();
+      };
+
+      eventSource.onopen = (event) => {
+        console.log('SSE connection opened');
       };
 
       return () => {

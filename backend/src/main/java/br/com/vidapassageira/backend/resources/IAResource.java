@@ -1,5 +1,8 @@
 package br.com.vidapassageira.backend.resources;
 
+import java.io.IOException;
+import java.util.concurrent.CompletableFuture;
+
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,10 +36,22 @@ public class IAResource {
         @RequestParam TipoSugestaoEnum tipo
         ) {
         SseEmitter emitter = new SseEmitter(60_000L);
-        ViagemResponseDTO viagemDto = this.viagensService.buscarPorId(destino);     
+
+        CompletableFuture.runAsync(() -> {
+            try {
+                ViagemResponseDTO viagemDto = this.viagensService.buscarPorId(destino);     
+                String prompt = sugestaoIAService.gerarPrompt(tipo, viagemDto);
+                iaservice.streamCompletion(prompt, emitter);                
+            } catch(Exception e) {
+                try {
+                    emitter.send(SseEmitter.event()
+                        .name("error")
+                        .data(e.getMessage()));                
+                } catch (IOException ignored) {}
+                emitter.completeWithError(e);
+            }
+        });
         
-        String prompt = sugestaoIAService.gerarPrompt(tipo, viagemDto);
-        iaservice.streamCompletion(prompt, emitter);
         return emitter;
     }
 

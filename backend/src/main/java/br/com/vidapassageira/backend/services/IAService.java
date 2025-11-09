@@ -47,11 +47,7 @@ public class IAService {
                 .subscribe(
                         chunk -> {
                             try {
-
-                                if ("[DONE]".equals(chunk.trim())) {
-                                    emitter.complete();
-                                    return;
-                                }
+                           
 
                                 String cleanChunk = chunk.startsWith("data:")
                                         ? chunk.substring(5)
@@ -88,6 +84,9 @@ public class IAService {
                         },
                         () -> {
                             try {
+                                emitter.send(SseEmitter.event()
+                                    .name("complete")
+                                    .data("done"));
                                 emitter.complete();
                             } catch (Exception e) {
                                 log.error("Failed to complete", e);
