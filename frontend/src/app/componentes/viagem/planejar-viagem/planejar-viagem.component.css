@@ -1,0 +1,19 @@
+.p-menubar {
+    width: 100%;
+}
+::ng-deep .active-menu {
+    
+    color: #000 !important;
+}
+.p-menuitem-text {
+    margin: 3px;
+}
+::ng-deep .active-menu .p-menuitem-text {
+    margin: 3px;
+    color: #000 !important;
+    font-weight: bold;
+}
+
+::ng-deep .active-menu .pi {
+    color: #000 !important;
+}

@@ -46,6 +46,13 @@ export class PlanejarViagemComponent implements OnInit {
   tipoSugestaoEnum = TipoSugestaoIaEnum;
   items: MenuItem[] | undefined;
   selectedTipo?: TipoSugestaoIaEnum;
+  
+  menuSelecionado: string ="Onde Ficar?";
+  
+  setMenuSelecionado(label: string) {
+    this.menuSelecionado = label;
+    console.log('selecao: ',this.menuSelecionado)
+  }
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe((params) => {
@@ -53,33 +60,53 @@ export class PlanejarViagemComponent implements OnInit {
       this.getViagemById();
       this.getSugestaoByViagemId();
     });
-
-     this.items = [
-            {
-                label: 'Onde Ficar?',
-                icon: 'pi pi-home',
-              command: () => this.selectTipo(this.tipoSugestaoEnum.ONDE_FICAR)
-                
-            },
-            {
-                label: 'Como chegar?',
-                icon: 'pi pi-map-marker',
-                command: () => this.selectTipo(this.tipoSugestaoEnum.COMO_CHEGAR)
-            },
-             {
-                label: 'Onde Ir?',
-                icon: 'pi pi-search',
-                command: () => this.selectTipo(this.tipoSugestaoEnum.ONDE_IR)
-            },
-             {
-                label: 'Onde Comer?',
-                icon: 'pi pi-star',
-                command: () => this.selectTipo(this.tipoSugestaoEnum.ONDE_COMER)
-            },
-          ]
+    if(!this.selectedTipo)   {
+      this.selectedTipo = TipoSugestaoIaEnum.ONDE_FICAR;
+      console.log('teste')
+    }
+     this.inicializarMenu();
+  }
+  isMenuActive(label: string): boolean {
+    return this.menuSelecionado === label;
+  }
+  
+  private inicializarMenu() {
+    this.items = [
+      {
+        label: 'Onde Ficar?',
+        icon: 'pi pi-home',
+        command: () => {
+          this.selectTipo(this.tipoSugestaoEnum.ONDE_FICAR);
+          this.setMenuSelecionado('Onde Ficar?');
+        }
+      },
+      {
+        label: 'Como chegar?',
+        icon: 'pi pi-map-marker',
+        command: () => {
+          this.selectTipo(this.tipoSugestaoEnum.COMO_CHEGAR);
+          this.setMenuSelecionado('Como chegar?');
+        }
+      },
+      {
+        label: 'Onde Ir?',
+        icon: 'pi pi-search',
+        command: () => {
+          this.selectTipo(this.tipoSugestaoEnum.ONDE_IR);
+          this.setMenuSelecionado('Onde Ir?');
+        }
+      },
+      {
+        label: 'Onde Comer?',
+        icon: 'pi pi-star',
+        command: () => {
+          this.selectTipo(this.tipoSugestaoEnum.ONDE_COMER);
+          this.setMenuSelecionado('Onde Comer?');
+        }
+      },
+    ];
   }
 
-  
   getSugestaoByViagemId() {
     this.sugestaoIaService.findByViagemId(this.viagemId).subscribe((res) => {
       res.forEach((val) => {
@@ -95,12 +122,30 @@ export class PlanejarViagemComponent implements OnInit {
     });
   }
 
-  gerarOpiniao(tipoSugestao: TipoSugestaoIaEnum) {
+  gerarOpiniao(tipoSugestao: TipoSugestaoIaEnum | undefined) {
+    this.resultado = '';
+    this.tipoSugestaoSelected = tipoSugestao;
+    const tipoSugestaoName = TipoSugestaoIaEnum[tipoSugestao!];
+    this.iaService.gerarOpiniaoStream(this.viagemId, tipoSugestaoName).subscribe({
+      next: (chunk: string) => {
+        const decodedChunk = JSON.parse(chunk);
+        this.resultado += decodedChunk;
+        this.cdRef.detectChanges();
+      },
+      error: (err) => {
+        console.error('Erro:', err);
+        this.resultado = 'Erro ao gerar opinião. Tente novamente mais tarde.';
+        this.cdRef.detectChanges();
+      },
+    });
+  }
+
+  gerarOpiniaoOndeIr(tipoSugestao: TipoSugestaoIaEnum | undefined) {
     this.selectedTipo = tipoSugestao;
     this.rawResultado = '';
     this.tipoSugestaoSelected = tipoSugestao;
     this.atividades = [];
-    const tipoSugestaoName = TipoSugestaoIaEnum[tipoSugestao];
+    const tipoSugestaoName = TipoSugestaoIaEnum[tipoSugestao!];
     this.iaService
       .gerarOpiniaoStream(this.viagemId, tipoSugestaoName)
       .subscribe({
@@ -115,7 +160,8 @@ export class PlanejarViagemComponent implements OnInit {
           this.rawResultado = 'Erro ao gerar opinião. Tente novamente mais tarde.';
           this.cdRef.detectChanges();
         },
-        complete: () => {          
+        complete: () => {    
+          
           this.parsearFormatarItinerario();
           this.cdRef.detectChanges();
         },
@@ -123,10 +169,7 @@ export class PlanejarViagemComponent implements OnInit {
   }
 
   selectTipo(tipo: TipoSugestaoIaEnum) {
-    this.selectedTipo = tipo;    
-    if (!this.sugestoes.get(tipo)) {
-      this.gerarOpiniao(tipo);
-    }
+    this.selectedTipo = tipo;   
   }
 
   private parsearFormatarItinerario(): void {

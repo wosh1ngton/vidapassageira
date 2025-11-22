@@ -9,35 +9,55 @@
         </p>
     </div>
 
-    {{ this.sugestoes | json }}
+<div class="col-12">
     <div class="card">
-        <p-menubar [model]="items"></p-menubar>
+        <p-menubar [model]="items">
+        <ng-template  #item let-item>  
+            <li class="p-menuitem">
+            <a 
+                pRipple
+               [ngClass]="{'active-menu': isMenuActive(item.label)}"
+               (click)="item.command()">
+                <span [class]="item.icon"> </span>
+                <span class="p-menuitem-text">{{ item.label }} | </span>
+            </a>
+            </li>          
+        </ng-template>
+    </p-menubar>
     </div>
-    
+</div>
     <div class="sugestoes-container">
-        <!-- Each IA suggestion -->
-        <app-sugestao-ia
-            *ngIf="selectedTipo"
-            [tipoSugestao]="selectedTipo"
-            [sugestao]="sugestoes.get(selectedTipo)">
+
+        <app-sugestao-ia *ngIf="selectedTipo" [tipoSugestao]="selectedTipo" [sugestao]="sugestoes.get(selectedTipo)">
         </app-sugestao-ia>
+        <ng-container *ngIf="selectedTipo === tipoSugestaoEnum.ONDE_IR">
+            <p-button label="Pedir Sugestão da IA" severity="success" (click)="gerarOpiniaoOndeIr(selectedTipo)"
+                class="button-margin"></p-button>
+        </ng-container>
 
-          
+        <ng-container *ngIf="selectedTipo !== tipoSugestaoEnum.ONDE_IR">
+            <p-button label="Pedir Sugestão da IA" severity="success" (click)="gerarOpiniao(selectedTipo)"
+                class="button-margin"></p-button>
+        </ng-container>
         <div class="col-12">
-            <div *ngIf="atividades.length === 0 && resultado" [innerHTML]="resultado"></div>
+            <!-- Show parsed activities when available -->
+            <div *ngIf="atividades.length > 0">
+                <div *ngFor="let activity of atividades; let i = index" class="activity-card">
+                    <h3>{{ activity.nome }}</h3>
+                    <p><strong>Orçamento:</strong> {{ activity.orcamento }}</p>
+                    <p><strong>Duração:</strong> {{ activity.duracao }}</p>
+                    <p><strong>Categoria:</strong> {{ activity.categoria }}</p>
+                    <p><strong>Descrição:</strong> {{ activity.descricao }}</p>
+                    <p><strong>Melhor horário:</strong> {{ activity.melhorHorario }}</p>
 
-            <div *ngFor="let activity of atividades; let i = index" class="activity-card">
-                <h3>{{ activity.nome }}</h3>
-                <p><strong>Orçamento:</strong> {{ activity.orcamento }}</p>
-                <p><strong>Duração:</strong> {{ activity.duracao }}</p>
-                <p><strong>Categoria:</strong> {{ activity.categoria }}</p>
-                <p><strong>Descrição:</strong> {{ activity.descricao }}</p>
-                <p><strong>Melhor horário:</strong> {{ activity.melhorHorario }}</p>
-
-                <p-button (click)="salvarItemItinerario(activity)" icon="pi pi-save" severity="success"
-                    label="Salvar no Itinerário">
-                </p-button>
+                    <p-button (click)="salvarItemItinerario(activity)" icon="pi pi-save" severity="success"
+                        label="Salvar no Itinerário">
+                    </p-button>
+                </div>
             </div>
+
+            <!-- Show raw result ONLY when there are no parsed activities -->
+            <div *ngIf="atividades.length === 0 && resultado" [innerHTML]="resultado"></div>
         </div>
     </div>
 
