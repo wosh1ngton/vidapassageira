@@ -14,12 +14,17 @@ import { TipoSugestaoIaEnum } from '../../../model/enums/TipoSugestaoIA.enum';
 import { SugestaoIaService } from '../../../services/sugestao-ia.service';
 import { SugestaoIaComponent } from './sugestao-ia/sugestao-ia.component';
 import { MenuItem, MessageService } from 'primeng/api';
-import { AtividadeItinerario, AtividadeItinerarioCreateDTO } from '../../../model/atividade-itinerario';
+import {
+  AtividadeItinerario,
+  AtividadeItinerarioCreateDTO,
+  ItinerarioResponseDto,
+} from '../../../model/atividade-itinerario';
+import { ItinerarioViagemComponent } from "../itinerario-viagem/itinerario-viagem.component";
 
 @Component({
   selector: 'app-planejar-viagem',
   standalone: true,
-  imports: [CommonModule, MarkdownModule, PrimeNgModule, SugestaoIaComponent],
+  imports: [CommonModule, MarkdownModule, PrimeNgModule, SugestaoIaComponent, ItinerarioViagemComponent],
   templateUrl: './planejar-viagem.component.html',
   styleUrl: './planejar-viagem.component.css',
 })
@@ -45,13 +50,13 @@ export class PlanejarViagemComponent implements OnInit {
   tipoSugestaoSelected: TipoSugestaoIaEnum | undefined;
   tipoSugestaoEnum = TipoSugestaoIaEnum;
   items: MenuItem[] | undefined;
-  selectedTipo?: TipoSugestaoIaEnum;
-  
-  menuSelecionado: string ="Onde Ficar?";
-  
+  selectedTipo?: TipoSugestaoIaEnum | undefined;
+  itinerarioDaViagem: ItinerarioResponseDto[] = [];
+  menuSelecionado: string = 'Onde Ficar?';
+  hasItinerario: boolean = false;
   setMenuSelecionado(label: string) {
     this.menuSelecionado = label;
-    console.log('selecao: ',this.menuSelecionado)
+    console.log('selecao: ', this.menuSelecionado);
   }
 
   ngOnInit(): void {
@@ -59,17 +64,18 @@ export class PlanejarViagemComponent implements OnInit {
       this.viagemId = params.get('id');
       this.getViagemById();
       this.getSugestaoByViagemId();
+      this.verificaExistenciaItinerarioDaViagem();
     });
-    if(!this.selectedTipo)   {
-      this.selectedTipo = TipoSugestaoIaEnum.ONDE_FICAR;
-      console.log('teste')
+    if (!this.selectedTipo) {
+      this.selectedTipo = TipoSugestaoIaEnum.ONDE_FICAR;     
     }
-     this.inicializarMenu();
+    this.inicializarMenu();
+   
   }
-  isMenuActive(label: string): boolean {
+  isMenuActive(label: string): boolean {   
     return this.menuSelecionado === label;
   }
-  
+
   private inicializarMenu() {
     this.items = [
       {
@@ -78,7 +84,7 @@ export class PlanejarViagemComponent implements OnInit {
         command: () => {
           this.selectTipo(this.tipoSugestaoEnum.ONDE_FICAR);
           this.setMenuSelecionado('Onde Ficar?');
-        }
+        },
       },
       {
         label: 'Como chegar?',
@@ -86,7 +92,7 @@ export class PlanejarViagemComponent implements OnInit {
         command: () => {
           this.selectTipo(this.tipoSugestaoEnum.COMO_CHEGAR);
           this.setMenuSelecionado('Como chegar?');
-        }
+        },
       },
       {
         label: 'Onde Ir?',
@@ -94,7 +100,11 @@ export class PlanejarViagemComponent implements OnInit {
         command: () => {
           this.selectTipo(this.tipoSugestaoEnum.ONDE_IR);
           this.setMenuSelecionado('Onde Ir?');
-        }
+          if(this.hasItinerario) {
+            console.log('será? ' )
+            this.getOndeIr();
+          }
+        },
       },
       {
         label: 'Onde Comer?',
@@ -102,16 +112,22 @@ export class PlanejarViagemComponent implements OnInit {
         command: () => {
           this.selectTipo(this.tipoSugestaoEnum.ONDE_COMER);
           this.setMenuSelecionado('Onde Comer?');
-        }
+        },
       },
     ];
+  }
+
+  verificaExistenciaItinerarioDaViagem(): void {    
+    this.viagemService.verificaSeItinerarioExiste(this.viagemId)
+      .subscribe(value => this.hasItinerario = value);
+    
   }
 
   getSugestaoByViagemId() {
     this.sugestaoIaService.findByViagemId(this.viagemId).subscribe((res) => {
       res.forEach((val) => {
         const tipo = val.idTipoSugestaoIa as TipoSugestaoIaEnum;
-        this.sugestoes.set(tipo, val.sugestao);       
+        this.sugestoes.set(tipo, val.sugestao);
       });
     });
   }
@@ -122,22 +138,45 @@ export class PlanejarViagemComponent implements OnInit {
     });
   }
 
-  gerarOpiniao(tipoSugestao: TipoSugestaoIaEnum | undefined) {
-    this.resultado = '';
-    this.tipoSugestaoSelected = tipoSugestao;
-    const tipoSugestaoName = TipoSugestaoIaEnum[tipoSugestao!];
-    this.iaService.gerarOpiniaoStream(this.viagemId, tipoSugestaoName).subscribe({
-      next: (chunk: string) => {
-        const decodedChunk = JSON.parse(chunk);
-        this.resultado += decodedChunk;
-        this.cdRef.detectChanges();
+  getOndeIr() {
+    this.viagemService.findOndeIrPorViagemId(this.viagemId).subscribe({
+      next: (item) => {
+        this.itinerarioDaViagem = item;
+        console.log(this.itinerarioDaViagem);
+        return item;
       },
       error: (err) => {
-        console.error('Erro:', err);
-        this.resultado = 'Erro ao gerar opinião. Tente novamente mais tarde.';
-        this.cdRef.detectChanges();
+        console.error('um erro ocorreu ', err);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erro',
+          detail: 'Erro ao recuperar itinerário',
+        });
       },
     });
+  }
+
+  gerarOpiniao(tipoSugestao: TipoSugestaoIaEnum | undefined) {
+    let resultado = '';
+    this.tipoSugestaoSelected = tipoSugestao;
+    const tipoSugestaoName = TipoSugestaoIaEnum[tipoSugestao!];
+    this.iaService
+      .gerarOpiniaoStream(this.viagemId, tipoSugestaoName)
+      .subscribe({
+        next: (chunk: string) => {
+          const decodedChunk = JSON.parse(chunk);
+          resultado += decodedChunk;
+
+          const tipo = tipoSugestao;
+          this.cdRef.detectChanges();
+          this.sugestoes.set(tipo!, resultado);
+        },
+        error: (err) => {
+          console.error('Erro:', err);
+          this.resultado = 'Erro ao gerar opinião. Tente novamente mais tarde.';
+          this.cdRef.detectChanges();
+        },
+      });
   }
 
   gerarOpiniaoOndeIr(tipoSugestao: TipoSugestaoIaEnum | undefined) {
@@ -157,11 +196,11 @@ export class PlanejarViagemComponent implements OnInit {
         },
         error: (err) => {
           console.error('Erro:', err);
-          this.rawResultado = 'Erro ao gerar opinião. Tente novamente mais tarde.';
+          this.rawResultado =
+            'Erro ao gerar opinião. Tente novamente mais tarde.';
           this.cdRef.detectChanges();
         },
-        complete: () => {    
-          
+        complete: () => {
           this.parsearFormatarItinerario();
           this.cdRef.detectChanges();
         },
@@ -169,12 +208,12 @@ export class PlanejarViagemComponent implements OnInit {
   }
 
   selectTipo(tipo: TipoSugestaoIaEnum) {
-    this.selectedTipo = tipo;   
+    this.selectedTipo = tipo;
   }
 
   private parsearFormatarItinerario(): void {
     const blocos = this.rawResultado.split(/\n\n+/);
-    blocos.forEach(bloco => {
+    blocos.forEach((bloco) => {
       const item = this.parsearItemItinerario(bloco);
       this.atividades.push(item);
     });
@@ -189,7 +228,7 @@ export class PlanejarViagemComponent implements OnInit {
       duracao: '',
       categoria: '',
       descricao: '',
-      melhorHorario: ''
+      melhorHorario: '',
     };
 
     linhas.forEach((linha) => {
@@ -241,7 +280,7 @@ export class PlanejarViagemComponent implements OnInit {
         this.messageService.add({
           severity: 'success',
           summary: 'Sucesso',
-          detail: `${item.nome} salvo no itinerário!`
+          detail: `${item.nome} salvo no itinerário!`,
         });
       },
       error: (err: any) => {
@@ -249,9 +288,9 @@ export class PlanejarViagemComponent implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Erro',
-          detail: 'Erro ao salvar item no itinerário'
+          detail: 'Erro ao salvar item no itinerário',
         });
-      }
+      },
     });
   }
 
@@ -262,11 +301,11 @@ export class PlanejarViagemComponent implements OnInit {
       .replace('.', '')
       .replace(',', '.')
       .trim();
-    
+
     if (orcamento.toLowerCase().includes('gratuito') || cleanValue === '0') {
       return 0;
     }
-    
+
     return parseFloat(cleanValue) || 0;
   }
 
@@ -276,18 +315,16 @@ export class PlanejarViagemComponent implements OnInit {
     return match ? parseInt(match[1]) : 0;
   }
 
-  
-
   voltar() {
     this.router.navigateByUrl(`viagens`);
   }
 
-  salvarOpiniaoIA(sugestao: string) {
+  salvarOpiniaoIA(sugestao: string | undefined) {
     this.sugestaoIA = {} as SugestaoIaCreateDTO;
     this.sugestaoIA.idViagem = this.viagemId;
     this.sugestaoIA.sugestao = sugestao;
     this.sugestaoIA.id = 0;
-    this.sugestaoIA.tipoSugestaoIaEnum = this.tipoSugestaoSelected!;
+    this.sugestaoIA.tipoSugestaoIaEnum = this.selectedTipo!;
 
     this.sugestaoIaService.save(this.sugestaoIA).subscribe({
       next: (res) => {

@@ -1,9 +1,8 @@
 <div *ngIf="sugestao">
-    <markdown [data]="sugestao"></markdown>   
-    <!-- <div style="text-align: right;">
-        <p-button label="Incluir no meu itinerário" severity="success"  class="button-margin"></p-button>
-        <p-button label="Editar" severity="info"></p-button>
-    </div> -->
+    <div class="col-12" style="text-align: right;">
+        <p-button icon="pi pi-pencil" [rounded]="true" severity="success" size="small" />
+    </div>
+    <markdown [data]="sugestao"></markdown>      
 </div>
 <div *ngIf="!sugestao">
     <p class="text-red-500 font-semibold"> Ainda não há sugestões </p>

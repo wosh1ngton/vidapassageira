@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ViagemCreateDTO, ViagemResponseDTO } from '../model/viagem';
 import { environment } from '../environment';
-import { AtividadeItinerarioCreateDTO } from '../model/atividade-itinerario';
+import { AtividadeItinerario, AtividadeItinerarioCreateDTO, ItinerarioResponseDto } from '../model/atividade-itinerario';
 
 @Injectable({
   providedIn: 'root',
@@ -36,5 +36,13 @@ export class ViagemService {
 
   salvarItemItinerario(item: AtividadeItinerarioCreateDTO): Observable<any> {
     return this.http.post(`${this.baseUrl}/viagens/itinerario`, item);
+  }
+
+  findOndeIrPorViagemId(id: number): Observable<ItinerarioResponseDto[]> {
+    return this.http.get<ItinerarioResponseDto[]>(`${this.baseUrl}/viagens/itinerario/${id}`);
+  }
+
+  verificaSeItinerarioExiste(id: number): Observable<boolean> {
+    return this.http.get<boolean>(`${this.baseUrl}/viagens/verifica-itinerario/${id}`);
   }
 }

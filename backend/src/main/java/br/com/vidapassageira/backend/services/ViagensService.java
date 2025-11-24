@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.resource.NoResourceFoundException;
 
 import br.com.vidapassageira.backend.dtos.itinerario.ItinerarioCreateDto;
 import br.com.vidapassageira.backend.dtos.itinerario.ItinerarioResponseDto;
@@ -64,5 +65,20 @@ public class ViagensService {
         ItinerarioViagem itinerarioViagem = ItinerarioViagemMapper.INSTANCE.toEntity(itinerarioCreateDto);
         this.itinerarioViagemRepository.save(itinerarioViagem);
         return ItinerarioViagemMapper.INSTANCE.toDto(itinerarioViagem);
+    }
+
+    public List<ItinerarioResponseDto> listarItinerario(Long id) {
+        List<ItinerarioViagem> itinerarioDaViagem = this.itinerarioViagemRepository.findAllByViagem_Id(id);
+        if(itinerarioDaViagem.isEmpty()) {
+            throw new NoResourceFoundException("item não localizado");
+        }
+        List<ItinerarioResponseDto> itinerarioDaViagemDTO = itinerarioDaViagem.stream()
+            .map(ItinerarioViagemMapper.INSTANCE::toDto).toList();
+        return itinerarioDaViagemDTO;
+    }
+
+    public boolean verificaExistenciaItinerario(Long id) {
+        boolean itinerarioDaViagem = this.itinerarioViagemRepository.existsByViagem_Id(id);
+        return itinerarioDaViagem;
     }
 }

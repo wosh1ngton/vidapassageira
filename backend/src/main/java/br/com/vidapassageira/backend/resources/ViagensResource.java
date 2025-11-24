@@ -44,4 +44,14 @@ public class ViagensResource {
     public ResponseEntity<ItinerarioResponseDto> cadastrarItinerario(@RequestBody ItinerarioCreateDto request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(viagensService.cadastrarItinerario(request));
     }
+
+    @GetMapping("/itinerario/{id}")
+    public ResponseEntity<List<ItinerarioResponseDto>> listarItinerarioPorViagemId(@PathVariable Long id) {
+        return ResponseEntity.ok(viagensService.listarItinerario(id));
+    }
+
+    @GetMapping("/verifica-itinerario/{id}")
+    public ResponseEntity<Boolean> verificaSeExisteItinerario(@PathVariable Long id) {
+        return ResponseEntity.ok(viagensService.verificaExistenciaItinerario(id));
+    }
 }

@@ -17,3 +17,13 @@ export interface AtividadeItinerarioCreateDTO {
     melhorHorario: string;
     idViagem: number;
 }
+
+export interface ItinerarioResponseDto {
+    id: number;
+    nome: string;
+    descricao: string;
+    orcamento: string;
+    categoria: string;
+    duracaoHoras: string;
+    melhorHorario: string;
+}

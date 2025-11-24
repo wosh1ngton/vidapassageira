@@ -17,6 +17,7 @@ public interface ItinerarioViagemMapper {
     @Mapping(source = "idViagem", target = "viagem.id")    
     ItinerarioViagem toEntity(ItinerarioCreateDto dto);
 
+        
     ItinerarioResponseDto toDto(ItinerarioViagem entity);
 
     

@@ -9,38 +9,43 @@
         </p>
     </div>
 
-<div class="col-12">
-    <div class="card">
-        <p-menubar [model]="items">
-        <ng-template  #item let-item>  
-            <li class="p-menuitem">
-            <a 
-                pRipple
-               [ngClass]="{'active-menu': isMenuActive(item.label)}"
-               (click)="item.command()">
-                <span [class]="item.icon"> </span>
-                <span class="p-menuitem-text">{{ item.label }} | </span>
-            </a>
-            </li>          
-        </ng-template>
-    </p-menubar>
+    <div class="col-12">
+        <div class="card">
+            <p-menubar [model]="items">
+                <ng-template #item let-item>
+                    <li class="p-menuitem">
+                        <a pRipple [ngClass]="{'active-menu': isMenuActive(item.label)}">
+                            <span [class]="item.icon"> </span>
+                            <span class="p-menuitem-text">{{ item.label }} </span>
+                        </a>
+                    </li>
+                </ng-template>
+            </p-menubar>
+        </div>
     </div>
-</div>
-    <div class="sugestoes-container">
+    <div class="sugestoes-container">      
 
-        <app-sugestao-ia *ngIf="selectedTipo" [tipoSugestao]="selectedTipo" [sugestao]="sugestoes.get(selectedTipo)">
-        </app-sugestao-ia>
         <ng-container *ngIf="selectedTipo === tipoSugestaoEnum.ONDE_IR">
+            <app-itinerario-viagem [atividades]="itinerarioDaViagem" *ngIf="sugestoes.has(selectedTipo!)">
+
+            </app-itinerario-viagem>
             <p-button label="Pedir Sugestão da IA" severity="success" (click)="gerarOpiniaoOndeIr(selectedTipo)"
                 class="button-margin"></p-button>
         </ng-container>
 
-        <ng-container *ngIf="selectedTipo !== tipoSugestaoEnum.ONDE_IR">
+         <ng-container *ngIf="selectedTipo !== tipoSugestaoEnum.ONDE_IR">
+            <app-sugestao-ia *ngIf="selectedTipo" [tipoSugestao]="selectedTipo"
+                [sugestao]="sugestoes.get(selectedTipo)">
+            </app-sugestao-ia>
+            
+        </ng-container>
+        <ng-container *ngIf="selectedTipo !== tipoSugestaoEnum.ONDE_IR && !sugestoes.has(selectedTipo!)">
             <p-button label="Pedir Sugestão da IA" severity="success" (click)="gerarOpiniao(selectedTipo)"
                 class="button-margin"></p-button>
-        </ng-container>
+        </ng-container>       
+
         <div class="col-12">
-            <!-- Show parsed activities when available -->
+            
             <div *ngIf="atividades.length > 0">
                 <div *ngFor="let activity of atividades; let i = index" class="activity-card">
                     <h3>{{ activity.nome }}</h3>

@@ -1,9 +1,11 @@
 .p-menubar {
     width: 100%;
+   
 }
-::ng-deep .active-menu {
-    
+
+::ng-deep .active-menu {    
     color: #000 !important;
+    
 }
 .p-menuitem-text {
     margin: 3px;

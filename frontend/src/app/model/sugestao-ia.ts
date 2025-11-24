@@ -4,7 +4,7 @@ export interface SugestaoIaCreateDTO {
     id: number;
     idViagem: number;
     tipoSugestaoIaEnum: TipoSugestaoIaEnum;
-    sugestao: string;
+    sugestao: string | undefined;
 }
 
 export interface SugestaoIaResponseDTO {
