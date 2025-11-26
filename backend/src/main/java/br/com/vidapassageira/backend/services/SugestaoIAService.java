@@ -78,6 +78,17 @@ public class SugestaoIAService {
         return sugestaoIASaved;
     }
 
+    public SugestaoIaCreateDTO editar(SugestaoIaCreateDTO sugestao) {
+        var sugestaoIASaved = sugestaoIARepository.findById(sugestao.getId());
+
+        if (!sugestaoIASaved.isPresent()) {
+            throw new SugestaoDuplicadaException("Sugestão não localizada");
+        }
+        SugestaoIAMapper.INSTANCE.updateEntity(sugestao, sugestaoIASaved.get());
+        sugestaoIARepository.save(sugestaoIASaved.get());
+        return SugestaoIAMapper.INSTANCE.toCreateDTO(sugestaoIASaved.get());
+    }
+
     public SugestaoIaResponseDTO getByViagemIdAndTipo(Long viagemId, Integer tipoSugestaoId) {
         SugestaoIA sugestaoIA = this.sugestaoIARepository.findByViagem_IdAndTipoSugestaoIA_Id(viagemId, tipoSugestaoId);
         return SugestaoIAMapper.INSTANCE.toResponseDTO(sugestaoIA);

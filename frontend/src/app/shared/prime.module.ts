@@ -15,6 +15,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from "primeng/dropdown";
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { MenubarModule } from 'primeng/menubar';
+import { DynamicDialogModule } from "primeng/dynamicdialog";
 
 @NgModule({
     imports: [],
@@ -35,6 +36,7 @@ import { MenubarModule } from 'primeng/menubar';
         CalendarModule,
         DropdownModule,
         ConfirmDialogModule,
+        DynamicDialogModule,
         MenubarModule
     ],
 })

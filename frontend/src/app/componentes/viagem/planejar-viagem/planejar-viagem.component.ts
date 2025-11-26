@@ -6,19 +6,12 @@ import { PrimeNgModule } from '../../../shared/prime.module';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ViagemResponseDTO } from '../../../model/viagem';
 import { ViagemService } from '../../../services/viagem.service';
-import {
-  SugestaoIaCreateDTO,
-  SugestaoIaResponseDTO,
-} from '../../../model/sugestao-ia';
+import {  SugestaoIaCreateDTO,  SugestaoIaResponseDTO} from '../../../model/sugestao-ia';
 import { TipoSugestaoIaEnum } from '../../../model/enums/TipoSugestaoIA.enum';
 import { SugestaoIaService } from '../../../services/sugestao-ia.service';
 import { SugestaoIaComponent } from './sugestao-ia/sugestao-ia.component';
 import { MenuItem, MessageService } from 'primeng/api';
-import {
-  AtividadeItinerario,
-  AtividadeItinerarioCreateDTO,
-  ItinerarioResponseDto,
-} from '../../../model/atividade-itinerario';
+import { AtividadeItinerario,  AtividadeItinerarioCreateDTO, ItinerarioResponseDto} from '../../../model/atividade-itinerario';
 import { ItinerarioViagemComponent } from "../itinerario-viagem/itinerario-viagem.component";
 
 @Component({
@@ -45,6 +38,7 @@ export class PlanejarViagemComponent implements OnInit {
   sugestaoIA!: SugestaoIaCreateDTO;
   sugestoesIAResponse: SugestaoIaResponseDTO[] = [];
   sugestoes: Map<TipoSugestaoIaEnum, string> = new Map();
+  sugestoesIds: Map<TipoSugestaoIaEnum, number> = new Map();
   atividades: AtividadeItinerario[] = [];
   resultado: string = '';
   tipoSugestaoSelected: TipoSugestaoIaEnum | undefined;
@@ -60,7 +54,7 @@ export class PlanejarViagemComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.activatedRoute.paramMap.subscribe((params) => {
+    this.activatedRoute.paramMap.subscribe((params:any) => {
       this.viagemId = params.get('id');
       this.getViagemById();
       this.getSugestaoByViagemId();
@@ -128,6 +122,7 @@ export class PlanejarViagemComponent implements OnInit {
       res.forEach((val) => {
         const tipo = val.idTipoSugestaoIa as TipoSugestaoIaEnum;
         this.sugestoes.set(tipo, val.sugestao);
+        this.sugestoesIds.set(tipo, val.id);
       });
     });
   }

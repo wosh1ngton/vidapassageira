@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,6 +32,12 @@ public class SugestaoIAResource {
     public ResponseEntity<SugestaoIaCreateDTO> salvarSugestao(@RequestBody SugestaoIaCreateDTO request) {
         var sugestaoIASaved = this.sugestaoIAService.save(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(sugestaoIASaved);
+    }
+
+    @PutMapping
+    public ResponseEntity<SugestaoIaCreateDTO> editarSugestao(@RequestBody SugestaoIaCreateDTO request) {
+        var sugestaoIASaved = this.sugestaoIAService.editar(request);
+        return ResponseEntity.status(HttpStatus.OK).body(sugestaoIASaved);
     }
 
     @GetMapping("/{viagemId}/{tipoSugestaoId}")

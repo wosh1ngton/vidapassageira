@@ -35,7 +35,7 @@
 
          <ng-container *ngIf="selectedTipo !== tipoSugestaoEnum.ONDE_IR">
             <app-sugestao-ia *ngIf="selectedTipo" [tipoSugestao]="selectedTipo"
-                [sugestao]="sugestoes.get(selectedTipo)">
+                [sugestao]="sugestoes.get(selectedTipo)" [id]="sugestoesIds.get(selectedTipo)">
             </app-sugestao-ia>
             
         </ng-container>
