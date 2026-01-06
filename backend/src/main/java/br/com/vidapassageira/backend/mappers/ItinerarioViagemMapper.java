@@ -2,6 +2,7 @@ package br.com.vidapassageira.backend.mappers;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
 import br.com.vidapassageira.backend.dtos.itinerario.ItinerarioCreateDto;
@@ -19,6 +20,10 @@ public interface ItinerarioViagemMapper {
 
         
     ItinerarioResponseDto toDto(ItinerarioViagem entity);
+
+    @Mapping(source = "idViagem", target = "viagem.id")
+    void updateEntity(ItinerarioCreateDto dto, @MappingTarget ItinerarioViagem entity);
+    
 
     
 }

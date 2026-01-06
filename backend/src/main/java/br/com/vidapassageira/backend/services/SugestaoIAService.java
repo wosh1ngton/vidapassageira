@@ -28,19 +28,20 @@ public class SugestaoIAService {
             dto -> """
                      O que fazer em  "%s"?
                      - Regras:
-                     - considere que essa resposta será utilizada em uma aplicação de viagens,
+                     - considere que essa resposta será utilizada em uma aplicação de viagens,  
+                     - intervalo da viagem, entre "%s" e "%s"                   
                      apenas responda com os dados em um formato que seja fácil de parsear,
                      não utilize linguagens como json ou xml, Mantenha uma formatação agradável e de fácil leitura.
                      Exemplo:
                      Passeio: Cristo Redentor \n
                      Orçamento: R$ 100,00 \n
-                     Duração: 3 horas \n
+                     Duração: Parte da manhã do primeiro dia da viagem dia (24) \n
                      Categoria: Ponto Turístico \n
                      Descrição: O Cristo Redentor possui uma bela vista e é um dos pontos turísticos mais visitados.... \n
                      Melhor horário: geralmente no período da tarde \n
 
                     """
-                    .formatted(dto.getDestino().getLocalizacao()),
+                    .formatted(dto.getDestino().getLocalizacao(), dto.getDataIda(), dto.getDataVolta()),
 
             TipoSugestaoEnum.ONDE_FICAR, dto -> """
                     Me dê as melhores localizações para hospedagem em "%s"
@@ -56,7 +57,8 @@ public class SugestaoIAService {
                     considere custo-benefício e intervalo da viagem, entre "%s" e "%s"
                     """.formatted(dto.getDestino().getLocalizacao(), dto.getDataIda(), dto.getDataVolta()));
 
-    public String gerarPrompt(TipoSugestaoEnum tipo, ViagemResponseDTO dto) {
+    
+                    public String gerarPrompt(TipoSugestaoEnum tipo, ViagemResponseDTO dto) {
         Function<ViagemResponseDTO, String> promptFunction = IA_PROMPTS.get(tipo);
         if (promptFunction == null) {
             throw new IllegalArgumentException("TipoSugestaoIA inválido: " + tipo);

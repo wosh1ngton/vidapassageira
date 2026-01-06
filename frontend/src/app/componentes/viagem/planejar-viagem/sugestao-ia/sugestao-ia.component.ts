@@ -5,7 +5,7 @@ import { MarkdownModule } from 'ngx-markdown';
 import { TipoSugestaoIaEnum } from '../../../../model/enums/TipoSugestaoIA.enum';
 import { EditorComponent } from '../../../shared/ck-editor/editor.component';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { marked } from "marked";
+
 import { SugestaoIaCreateDTO } from '../../../../model/sugestao-ia';
 import { EditorDialogData } from '../../../../model/editor-dialog-data';
 import { MY_SERVICE_TOKEN } from '../../../../services/abstract.service';

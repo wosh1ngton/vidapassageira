@@ -1,8 +1,6 @@
 package br.com.vidapassageira.backend.models;
 
-import java.time.LocalDateTime;
 
-import javax.print.DocFlavor.STRING;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,8 +32,8 @@ public class ItinerarioViagem {
     @Column(name = "QT_ORCAMENTO")
     private Double orcamento;
 
-    @Column(name = "NR_DURACAO")
-    private Double duracaoHoras;
+    @Column(name = "DS_DURACAO")
+    private String duracao;
 
     @Column(name = "NM_CATEGORIA")
     private String categoria;

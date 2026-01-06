@@ -66,6 +66,8 @@ export class PlanejarViagemComponent implements OnInit {
     this.inicializarMenu();
    
   }
+
+
   isMenuActive(label: string): boolean {   
     return this.menuSelecionado === label;
   }
@@ -94,8 +96,7 @@ export class PlanejarViagemComponent implements OnInit {
         command: () => {
           this.selectTipo(this.tipoSugestaoEnum.ONDE_IR);
           this.setMenuSelecionado('Onde Ir?');
-          if(this.hasItinerario) {
-            console.log('será? ' )
+          if(this.hasItinerario) {            
             this.getOndeIr();
           }
         },
@@ -175,11 +176,13 @@ export class PlanejarViagemComponent implements OnInit {
   }
 
   gerarOpiniaoOndeIr(tipoSugestao: TipoSugestaoIaEnum | undefined) {
+    
     this.selectedTipo = tipoSugestao;
     this.rawResultado = '';
-    this.tipoSugestaoSelected = tipoSugestao;
+    // this.tipoSugestaoSelected = tipoSugestao;
     this.atividades = [];
     const tipoSugestaoName = TipoSugestaoIaEnum[tipoSugestao!];
+    
     this.iaService
       .gerarOpiniaoStream(this.viagemId, tipoSugestaoName)
       .subscribe({
@@ -213,6 +216,7 @@ export class PlanejarViagemComponent implements OnInit {
       this.atividades.push(item);
     });
     this.resultado = '';
+    this.cdRef.detectChanges();
   }
 
   private parsearItemItinerario(bloco: string): AtividadeItinerario {
@@ -261,7 +265,7 @@ export class PlanejarViagemComponent implements OnInit {
       id: 0,
       nome: item.nome,
       orcamento: this.parseOrcamento(item.orcamento),
-      duracao: this.parseDuracao(item.duracao),
+      duracao: item.duracao,
       descricao: item.descricao,
       categoria: item.categoria,
       melhorHorario: item.melhorHorario,
@@ -304,11 +308,11 @@ export class PlanejarViagemComponent implements OnInit {
     return parseFloat(cleanValue) || 0;
   }
 
-  private parseDuracao(duracao: string): number {
-    // Convert "3 horas" to 3
-    const match = duracao.match(/(\d+)\s*hora/);
-    return match ? parseInt(match[1]) : 0;
-  }
+  // private parseDuracao(duracao: string): number {
+  //   // Convert "3 horas" to 3
+  //   const match = duracao.match(/(\d+)\s*hora/);
+  //   return match ? parseInt(match[1]) : 0;
+  // }
 
   voltar() {
     this.router.navigateByUrl(`viagens`);

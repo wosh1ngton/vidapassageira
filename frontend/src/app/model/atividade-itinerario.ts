@@ -12,7 +12,7 @@ export interface AtividadeItinerarioCreateDTO {
     nome: string;
     descricao: string;
     orcamento: number;
-    duracao: number;
+    duracao: string;
     categoria: string;
     melhorHorario: string;
     idViagem: number;

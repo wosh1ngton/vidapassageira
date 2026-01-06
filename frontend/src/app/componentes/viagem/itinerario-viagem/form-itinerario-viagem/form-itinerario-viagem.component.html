@@ -1,0 +1,57 @@
+<form [formGroup]="atividadeForm" class="p-fluid grid">
+
+    <!-- Nome -->
+    <div class="field col-12">
+        <label for="nome">Nome</label>
+        <input id="nome" class="w-full" pInputText formControlName="nome" />
+    </div>
+
+    <!-- Orçamento -->
+    <div class="field col-12">
+        <label for="orcamento">Orçamento</label>
+        <input id="orcamento" class="w-full" formControlName="orcamento" pInputText />
+
+    </div>
+
+    <!-- Duração -->
+    <div class="field col-12">
+        <label for="duracao">Duração</label>
+        <input id="duracao" pInputText formControlName="duracao" class="w-full" />
+    </div>
+
+    <!-- Categoria -->
+    <div class="field col-12">
+        <label for="categoria">Categoria</label>
+        <p-dropdown class="w-full" id="categoria" [options]="categorias" formControlName="categoria"
+            placeholder="Selecione a categoria">
+        </p-dropdown>
+    </div>
+
+    <!-- Melhor horário -->
+    <div class="field col-12">
+        <label for="melhorHorario">Melhor horário</label>
+        <input id="melhorHorario" pInputText class="w-full" formControlName="melhorHorario" />
+    </div>
+
+    <!-- Descrição -->
+    <div class="field col-12">
+        <label for="descricao">Descrição</label>
+        <textarea class="w-full" id="descricao" pInputTextarea rows="4" formControlName="descricao">
+    </textarea>
+    </div>
+
+    <!-- Botão -->
+    <div class="col-12 flex">
+        <div class="col-6">
+
+            <p-button label="Cancelar" severity="danger" icon="pi pi-times" (onClick)="cancelar()">
+            </p-button>
+        </div>
+        <div class="col-6 col-offset-3">
+            <p-button label="Salvar" icon="pi pi-check" (onClick)="salvar(atividadeForm)" [disabled]="atividadeForm.invalid">
+            </p-button>
+        </div>
+
+    </div>
+
+</form>

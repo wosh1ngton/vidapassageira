@@ -1,16 +1,17 @@
 <div class="col-12">
+    
     <div *ngIf="atividades.length > 0">
         <div *ngFor="let activity of atividades; let i = index" class="activity-card">
             <h3>{{ activity.nome }}</h3>
             <p><strong>Orçamento:</strong> {{ activity.orcamento }}</p>
-            <p><strong>Duração:</strong> {{ activity.duracaoHoras }}</p>
+            <p><strong>Duração:</strong> {{ activity.duracao }}</p>
             <p><strong>Categoria:</strong> {{ activity.categoria }}</p>
             <p><strong>Descrição:</strong> {{ activity.descricao }}</p>
             <p><strong>Melhor horário:</strong> {{ activity.melhorHorario }}</p>
 
-            <!-- <p-button (click)="salvarItemItinerario(activity)" icon="pi pi-save" severity="success"
-                label="Salvar no Itinerário">
-            </p-button> -->
+            <p-button (click)="editarItemItinerario(activity)" icon="pi pi-save" severity="success"
+                label="Editar Item">
+            </p-button>
         </div>
     </div>
 </div>

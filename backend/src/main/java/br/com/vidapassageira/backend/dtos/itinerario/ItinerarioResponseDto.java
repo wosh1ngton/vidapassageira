@@ -8,6 +8,6 @@ public class ItinerarioResponseDto {
     private String descricao;
     private Double orcamento;
     private String categoria;    
-    private Double duracaoHoras;
+    private String duracao;
     private String melhorHorario; 
 }

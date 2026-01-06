@@ -67,6 +67,13 @@ public class ViagensService {
         return ItinerarioViagemMapper.INSTANCE.toDto(itinerarioViagem);
     }
 
+    public ItinerarioResponseDto editarItinerario(ItinerarioCreateDto itinerarioCreateDto) {
+        ItinerarioViagem itinerarioViagem = this.itinerarioViagemRepository.findById(itinerarioCreateDto.getId()).get();
+        ItinerarioViagemMapper.INSTANCE.updateEntity(itinerarioCreateDto, itinerarioViagem);
+        this.itinerarioViagemRepository.save(itinerarioViagem);
+        return ItinerarioViagemMapper.INSTANCE.toDto(itinerarioViagem);
+    }
+
     public List<ItinerarioResponseDto> listarItinerario(Long id) {
         List<ItinerarioViagem> itinerarioDaViagem = this.itinerarioViagemRepository.findAllByViagem_Id(id);
         if(itinerarioDaViagem.isEmpty()) {

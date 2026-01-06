@@ -38,6 +38,10 @@ export class ViagemService {
     return this.http.post(`${this.baseUrl}/viagens/itinerario`, item);
   }
 
+  editarItemItinerario(item: AtividadeItinerarioCreateDTO): Observable<any> {
+    return this.http.put(`${this.baseUrl}/viagens/itinerario`, item);
+  }
+
   findOndeIrPorViagemId(id: number): Observable<ItinerarioResponseDto[]> {
     return this.http.get<ItinerarioResponseDto[]>(`${this.baseUrl}/viagens/itinerario/${id}`);
   }

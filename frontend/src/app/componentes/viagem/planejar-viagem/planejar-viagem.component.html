@@ -25,29 +25,32 @@
     </div>
     <div class="sugestoes-container">      
 
-        <ng-container *ngIf="selectedTipo === tipoSugestaoEnum.ONDE_IR">
-            <app-itinerario-viagem [atividades]="itinerarioDaViagem" *ngIf="sugestoes.has(selectedTipo!)">
+        <ng-container *ngIf="selectedTipo === tipoSugestaoEnum.ONDE_IR">            
+            <app-itinerario-viagem [atividades]="itinerarioDaViagem" >
 
             </app-itinerario-viagem>
             <p-button label="Pedir Sugestão da IA" severity="success" (click)="gerarOpiniaoOndeIr(selectedTipo)"
                 class="button-margin"></p-button>
         </ng-container>
 
-         <ng-container *ngIf="selectedTipo !== tipoSugestaoEnum.ONDE_IR">
+         <ng-container *ngIf="selectedTipo !== tipoSugestaoEnum.ONDE_IR && sugestoes.has(selectedTipo!)">
             <app-sugestao-ia *ngIf="selectedTipo" [tipoSugestao]="selectedTipo"
                 [sugestao]="sugestoes.get(selectedTipo)" [id]="sugestoesIds.get(selectedTipo)">
             </app-sugestao-ia>
+             <p-button label="Salvar Sugestão" severity="success" (click)="salvarOpiniaoIA(sugestoes.get(selectedTipo))"
+                class="button-margin"></p-button>     
             
         </ng-container>
         <ng-container *ngIf="selectedTipo !== tipoSugestaoEnum.ONDE_IR && !sugestoes.has(selectedTipo!)">
             <p-button label="Pedir Sugestão da IA" severity="success" (click)="gerarOpiniao(selectedTipo)"
-                class="button-margin"></p-button>
+                class="button-margin"></p-button>             
         </ng-container>       
 
         <div class="col-12">
             
             <div *ngIf="atividades.length > 0">
-                <div *ngFor="let activity of atividades; let i = index" class="activity-card">
+
+                <div *ngFor="let activity of atividades; let i = index" class="activity-card">                    
                     <h3>{{ activity.nome }}</h3>
                     <p><strong>Orçamento:</strong> {{ activity.orcamento }}</p>
                     <p><strong>Duração:</strong> {{ activity.duracao }}</p>
@@ -60,9 +63,10 @@
                     </p-button>
                 </div>
             </div>
-
-            <!-- Show raw result ONLY when there are no parsed activities -->
-            <div *ngIf="atividades.length === 0 && resultado" [innerHTML]="resultado"></div>
+          
+            <div *ngIf="atividades.length === 0 && resultado" [innerHTML]="resultado">
+                
+            </div>
         </div>
     </div>
 

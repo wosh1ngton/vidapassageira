@@ -8,7 +8,7 @@ public class ItinerarioCreateDto {
     private String nome;
     private String descricao;
     private Double orcamento;
-    private Double duracao;
+    private String duracao;
     private String categoria;
     private String melhorHorario; 
     private Long idViagem;
