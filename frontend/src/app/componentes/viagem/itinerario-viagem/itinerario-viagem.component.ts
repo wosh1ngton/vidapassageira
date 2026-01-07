@@ -1,23 +1,34 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectorRef, Component, Input } from "@angular/core";
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from "@angular/core";
 import { ItinerarioResponseDto } from "../../../model/atividade-itinerario";
 import { FormsModule } from "@angular/forms";
 import { PrimeNgModule } from "../../../shared/prime.module";
-import { DialogService, DynamicDialogRef } from "primeng/dynamicdialog";
+import { DialogService, DynamicDialogInjector, DynamicDialogRef } from "primeng/dynamicdialog";
 import { ItinerarioFormComponent } from "./form-itinerario-viagem/form-itinerario-viagem.component";
+import { ConfirmationService, MessageService } from "primeng/api";
+import { ViagemService } from "../../../services/viagem.service";
+
 
 @Component({
     selector: 'app-itinerario-viagem',
     templateUrl: './itinerario-viagem.component.html',
     standalone: true,
-    imports: [CommonModule, FormsModule, PrimeNgModule]
+    imports: [CommonModule, FormsModule, PrimeNgModule],
+    providers: [ConfirmationService, MessageService]
 })
 export class ItinerarioViagemComponent {
 
     @Input() atividades: ItinerarioResponseDto[];
+    @Output() updatePagina = new EventEmitter<boolean>();
+   
     ref: DynamicDialogRef | undefined;
-
-    constructor(private dialogService: DialogService, private cdRef: ChangeDetectorRef) {
+    constructor(
+        private dialogService: DialogService, 
+        private cdRef: ChangeDetectorRef,
+        private messageService: MessageService,
+        private confirmationService: ConfirmationService,
+        private viagensService: ViagemService
+    ) {
 
     }
 
@@ -33,7 +44,42 @@ export class ItinerarioViagemComponent {
                 '640px': '90vw'
             },
         });
-        this.ref.onClose.subscribe(() => this.cdRef.detectChanges());
+        this.ref.onClose.subscribe((res) => {            
+            this.updatePagina.emit(true);            
+        });
         
     }
+
+    confirmarDelecao(id: number) {
+    this.confirmationService.confirm({          
+            //target: event.target as EventTarget,
+            message: 'Você tem certeza que deseja excluir este registro?',
+            header: 'Exclusão de Registro',
+            icon: 'pi pi-info-circle',
+            rejectLabel: 'Cancelar',
+            rejectButtonProps: {
+                label: 'Cancelar',
+                severity: 'secondary',
+                outlined: true,
+            },
+            acceptButtonProps: {
+                label: 'Excluir',
+                severity: 'danger',
+            },
+
+            accept: () => {
+                this.deletarItemItinerario(id);
+                this.messageService.add({ severity: 'info', summary: 'Confirmado', detail: 'Registro excluído' });
+            },
+            reject: () => {
+                this.messageService.add({ severity: 'error', summary: 'Cancelado', detail: 'Você cancelou a operação' });
+            },
+        });
+  }
+
+  deletarItemItinerario(id: number) {
+    this.viagensService.deletar(id).subscribe(() => {
+      this.updatePagina.emit(true);
+    });
+  }
 }

@@ -49,4 +49,8 @@ export class ViagemService {
   verificaSeItinerarioExiste(id: number): Observable<boolean> {
     return this.http.get<boolean>(`${this.baseUrl}/viagens/verifica-itinerario/${id}`);
   }
+
+   deletar(id: number) {
+    return this.http.delete(`${this.baseUrl}/viagens/itinerario/${id}`);
+  }
 }

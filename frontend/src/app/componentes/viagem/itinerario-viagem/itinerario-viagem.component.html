@@ -1,5 +1,6 @@
 <div class="col-12">
-    
+    <p-toast />
+    <p-confirmdialog />
     <div *ngIf="atividades.length > 0">
         <div *ngFor="let activity of atividades; let i = index" class="activity-card">
             <h3>{{ activity.nome }}</h3>
@@ -11,6 +12,10 @@
 
             <p-button (click)="editarItemItinerario(activity)" icon="pi pi-save" severity="success"
                 label="Editar Item">
+            </p-button>
+
+             <p-button (click)="confirmarDelecao(activity.id)" icon="pi pi-trash" severity="danger"
+                label="Excluir Item">
             </p-button>
         </div>
     </div>

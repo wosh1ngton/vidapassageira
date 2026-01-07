@@ -10,6 +10,7 @@ import br.com.vidapassageira.backend.dtos.itinerario.ItinerarioCreateDto;
 import br.com.vidapassageira.backend.dtos.itinerario.ItinerarioResponseDto;
 import br.com.vidapassageira.backend.dtos.viagem.ViagemCreateDTO;
 import br.com.vidapassageira.backend.dtos.viagem.ViagemResponseDTO;
+import br.com.vidapassageira.backend.exceptions.EntityNotFoundException;
 import br.com.vidapassageira.backend.mappers.ItinerarioViagemMapper;
 import br.com.vidapassageira.backend.mappers.ViagemMapper;
 import br.com.vidapassageira.backend.models.ItinerarioViagem;
@@ -87,5 +88,12 @@ public class ViagensService {
     public boolean verificaExistenciaItinerario(Long id) {
         boolean itinerarioDaViagem = this.itinerarioViagemRepository.existsByViagem_Id(id);
         return itinerarioDaViagem;
+    }
+
+    public void deletar(Long id) {
+        if (!itinerarioViagemRepository.existsById(id)) {
+            throw new EntityNotFoundException("Itinerário com ID " + id + " não encontrado.");
+        }
+        itinerarioViagemRepository.deleteById(id);
     }
 }

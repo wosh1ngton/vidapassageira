@@ -13,6 +13,8 @@ import { SugestaoIaComponent } from './sugestao-ia/sugestao-ia.component';
 import { MenuItem, MessageService } from 'primeng/api';
 import { AtividadeItinerario,  AtividadeItinerarioCreateDTO, ItinerarioResponseDto} from '../../../model/atividade-itinerario';
 import { ItinerarioViagemComponent } from "../itinerario-viagem/itinerario-viagem.component";
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { ItinerarioFormComponent } from '../itinerario-viagem/form-itinerario-viagem/form-itinerario-viagem.component';
 
 @Component({
   selector: 'app-planejar-viagem',
@@ -29,7 +31,8 @@ export class PlanejarViagemComponent implements OnInit {
     private router: Router,
     private viagemService: ViagemService,
     private sugestaoIaService: SugestaoIaService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private dialogService: DialogService
   ) {}
 
   rawResultado = '';
@@ -48,6 +51,8 @@ export class PlanejarViagemComponent implements OnInit {
   itinerarioDaViagem: ItinerarioResponseDto[] = [];
   menuSelecionado: string = 'Onde Ficar?';
   hasItinerario: boolean = false;
+  ref: DynamicDialogRef | undefined;
+
   setMenuSelecionado(label: string) {
     this.menuSelecionado = label;
     console.log('selecao: ', this.menuSelecionado);
@@ -118,6 +123,22 @@ export class PlanejarViagemComponent implements OnInit {
     
   }
 
+  adicionarItemItinerario(): void {
+    this.ref = this.dialogService.open(ItinerarioFormComponent, {
+        header: 'Adicionar item Itinerário',
+            width: '50vw',
+            modal:true,            
+            breakpoints: {
+                '960px': '75vw',
+                '640px': '90vw'
+            },
+    }) ;
+    this.ref.onClose.subscribe((res) => {
+      console.log('teste iii')
+      this.getOndeIr()
+    });
+  }
+
   getSugestaoByViagemId() {
     this.sugestaoIaService.findByViagemId(this.viagemId).subscribe((res) => {
       res.forEach((val) => {
@@ -137,7 +158,7 @@ export class PlanejarViagemComponent implements OnInit {
   getOndeIr() {
     this.viagemService.findOndeIrPorViagemId(this.viagemId).subscribe({
       next: (item) => {
-        this.itinerarioDaViagem = item;
+        this.itinerarioDaViagem = item.sort((a, b) => a.id - b.id);
         console.log(this.itinerarioDaViagem);
         return item;
       },

@@ -25,8 +25,11 @@
     </div>
     <div class="sugestoes-container">      
 
-        <ng-container *ngIf="selectedTipo === tipoSugestaoEnum.ONDE_IR">            
-            <app-itinerario-viagem [atividades]="itinerarioDaViagem" >
+        <ng-container *ngIf="selectedTipo === tipoSugestaoEnum.ONDE_IR">  
+            
+            <p-button label="Adicionar Item Itinerário" severity="success" (click)="adicionarItemItinerario()"
+                class="button-margin"></p-button>
+            <app-itinerario-viagem (updatePagina)="getOndeIr()" [atividades]="itinerarioDaViagem" >
 
             </app-itinerario-viagem>
             <p-button label="Pedir Sugestão da IA" severity="success" (click)="gerarOpiniaoOndeIr(selectedTipo)"
