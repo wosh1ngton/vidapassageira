@@ -89,6 +89,7 @@ export class DestinoComponent implements OnInit {
  
   
   planejarViagem(destino: DestinoResponseDTO) {
+    
     this.showPlanejarViagem = true;
     this.destinoViagem = destino;
   }

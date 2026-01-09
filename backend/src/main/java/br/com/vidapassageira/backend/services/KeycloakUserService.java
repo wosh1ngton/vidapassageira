@@ -1,5 +1,6 @@
 package br.com.vidapassageira.backend.services;
 
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,7 +16,6 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import br.com.vidapassageira.backend.dtos.usuario.UserRepresentation;
 
-
 @Service
 public class KeycloakUserService {
 
@@ -25,7 +25,7 @@ public class KeycloakUserService {
     @Value("${keycloak.realm}")
     private String realm;
 
-     @Value("${keycloak.target-realm}")
+    @Value("${keycloak.target-realm}")
     private String targetRealm;
 
     @Value("${keycloak.client-id}")
@@ -37,7 +37,7 @@ public class KeycloakUserService {
     @Value("${keycloak.password}")
     private String adminPassword;
 
-    public void createUser(String username, String email, String password) {
+    public String createUser(String username, String email, String password) {
         String token = getAdminAccessToken();
 
         HttpHeaders headers = new HttpHeaders();
@@ -51,7 +51,7 @@ public class KeycloakUserService {
 
         HttpEntity<Map<String, Object>> request = new HttpEntity<>(user, headers);
 
-        String url = serverUrl + "/admin/realms/" + targetRealm  + "/users";
+        String url = serverUrl + "/admin/realms/" + targetRealm + "/users";
 
         ResponseEntity<Void> response = new RestTemplate().postForEntity(url, request, Void.class);
 
@@ -60,6 +60,13 @@ public class KeycloakUserService {
         } else {
             throw new RuntimeException("Failed to create user in Keycloak");
         }
+        URI location = response.getHeaders().getLocation();
+        if (location == null) {
+            throw new RuntimeException("Keycloak did not return Location header");
+        }
+
+        String path = location.getPath();
+        return path.substring(path.lastIndexOf('/') + 1);
     }
 
     private String getAdminAccessToken() {
@@ -84,11 +91,11 @@ public class KeycloakUserService {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(token);
         headers.setContentType(MediaType.APPLICATION_JSON);
-    
+
         String searchUrl = serverUrl + "/admin/realms/" + targetRealm + "/users?username=" + username;
 
         ResponseEntity<UserRepresentation[]> response = new RestTemplate()
-            .exchange(searchUrl, HttpMethod.GET, new HttpEntity<>(headers), UserRepresentation[].class);
+                .exchange(searchUrl, HttpMethod.GET, new HttpEntity<>(headers), UserRepresentation[].class);
 
         UserRepresentation[] users = response.getBody();
         if (users == null || users.length == 0) {
@@ -96,7 +103,7 @@ public class KeycloakUserService {
         }
 
         String userId = users[0].getId();
-      
+
         Map<String, Object> passwordPayload = new HashMap<>();
         passwordPayload.put("type", "password");
         passwordPayload.put("value", password);
@@ -106,7 +113,6 @@ public class KeycloakUserService {
 
         HttpEntity<Map<String, Object>> request = new HttpEntity<>(passwordPayload, headers);
         new RestTemplate().put(resetUrl, request);
-}
-
+    }
 
 }

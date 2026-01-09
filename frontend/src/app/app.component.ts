@@ -8,6 +8,8 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { RegistroComponent } from './componentes/registro/registro.component';
 import { PrimeNgModule } from './shared/prime.module';
 import { MessageService } from 'primeng/api';
+import { UsuarioService } from './services/usuario.service';
+import { UsuarioDTO } from './model/usuario';
 
 @Component({
   selector: 'app-root',
@@ -26,7 +28,8 @@ export class AppComponent implements OnInit {
     private primeng: PrimeNG,
     private oauthService: OAuthService,
     private dialogService: DialogService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private usuarioService: UsuarioService
   ) {}
 
   async ngOnInit() {
@@ -65,13 +68,42 @@ export class AppComponent implements OnInit {
     this.oauthService.initCodeFlow();
   }
 
+
+
   getUserInfo() {
     const claims: any = this.oauthService.getIdentityClaims();
-
+ 
     if (claims) {
       this.usuario.email = claims['email'];
-      this.usuario.name = claims['name'];
+      this.usuario.username = claims['name'] || claims['preferred_username'];
+      this.usuario.id = claims['sub'];
+
+      this.usuarioService.verificaSeUsuarioExiste(this.usuario.id).subscribe((res) => {
+        if(!res) {
+          this.salvarNovoUsuario();
+        }
+      })
     }
+  }
+
+  salvarNovoUsuario() {
+    this.usuarioService.saveUsuarioAplicacao(this.usuario).subscribe({
+      next: (response) => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Sucesso',
+          detail: `Novo usuário criado`,
+        });
+      },
+      error: (error) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erro',
+          detail: `${error.error.message}`,
+        });
+      },
+    });
+   
   }
 
   logout() {

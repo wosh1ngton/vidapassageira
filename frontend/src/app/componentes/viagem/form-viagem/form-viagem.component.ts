@@ -5,6 +5,7 @@ import { DestinoCreateDTO, DestinoResponseDTO } from '../../../model/destino';
 import { Form, FormsModule } from '@angular/forms';
 import { ViagemService } from '../../../services/viagem.service';
 import { Dialog } from 'primeng/dialog';
+import { OAuthService } from 'angular-oauth2-oidc';
 
 @Component({
   selector: 'app-form-viagem',
@@ -16,7 +17,7 @@ import { Dialog } from 'primeng/dialog';
 export class FormViagemComponent {
   private _destinoParaViajar?: DestinoResponseDTO;
   @Output() closeDialog = new EventEmitter<void>();
-
+  usuario: any = {};
 
   destino: DestinoResponseDTO = {
     id: 0,
@@ -30,10 +31,11 @@ export class FormViagemComponent {
     dataIda: new Date(),
     dataVolta: new Date(),
     idDestino: 0,
-    id: 0
+    id: 0,
+    sub: ''
   };
 
-  constructor(private viagemService: ViagemService) {}
+  constructor(private viagemService: ViagemService, private oauthService: OAuthService) {}
 
   @Input()
   set destinoParaViagem(value: DestinoResponseDTO | undefined) {
@@ -59,13 +61,24 @@ export class FormViagemComponent {
     }
   }
 
+  getUserInfo() {
+    const claims: any = this.oauthService.getIdentityClaims();
+
+    if (claims) {
+      this.usuario.email = claims['email'];
+      this.usuario.name = claims['name'] || claims['preferred_username'];
+      this.usuario.sub = claims['sub']
+    }
+  }
  
 
   salvar() {
+    this.getUserInfo();
     this.cadastrar();
   }
 
   cadastrar() {
+    this.viagem.sub = this.usuario.sub;
     this.viagemService.save(this.viagem).subscribe({
       next: (response) => {        
         console.log(response);

@@ -199,8 +199,7 @@ export class PlanejarViagemComponent implements OnInit {
   gerarOpiniaoOndeIr(tipoSugestao: TipoSugestaoIaEnum | undefined) {
     
     this.selectedTipo = tipoSugestao;
-    this.rawResultado = '';
-    // this.tipoSugestaoSelected = tipoSugestao;
+    this.rawResultado = '';   
     this.atividades = [];
     const tipoSugestaoName = TipoSugestaoIaEnum[tipoSugestao!];
     

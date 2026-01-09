@@ -5,6 +5,7 @@ export interface ViagemCreateDTO {
     dataIda: Date;
     dataVolta: Date;
     idDestino: number;
+    sub: string;
 }
 
 export interface ViagemResponseDTO {  

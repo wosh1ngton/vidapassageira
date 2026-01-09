@@ -3,3 +3,10 @@ export interface UsuarioCreateDTO {
   email: string;
   password: string;
 }
+
+
+export interface UsuarioDTO {
+  username: string;
+  email: string;
+  keycloakId: string;
+}

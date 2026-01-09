@@ -14,8 +14,10 @@ import br.com.vidapassageira.backend.exceptions.EntityNotFoundException;
 import br.com.vidapassageira.backend.mappers.ItinerarioViagemMapper;
 import br.com.vidapassageira.backend.mappers.ViagemMapper;
 import br.com.vidapassageira.backend.models.ItinerarioViagem;
+import br.com.vidapassageira.backend.models.Usuario;
 import br.com.vidapassageira.backend.models.Viagem;
 import br.com.vidapassageira.backend.repositories.ItinerarioViagemRepository;
+import br.com.vidapassageira.backend.repositories.UsuarioRepository;
 import br.com.vidapassageira.backend.repositories.ViagemRepository;
 
 @Service
@@ -24,18 +26,42 @@ public class ViagensService {
     @Autowired
     private ViagemRepository viagemRepository;
 
+    @Autowired 
+    private UsuarioRepository usuarioRepository;
+
+
     @Autowired
     private ItinerarioViagemRepository itinerarioViagemRepository;
 
     public ViagemCreateDTO cadastrar(ViagemCreateDTO viagemCreateDTO) {
         
         Viagem viagem = ViagemMapper.INSTANCE.toEntity(viagemCreateDTO);
+        Usuario user = usuarioRepository.findByKeyCloakId(viagemCreateDTO.getSub());
+        viagem.setUsuario(user);
         this.viagemRepository.save(viagem);
         return ViagemMapper.INSTANCE.toDto(viagem);
     }
 
     public List<ViagemResponseDTO> listar() {
         List<Viagem> viagens = this.viagemRepository.findAll();        
+        List<ViagemResponseDTO> viagensDto = viagens.stream().map(viagem -> {
+            ViagemResponseDTO viagemDTO = ViagemMapper.INSTANCE.toResponseDTO(viagem);
+            if (viagem.getDestino().getImagem() != null) {
+                String base64 = java.util.Base64.getEncoder().encodeToString(viagem.getDestino().getImagem());
+                viagemDTO.getDestino().setImagemBase64("data:image/jpeg;base64," + base64);
+            }
+            return viagemDTO;
+        }).toList();
+
+        return viagensDto;
+
+    }
+
+    public List<ViagemResponseDTO> listarPorUsuario(String keyCloakId) {
+
+        Usuario usuario = usuarioRepository.findByKeyCloakId(keyCloakId);
+        List<Viagem> viagens = this.viagemRepository.findAllByUsuario_Id(usuario.getId());
+                
         List<ViagemResponseDTO> viagensDto = viagens.stream().map(viagem -> {
             ViagemResponseDTO viagemDTO = ViagemMapper.INSTANCE.toResponseDTO(viagem);
             if (viagem.getDestino().getImagem() != null) {

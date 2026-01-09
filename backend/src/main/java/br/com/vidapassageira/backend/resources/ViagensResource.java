@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +20,7 @@ import br.com.vidapassageira.backend.dtos.itinerario.ItinerarioCreateDto;
 import br.com.vidapassageira.backend.dtos.itinerario.ItinerarioResponseDto;
 import br.com.vidapassageira.backend.dtos.viagem.ViagemCreateDTO;
 import br.com.vidapassageira.backend.dtos.viagem.ViagemResponseDTO;
+import br.com.vidapassageira.backend.services.UsuarioService;
 import br.com.vidapassageira.backend.services.ViagensService;
 
 @RestController
@@ -33,8 +36,12 @@ public class ViagensResource {
     }
 
     @GetMapping
-    public ResponseEntity<List<ViagemResponseDTO>> listar() {
-        return ResponseEntity.ok(viagensService.listar());
+    public ResponseEntity<List<ViagemResponseDTO>> listar(@AuthenticationPrincipal Jwt jwt) {
+        String keycloakId = jwt.getSubject();
+
+        return ResponseEntity.ok(
+            viagensService.listarPorUsuario(keycloakId)
+        );        
     }
 
     @GetMapping("/{id}")

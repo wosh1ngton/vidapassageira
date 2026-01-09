@@ -9,4 +9,5 @@ public class ViagemCreateDTO {
     private LocalDate dataIda;
     private LocalDate dataVolta;
     private Long idDestino;
+    private String sub;
 }

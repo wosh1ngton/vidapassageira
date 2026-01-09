@@ -32,4 +32,8 @@ public class Viagem {
 
     @Column(name = "DT_VOLTA")
     private LocalDate dataVolta;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "ID_USUARIO")
+    private Usuario usuario;
 }

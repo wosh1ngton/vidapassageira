@@ -14,11 +14,13 @@ public interface ViagemMapper {
 
     ViagemMapper INSTANCE = Mappers.getMapper(ViagemMapper.class);
 
+    @Mapping(target = "usuario", ignore = true)
     @Mapping(target = "id", ignore = true)
     @Mapping(source = "idDestino", target = "destino.id")
     Viagem toEntity(ViagemCreateDTO dto);
 
     @Mapping(source = "destino.id", target = "idDestino")
+    @Mapping(target = "sub", ignore = true)
     ViagemCreateDTO toDto(Viagem entity);
 
     @Mapping(target = "destino.imagemBase64", ignore = true)
