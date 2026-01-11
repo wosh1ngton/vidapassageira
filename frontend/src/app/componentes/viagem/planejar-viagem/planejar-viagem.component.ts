@@ -15,6 +15,7 @@ import { AtividadeItinerario,  AtividadeItinerarioCreateDTO, ItinerarioResponseD
 import { ItinerarioViagemComponent } from "../itinerario-viagem/itinerario-viagem.component";
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ItinerarioFormComponent } from '../itinerario-viagem/form-itinerario-viagem/form-itinerario-viagem.component';
+import { DateUtil } from '../../../shared/util/date-util';
 
 @Component({
   selector: 'app-planejar-viagem',
@@ -246,6 +247,7 @@ export class PlanejarViagemComponent implements OnInit {
       orcamento: '',
       duracao: '',
       categoria: '',
+      dia: null,
       descricao: '',
       melhorHorario: '',
     };
@@ -255,7 +257,7 @@ export class PlanejarViagemComponent implements OnInit {
         const [key, ...valueParts] = linha.split(':');
         const value = valueParts.join(':').trim();
 
-        switch (key.trim()) {
+        switch (key.trim().replace("*", "")) {
           case 'Passeio':
             item.nome = value;
             break;
@@ -267,6 +269,9 @@ export class PlanejarViagemComponent implements OnInit {
             break;
           case 'Categoria':
             item.categoria = value;
+            break;
+          case 'Dia':
+            item.dia = DateUtil.dateConstructor(value);
             break;
           case 'Descrição':
             item.descricao = value;
@@ -288,6 +293,7 @@ export class PlanejarViagemComponent implements OnInit {
       duracao: item.duracao,
       descricao: item.descricao,
       categoria: item.categoria,
+      dia: item.dia,
       melhorHorario: item.melhorHorario,
       idViagem: this.viagemId,
     };

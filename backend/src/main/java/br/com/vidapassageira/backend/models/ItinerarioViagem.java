@@ -2,6 +2,8 @@ package br.com.vidapassageira.backend.models;
 
 
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -37,6 +39,9 @@ public class ItinerarioViagem {
 
     @Column(name = "NM_CATEGORIA")
     private String categoria;
+
+    @Column(name = "DT_PASSEIO")
+    private LocalDate dia;
 
     @Column(name = "DS_MELHOR_HORARIO")
     private String melhorHorario; 

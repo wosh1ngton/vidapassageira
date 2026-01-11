@@ -3,6 +3,7 @@ export interface AtividadeItinerario {
     orcamento: string;
     duracao: string;
     categoria: string;
+    dia: Date;
     descricao: string;
     melhorHorario: string;
 }
@@ -14,6 +15,7 @@ export interface AtividadeItinerarioCreateDTO {
     orcamento: number;
     duracao: string;
     categoria: string;
+    dia: Date;
     melhorHorario: string;
     idViagem: number;
 }
@@ -24,6 +26,7 @@ export interface ItinerarioResponseDto {
     descricao: string;
     orcamento: string;
     categoria: string;
+    dia: Date;
     duracaoHoras: string;
     melhorHorario: string;
 }

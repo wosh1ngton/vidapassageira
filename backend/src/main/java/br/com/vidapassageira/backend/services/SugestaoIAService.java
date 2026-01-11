@@ -37,6 +37,7 @@ public class SugestaoIAService {
                      Orçamento: R$ 100,00 \n
                      Duração: Parte da manhã do primeiro dia da viagem dia (24) \n
                      Categoria: Ponto Turístico \n
+                     Dia: 24/01/2026 \n
                      Descrição: O Cristo Redentor possui uma bela vista e é um dos pontos turísticos mais visitados.... \n
                      Melhor horário: geralmente no período da tarde \n
 

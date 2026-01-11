@@ -70,6 +70,7 @@ export class ItinerarioFormComponent implements OnInit {
       duracao: this.config.data.duracao,
       melhorHorario: this.config.data.melhorHorario,
       categoria: this.config.data.categoria,
+      dia: this.config.data.dia,
       descricao: this.config.data.descricao,
     };
   }
