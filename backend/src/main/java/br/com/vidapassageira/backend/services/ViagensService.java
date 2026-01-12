@@ -61,7 +61,7 @@ public class ViagensService {
 
         Usuario usuario = usuarioRepository.findByKeyCloakId(keyCloakId);
         List<Viagem> viagens = this.viagemRepository.findAllByUsuario_Id(usuario.getId());
-                
+
         List<ViagemResponseDTO> viagensDto = viagens.stream().map(viagem -> {
             ViagemResponseDTO viagemDTO = ViagemMapper.INSTANCE.toResponseDTO(viagem);
             if (viagem.getDestino().getImagem() != null) {
@@ -121,5 +121,12 @@ public class ViagensService {
             throw new EntityNotFoundException("Itinerário com ID " + id + " não encontrado.");
         }
         itinerarioViagemRepository.deleteById(id);
+    }
+
+    public Integer marcarComoConcluido(Long id) {
+        if (!itinerarioViagemRepository.existsById(id)) {
+            throw new EntityNotFoundException("Itinerário com ID " + id + " não encontrado.");
+        }
+        return itinerarioViagemRepository.marcarComoConcluido(id);
     }
 }

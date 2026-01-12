@@ -1,7 +1,8 @@
 :root {
-    --cor-primaria: rgb(42, 125, 128);
+    --cor-primaria: #819d6a;
     --cor-secundaria: antiquewhite;
     --font-primaria: sans-serif;
+    --p-button-primary-background:#819d6a;
 }
 body {
     font-family: var(--font-primaria);    

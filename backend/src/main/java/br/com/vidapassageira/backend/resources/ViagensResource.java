@@ -74,4 +74,12 @@ public class ViagensResource {
         viagensService.deletar(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/itinerario/marcar-visita/{id}")
+    public ResponseEntity<Void> marcarComoVisitado(@PathVariable Long id) {
+        viagensService.marcarComoConcluido(id);
+        return ResponseEntity.ok().build();
+    }
+
+    
 }

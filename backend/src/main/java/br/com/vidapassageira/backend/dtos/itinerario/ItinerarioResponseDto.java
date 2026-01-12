@@ -1,5 +1,5 @@
 package br.com.vidapassageira.backend.dtos.itinerario;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import lombok.Data;
 
@@ -10,7 +10,8 @@ public class ItinerarioResponseDto {
     private String descricao;
     private Double orcamento;
     private String categoria;    
-    private LocalDate dia;
+    private LocalDateTime dia;
     private String duracao;
     private String melhorHorario; 
+    private Boolean itinerarioConcluido;
 }

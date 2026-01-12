@@ -17,6 +17,7 @@ import { AtividadeItinerarioCreateDTO } from '../../../../model/atividade-itiner
 import { ActivatedRoute, Router } from '@angular/router';
 import { ViagemService } from '../../../../services/viagem.service';
 import { MessageService } from 'primeng/api';
+import { DateUtil } from '../../../../shared/util/date-util';
 
 @Component({
   selector: 'app-form-itinerario-viagem',
@@ -27,6 +28,7 @@ export class ItinerarioFormComponent implements OnInit {
   atividadeForm!: FormGroup;
 
   itinerario: AtividadeItinerarioCreateDTO;
+  datetime24h: Date[] | undefined;
 
   categorias = [
     { label: 'Praia', value: 'Praia' },
@@ -49,6 +51,10 @@ export class ItinerarioFormComponent implements OnInit {
   ngOnInit(): void {
     if (this.config.data != null) {
       this.getItinerarioEmEdicao();
+      if (this.itinerario?.dia) {
+        this.itinerario.dia = DateUtil.isoToLocalDate(this.itinerario.dia.toString());
+      }
+      console.log(this.itinerario);
     }
 
     this.atividadeForm = this.fb.group({
@@ -56,6 +62,7 @@ export class ItinerarioFormComponent implements OnInit {
       orcamento: [this.itinerario?.orcamento, [Validators.required]],
       duracao: [this.itinerario?.duracao, Validators.required],
       categoria: [this.itinerario?.categoria, Validators.required],
+      dia: [this.itinerario?.dia, Validators.required],
       descricao: [this.itinerario?.descricao, Validators.required],
       melhorHorario: [this.itinerario?.melhorHorario, Validators.required],
     });
@@ -87,7 +94,7 @@ export class ItinerarioFormComponent implements OnInit {
       id: this.config?.data?.id ?? null,
     };
     if (this.atividadeForm.valid) {
-      if(this.itinerario.id) {        
+      if (this.itinerario.id) {
         this.editarItinerario();
       } else {
         this.criarItinerario();
@@ -97,6 +104,7 @@ export class ItinerarioFormComponent implements OnInit {
   }
 
   private editarItinerario() {
+    console.log('quebrado ', this.itinerario)
     this.viagensService.editarItemItinerario(this.itinerario).subscribe({
       next: (val) => {
         this.messageService.add({
@@ -116,8 +124,7 @@ export class ItinerarioFormComponent implements OnInit {
     });
   }
 
-
-   private criarItinerario() {
+  private criarItinerario() {
     this.viagensService.salvarItemItinerario(this.itinerario).subscribe({
       next: (val) => {
         this.messageService.add({

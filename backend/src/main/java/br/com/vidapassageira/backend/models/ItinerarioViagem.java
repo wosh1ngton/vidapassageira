@@ -3,6 +3,7 @@ package br.com.vidapassageira.backend.models;
 
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -41,7 +42,7 @@ public class ItinerarioViagem {
     private String categoria;
 
     @Column(name = "DT_PASSEIO")
-    private LocalDate dia;
+    private LocalDateTime dia;
 
     @Column(name = "DS_MELHOR_HORARIO")
     private String melhorHorario; 
@@ -49,5 +50,8 @@ public class ItinerarioViagem {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ID_VIAGEM")
     private Viagem viagem;
+
+    @Column(name = "FG_REALIZADO")
+    private Boolean itinerarioConcluido;
 
 }

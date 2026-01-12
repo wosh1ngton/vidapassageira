@@ -21,16 +21,20 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              },
-              {
-                "input": "src",
-                "output": "/",
-                "glob": "silent-refresh.html"
-              }
-
+                {
+                  "glob": "**/*",
+                  "input": "public"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "src/assets",
+                  "output": "assets"
+                },
+                {
+                  "glob": "silent-refresh.html",
+                  "input": "src",
+                  "output": "/"
+                }
             ],
             "styles": [
               "node_modules/primeicons/primeicons.css",

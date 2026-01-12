@@ -53,4 +53,8 @@ export class ViagemService {
    deletar(id: number) {
     return this.http.delete(`${this.baseUrl}/viagens/itinerario/${id}`);
   }
+
+   marcarConcluido(id: number) {
+    return this.http.get(`${this.baseUrl}/viagens/itinerario/marcar-visita/${id}`);
+  }
 }

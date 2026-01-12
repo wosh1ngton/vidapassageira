@@ -6,21 +6,44 @@ import { PrimeNgModule } from '../../../shared/prime.module';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ViagemResponseDTO } from '../../../model/viagem';
 import { ViagemService } from '../../../services/viagem.service';
-import {  SugestaoIaCreateDTO,  SugestaoIaResponseDTO} from '../../../model/sugestao-ia';
+import {
+  SugestaoIaCreateDTO,
+  SugestaoIaResponseDTO,
+} from '../../../model/sugestao-ia';
 import { TipoSugestaoIaEnum } from '../../../model/enums/TipoSugestaoIA.enum';
 import { SugestaoIaService } from '../../../services/sugestao-ia.service';
 import { SugestaoIaComponent } from './sugestao-ia/sugestao-ia.component';
 import { MenuItem, MessageService } from 'primeng/api';
-import { AtividadeItinerario,  AtividadeItinerarioCreateDTO, ItinerarioResponseDto} from '../../../model/atividade-itinerario';
-import { ItinerarioViagemComponent } from "../itinerario-viagem/itinerario-viagem.component";
+import {
+  AtividadeItinerario,
+  AtividadeItinerarioCreateDTO,
+  ItinerarioResponseDto,
+} from '../../../model/atividade-itinerario';
+import { ItinerarioViagemComponent } from '../itinerario-viagem/itinerario-viagem.component';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ItinerarioFormComponent } from '../itinerario-viagem/form-itinerario-viagem/form-itinerario-viagem.component';
 import { DateUtil } from '../../../shared/util/date-util';
 
+export interface EventItem {
+  status?: string;
+  date?: string;
+  icon?: string;
+  color?: string;
+  image?: string;
+  descricao?: string;
+  itinerarioConcluido: boolean;
+  id: number;
+}
 @Component({
   selector: 'app-planejar-viagem',
   standalone: true,
-  imports: [CommonModule, MarkdownModule, PrimeNgModule, SugestaoIaComponent, ItinerarioViagemComponent],
+  imports: [
+    CommonModule,
+    MarkdownModule,
+    PrimeNgModule,
+    SugestaoIaComponent,
+    ItinerarioViagemComponent,
+  ],
   templateUrl: './planejar-viagem.component.html',
   styleUrl: './planejar-viagem.component.css',
 })
@@ -36,6 +59,7 @@ export class PlanejarViagemComponent implements OnInit {
     private dialogService: DialogService
   ) {}
 
+  events: EventItem[] = [];
   rawResultado = '';
   viagemId: any = {};
   viagem: ViagemResponseDTO | undefined;
@@ -53,6 +77,7 @@ export class PlanejarViagemComponent implements OnInit {
   menuSelecionado: string = 'Onde Ficar?';
   hasItinerario: boolean = false;
   ref: DynamicDialogRef | undefined;
+ 
 
   setMenuSelecionado(label: string) {
     this.menuSelecionado = label;
@@ -60,21 +85,19 @@ export class PlanejarViagemComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.activatedRoute.paramMap.subscribe((params:any) => {
+    this.activatedRoute.paramMap.subscribe((params: any) => {
       this.viagemId = params.get('id');
       this.getViagemById();
       this.getSugestaoByViagemId();
       this.verificaExistenciaItinerarioDaViagem();
     });
     if (!this.selectedTipo) {
-      this.selectedTipo = TipoSugestaoIaEnum.ONDE_FICAR;     
+      this.selectedTipo = TipoSugestaoIaEnum.ONDE_FICAR;
     }
     this.inicializarMenu();
-   
   }
 
-
-  isMenuActive(label: string): boolean {   
+  isMenuActive(label: string): boolean {
     return this.menuSelecionado === label;
   }
 
@@ -102,7 +125,7 @@ export class PlanejarViagemComponent implements OnInit {
         command: () => {
           this.selectTipo(this.tipoSugestaoEnum.ONDE_IR);
           this.setMenuSelecionado('Onde Ir?');
-          if(this.hasItinerario) {            
+          if (this.hasItinerario) {
             this.getOndeIr();
           }
         },
@@ -118,25 +141,25 @@ export class PlanejarViagemComponent implements OnInit {
     ];
   }
 
-  verificaExistenciaItinerarioDaViagem(): void {    
-    this.viagemService.verificaSeItinerarioExiste(this.viagemId)
-      .subscribe(value => this.hasItinerario = value);
-    
+  verificaExistenciaItinerarioDaViagem(): void {
+    this.viagemService
+      .verificaSeItinerarioExiste(this.viagemId)
+      .subscribe((value) => (this.hasItinerario = value));
   }
 
   adicionarItemItinerario(): void {
     this.ref = this.dialogService.open(ItinerarioFormComponent, {
-        header: 'Adicionar item Itinerário',
-            width: '50vw',
-            modal:true,            
-            breakpoints: {
-                '960px': '75vw',
-                '640px': '90vw'
-            },
-    }) ;
+      header: 'Adicionar item Itinerário',
+      width: '50vw',
+      modal: true,
+      breakpoints: {
+        '960px': '75vw',
+        '640px': '90vw',
+      },
+    });
     this.ref.onClose.subscribe((res) => {
-      console.log('teste iii')
-      this.getOndeIr()
+      console.log('teste iii');
+      this.getOndeIr();
     });
   }
 
@@ -158,9 +181,26 @@ export class PlanejarViagemComponent implements OnInit {
 
   getOndeIr() {
     this.viagemService.findOndeIrPorViagemId(this.viagemId).subscribe({
-      next: (item) => {
-        this.itinerarioDaViagem = item.sort((a, b) => a.id - b.id);
-        console.log(this.itinerarioDaViagem);
+
+      next: (item: ItinerarioResponseDto[]) => {
+        this.itinerarioDaViagem = item.map((item: ItinerarioResponseDto) => {
+            this.events.push({
+              id: item.id,
+              status: `${item.nome} - ${item.categoria}`, 
+              date: new Date(item.dia).toISOString(), 
+              icon: '', 
+              color: '', 
+              image: '' ,
+              descricao: item.descricao,
+              itinerarioConcluido: item.itinerarioConcluido
+            })
+            
+            return item;
+        }).sort((a, b) => {
+          return new Date(a.dia).getDate() - new Date(b.dia).getDate();
+        });
+        this.events = this.events.sort((a, b) => new Date(a.date).getDate() - new Date(b.date).getDate());
+        console.log(this.events);
         return item;
       },
       error: (err) => {
@@ -198,12 +238,11 @@ export class PlanejarViagemComponent implements OnInit {
   }
 
   gerarOpiniaoOndeIr(tipoSugestao: TipoSugestaoIaEnum | undefined) {
-    
     this.selectedTipo = tipoSugestao;
-    this.rawResultado = '';   
+    this.rawResultado = '';
     this.atividades = [];
     const tipoSugestaoName = TipoSugestaoIaEnum[tipoSugestao!];
-    
+
     this.iaService
       .gerarOpiniaoStream(this.viagemId, tipoSugestaoName)
       .subscribe({
@@ -257,7 +296,7 @@ export class PlanejarViagemComponent implements OnInit {
         const [key, ...valueParts] = linha.split(':');
         const value = valueParts.join(':').trim();
 
-        switch (key.trim().replace("*", "")) {
+        switch (key.trim().replace('*', '')) {
           case 'Passeio':
             item.nome = value;
             break;

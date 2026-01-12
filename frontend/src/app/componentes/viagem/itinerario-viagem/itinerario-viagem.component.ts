@@ -7,6 +7,8 @@ import { DialogService, DynamicDialogInjector, DynamicDialogRef } from "primeng/
 import { ItinerarioFormComponent } from "./form-itinerario-viagem/form-itinerario-viagem.component";
 import { ConfirmationService, MessageService } from "primeng/api";
 import { ViagemService } from "../../../services/viagem.service";
+import { EventItem } from "../planejar-viagem/planejar-viagem.component";
+
 
 
 @Component({
@@ -19,9 +21,12 @@ import { ViagemService } from "../../../services/viagem.service";
 export class ItinerarioViagemComponent {
 
     @Input() atividades: ItinerarioResponseDto[];
+    @Input() eventosItinerario: EventItem[];
     @Output() updatePagina = new EventEmitter<boolean>();
-   
+    
+
     ref: DynamicDialogRef | undefined;
+
     constructor(
         private dialogService: DialogService, 
         private cdRef: ChangeDetectorRef,
@@ -81,5 +86,28 @@ export class ItinerarioViagemComponent {
     this.viagensService.deletar(id).subscribe(() => {
       this.updatePagina.emit(true);
     });
+  }
+
+  marcarComoVisitado(id: number) {
+    this.viagensService.marcarConcluido(id)
+        .subscribe({
+            next: (val) => {
+                this.messageService.add({
+                    severity: 'success', 
+                    summary: 'Sucesso', 
+                    detail:`Marcado como concluído`
+                });
+                this.updatePagina.emit(true);
+            },
+            error: (err) => {
+                this.messageService.add({ 
+                    severity: 'error', 
+                    summary: 'Erro', 
+                    detail:`Ocorreu um erro ao marcar como concluído`
+                })
+            }            
+            
+        });
+       
   }
 }

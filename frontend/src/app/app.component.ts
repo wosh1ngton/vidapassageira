@@ -23,6 +23,7 @@ export class AppComponent implements OnInit {
   title = 'frontend';
   usuario: any = {};
   dialogCadastroUsuarioRef: DynamicDialogRef | undefined;
+  menuVisible = false;
 
   constructor(
     private primeng: PrimeNG,
@@ -36,23 +37,21 @@ export class AppComponent implements OnInit {
     this.primeng.ripple.set(true);
     this.oauthService.configure(authCodeFlowConfig);
     this.oauthService.setupAutomaticSilentRefresh();
+    this.menuVisible = localStorage.getItem('menu') !== 'closed';
 
     try {
-
       await this.oauthService.loadDiscoveryDocumentAndTryLogin();
       if (this.oauthService.hasValidAccessToken()) {
         this.getUserInfo();
       } else {
-       
         if (this.oauthService.state && location.hash.includes('error=')) {
-          console.error('Erro de autenticação:', location.hash);          
+          console.error('Erro de autenticação:', location.hash);
         }
       }
     } catch (error) {
-      console.error('OAuth initialization error:', error);      
+      console.error('OAuth initialization error:', error);
     }
 
-    
     this.oauthService.events.subscribe((event) => {
       if (event.type === 'token_received') {
         console.log('Novo token recebido');
@@ -64,25 +63,30 @@ export class AppComponent implements OnInit {
     });
   }
 
+  toggleMenu() {
+    this.menuVisible = !this.menuVisible;
+    localStorage.setItem('menu', this.menuVisible ? 'open' : 'closed');
+  }
+  
   login() {
     this.oauthService.initCodeFlow();
   }
 
-
-
   getUserInfo() {
     const claims: any = this.oauthService.getIdentityClaims();
- 
+
     if (claims) {
       this.usuario.email = claims['email'];
       this.usuario.username = claims['name'] || claims['preferred_username'];
       this.usuario.id = claims['sub'];
 
-      this.usuarioService.verificaSeUsuarioExiste(this.usuario.id).subscribe((res) => {
-        if(!res) {
-          this.salvarNovoUsuario();
-        }
-      })
+      this.usuarioService
+        .verificaSeUsuarioExiste(this.usuario.id)
+        .subscribe((res) => {
+          if (!res) {
+            this.salvarNovoUsuario();
+          }
+        });
     }
   }
 
@@ -103,7 +107,6 @@ export class AppComponent implements OnInit {
         });
       },
     });
-   
   }
 
   logout() {

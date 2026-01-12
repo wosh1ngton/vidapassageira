@@ -27,6 +27,13 @@
         </p-dropdown>
     </div>
 
+    <div class="field col-12">
+        <label for="categoria">Dia e Hora</label>
+        <p-datepicker class="w-full" inputId="calendar-24h"  appendTo="body" formControlName="dia" id="dia"
+         [showTime]="true" [hourFormat]="24" />
+
+    </div>
+
     <!-- Melhor horário -->
     <div class="field col-12">
         <label for="melhorHorario">Melhor horário</label>
@@ -48,7 +55,8 @@
             </p-button>
         </div>
         <div class="col-6 col-offset-3">
-            <p-button label="Salvar" icon="pi pi-check" (onClick)="salvar(atividadeForm)" [disabled]="atividadeForm.invalid">
+            <p-button label="Salvar" icon="pi pi-check" (onClick)="salvar(atividadeForm)"
+                [disabled]="atividadeForm.invalid">
             </p-button>
         </div>
 

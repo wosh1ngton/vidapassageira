@@ -16,37 +16,54 @@
 </ng-container>
 
 <ng-container *ngIf="token">
-  <div class="layout-wrapper">
-    <!-- HEADER -->
-    <header class="app-header flex justify-content-between align-items-center px-4 py-3 surface-200">
-      <h2 class="m-0"> <i> VidaPassageira </i></h2>
-      <div class="flex align-items-center gap-2"> 
-        <span *ngIf="usuario" class="user-name-span text-primary"> {{ usuario.username }} </span>
-        <p-button [text]="true" icon="pi pi-sign-out" 
-          (click)="logout()"> </p-button>
+  <div>
+    
+    <header class="app-header flex justify-content-between align-items-center px-3 py-2">
+      <div class="logo-container">
+        <p-button [text]="true" icon="pi pi-bars" size="small" class="mt-5" (click)="toggleMenu()">
+        </p-button>
+        <img src="assets/imagens/logo.png" alt="VidaPassageira logo" class="logo">
+      </div>
+
+      <div class="flex align-items-center gap-2">
+        <span *ngIf="usuario"> {{ usuario.username.split(" ")[0] }} </span> |
+        <p-button [text]="true" icon="pi pi-sign-out" severity="secondary" (click)="logout()"> </p-button>
       </div>
     </header>
 
-    <!-- MAIN CONTENT -->
-    <div class="grid">
-      <!-- SIDEBAR MENU -->
-      <div class="md:col-3 lg:col-2 p-3">
-        <p-panel header="Menu">
-          <ul class="list-none p-0 m-0">
-            <li class="mb-2">
-              <a routerLink="viagens" class="text-primary hover:underline">Viagens</a>
-            </li>
-            <li class="mb-2">
-              <a routerLink="destinos" class="text-primary hover:underline">Destinos</a>
-            </li>
-          </ul>
-        </p-panel>
-      </div>
+    <div class="grid h-full">
 
-      <!-- ROUTED VIEW -->
-      <div class="md:col-9 lg:col-10 p-3">
+      <!-- SIDE MENU -->
+      <p-sidebar [(visible)]="menuVisible" position="left" 
+      [showCloseIcon]="false" 
+        styleClass="sidebar-menu">
+
+        <h3 class="mb-2">Menu</h3>
+
+        <ul class="list-none p-0 m-0">
+          <li class="mb-2">
+            <a routerLink="viagens" class="menu-link">Viagens</a>
+          </li>
+          <li class="mb-2">
+            <a routerLink="destinos" class="menu-link">Destinos</a>
+          </li>
+        </ul>
+      </p-sidebar>
+
+      <!-- MAIN CONTENT -->
+      <div class="col transition-all" [ngClass]="{ 'ml-16': !menuVisible, 'ml-64': menuVisible }">
+
+        
+
         <router-outlet></router-outlet>
       </div>
+
     </div>
+
   </div>
+
+
+
+
+
 </ng-container>

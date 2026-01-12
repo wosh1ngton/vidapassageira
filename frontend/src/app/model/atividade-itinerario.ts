@@ -29,4 +29,5 @@ export interface ItinerarioResponseDto {
     dia: Date;
     duracaoHoras: string;
     melhorHorario: string;
+    itinerarioConcluido: boolean;
 }

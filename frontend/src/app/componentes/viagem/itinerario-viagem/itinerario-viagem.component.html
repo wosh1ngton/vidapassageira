@@ -1,23 +1,54 @@
 <div class="col-12">
+
+
+    <div class="card">
+
+    </div>
+
     <p-toast />
     <p-confirmdialog />
-    <div *ngIf="atividades.length > 0">
-        <div *ngFor="let activity of atividades; let i = index" class="activity-card">
-            <h3>{{ activity.nome }}</h3>
-            <p><strong>Orçamento:</strong> {{ activity.orcamento }}</p>
-            <p><strong>Duração:</strong> {{ activity.duracao }}</p>
-            <p><strong>Categoria:</strong> {{ activity.categoria }}</p>
-            <p><strong>Dia:</strong> {{ activity.dia | date: 'dd/MM/yyyy'}}</p>
-            <p><strong>Descrição:</strong> {{ activity.descricao }}</p>
-            <p><strong>Melhor horário:</strong> {{ activity.melhorHorario }}</p>
+    <div class="card" *ngIf="atividades.length > 0">
 
-            <p-button (click)="editarItemItinerario(activity)" icon="pi pi-save" severity="success"
-                label="Editar Item">
-            </p-button>
 
-             <p-button (click)="confirmarDelecao(activity.id)" icon="pi pi-trash" severity="danger"
-                label="Excluir Item">
-            </p-button>
-        </div>
+        <p-timeline [value]="atividades" align="alternate" class="customized-timeline">
+            <ng-template #marker let-event>
+                <span class="flex w-8 h-8 items-center justify-center rounded-full z-10 shadow-sm"
+                    [style]="{ 'background-color': event.color }">
+                    <i [class]="'pi pi-plus'"></i>
+                </span>
+            </ng-template>
+            <ng-template #content let-event>
+                <p-card [header]="event.nome" [subheader]="event.dia | date: 'dd/MM/yyyy hh:mm'">
+                    <!-- <img *ngIf="event.image" [src]="'https://primefaces.org/cdn/primeng/images/demo/product/' + event.image" [alt]="event.name" width="200" class="shadow" /> -->
+                    <p>
+                        {{event.descricao}}
+                    </p>
+                    <div class="grid">
+                        <div class="col-8">
+                            <p-button  size="small" label="Leia Mais" [text]="true" />
+                            <ng-container *ngIf="event.itinerarioConcluido">
+                                <p-button  size="small" label="visitado" icon="pi pi-check" [rounded]="true"
+                                    (click)="marcarComoVisitado(event.id)" />
+                            </ng-container>
+                            <ng-container *ngIf="!event.itinerarioConcluido">
+                                <p-button  size="small" label="Marcar como Visitado" [text]="true"
+                                    (click)="marcarComoVisitado(event.id)" />
+                            </ng-container>
+                        </div>
+                        <div class="col-2">
+                            <p-button size="small" (click)="editarItemItinerario(event)" icon="pi pi-save"
+                                rounded="true" severity="secondary">
+                            </p-button>
+                        </div>
+                        <div class="col-2">
+                            <p-button size="small" (click)="confirmarDelecao(event.id)" icon="pi pi-trash"
+                                severity="danger" rounded="true">
+                            </p-button>
+                        </div>
+                    </div>
+                </p-card>
+            </ng-template>
+        </p-timeline>
+
     </div>
 </div>

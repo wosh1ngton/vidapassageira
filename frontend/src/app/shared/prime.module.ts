@@ -16,6 +16,9 @@ import { DropdownModule } from "primeng/dropdown";
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { MenubarModule } from 'primeng/menubar';
 import { DynamicDialogModule } from "primeng/dynamicdialog";
+import { DatePickerModule } from 'primeng/datepicker';
+import { TimelineModule } from 'primeng/timeline';
+import { SidebarModule } from 'primeng/sidebar';
 
 @NgModule({
     imports: [],
@@ -37,7 +40,10 @@ import { DynamicDialogModule } from "primeng/dynamicdialog";
         DropdownModule,
         ConfirmDialogModule,
         DynamicDialogModule,
-        MenubarModule
+        MenubarModule,
+        DatePickerModule,
+        TimelineModule,
+        SidebarModule
     ],
 })
 export class PrimeNgModule {
