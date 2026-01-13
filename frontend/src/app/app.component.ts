@@ -67,7 +67,7 @@ export class AppComponent implements OnInit {
     this.menuVisible = !this.menuVisible;
     localStorage.setItem('menu', this.menuVisible ? 'open' : 'closed');
   }
-  
+
   login() {
     this.oauthService.initCodeFlow();
   }

@@ -1,10 +1,9 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { PrimeNgModule } from '../../../shared/prime.module';
 import { ViagemCreateDTO } from '../../../model/viagem';
-import { DestinoCreateDTO, DestinoResponseDTO } from '../../../model/destino';
-import { Form, FormsModule } from '@angular/forms';
+import { DestinoResponseDTO } from '../../../model/destino';
+import { FormsModule } from '@angular/forms';
 import { ViagemService } from '../../../services/viagem.service';
-import { Dialog } from 'primeng/dialog';
 import { OAuthService } from 'angular-oauth2-oidc';
 
 @Component({

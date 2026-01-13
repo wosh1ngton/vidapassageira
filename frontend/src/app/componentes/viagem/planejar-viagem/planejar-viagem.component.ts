@@ -72,12 +72,12 @@ export class PlanejarViagemComponent implements OnInit {
   tipoSugestaoSelected: TipoSugestaoIaEnum | undefined;
   tipoSugestaoEnum = TipoSugestaoIaEnum;
   items: MenuItem[] | undefined;
-  selectedTipo?: TipoSugestaoIaEnum | undefined;
+  selectedSubMenu?: TipoSugestaoIaEnum | undefined;
   itinerarioDaViagem: ItinerarioResponseDto[] = [];
   menuSelecionado: string = 'Onde Ficar?';
   hasItinerario: boolean = false;
   ref: DynamicDialogRef | undefined;
- 
+  exibirBtnSalvarOpiniaoIA: boolean = false;
 
   setMenuSelecionado(label: string) {
     this.menuSelecionado = label;
@@ -91,8 +91,8 @@ export class PlanejarViagemComponent implements OnInit {
       this.getSugestaoByViagemId();
       this.verificaExistenciaItinerarioDaViagem();
     });
-    if (!this.selectedTipo) {
-      this.selectedTipo = TipoSugestaoIaEnum.ONDE_FICAR;
+    if (!this.selectedSubMenu) {
+      this.selectedSubMenu = TipoSugestaoIaEnum.ONDE_FICAR;
     }
     this.inicializarMenu();
   }
@@ -170,6 +170,7 @@ export class PlanejarViagemComponent implements OnInit {
         this.sugestoes.set(tipo, val.sugestao);
         this.sugestoesIds.set(tipo, val.id);
       });
+      console.log('dont think so', this.sugestoes);
     });
   }
 
@@ -226,19 +227,24 @@ export class PlanejarViagemComponent implements OnInit {
           resultado += decodedChunk;
 
           const tipo = tipoSugestao;
-          this.cdRef.detectChanges();
+          
           this.sugestoes.set(tipo!, resultado);
+          this.cdRef.detectChanges();
         },
         error: (err) => {
           console.error('Erro:', err);
           this.resultado = 'Erro ao gerar opinião. Tente novamente mais tarde.';
           this.cdRef.detectChanges();
         },
+        complete: () => {
+          this.exibirBotaoSalvarOpiniao(true);
+          this.cdRef.detectChanges();
+        },
       });
   }
 
   gerarOpiniaoOndeIr(tipoSugestao: TipoSugestaoIaEnum | undefined) {
-    this.selectedTipo = tipoSugestao;
+    this.selectedSubMenu = tipoSugestao;
     this.rawResultado = '';
     this.atividades = [];
     const tipoSugestaoName = TipoSugestaoIaEnum[tipoSugestao!];
@@ -266,7 +272,7 @@ export class PlanejarViagemComponent implements OnInit {
   }
 
   selectTipo(tipo: TipoSugestaoIaEnum) {
-    this.selectedTipo = tipo;
+    this.selectedSubMenu = tipo;
   }
 
   private parsearFormatarItinerario(): void {
@@ -338,9 +344,7 @@ export class PlanejarViagemComponent implements OnInit {
     };
 
     this.viagemService.salvarItemItinerario(itemItinerarioDto).subscribe({
-      next: (response: any) => {
-        console.log('Item salvo com sucesso:', response);
-        // Show success message or update UI
+      next: (response: any) => {        
         this.messageService.add({
           severity: 'success',
           summary: 'Sucesso',
@@ -358,8 +362,7 @@ export class PlanejarViagemComponent implements OnInit {
     });
   }
 
-  private parseOrcamento(orcamento: string): number {
-    // Convert "R$ 150,00" to 150.00
+  private parseOrcamento(orcamento: string): number {    
     const cleanValue = orcamento
       .replace('R$', '')
       .replace('.', '')
@@ -373,14 +376,14 @@ export class PlanejarViagemComponent implements OnInit {
     return parseFloat(cleanValue) || 0;
   }
 
-  // private parseDuracao(duracao: string): number {
-  //   // Convert "3 horas" to 3
-  //   const match = duracao.match(/(\d+)\s*hora/);
-  //   return match ? parseInt(match[1]) : 0;
-  // }
+
 
   voltar() {
     this.router.navigateByUrl(`viagens`);
+  }
+
+  private exibirBotaoSalvarOpiniao(valor: boolean): void {
+    this.exibirBtnSalvarOpiniaoIA = valor;    
   }
 
   salvarOpiniaoIA(sugestao: string | undefined) {
@@ -388,7 +391,7 @@ export class PlanejarViagemComponent implements OnInit {
     this.sugestaoIA.idViagem = this.viagemId;
     this.sugestaoIA.sugestao = sugestao;
     this.sugestaoIA.id = 0;
-    this.sugestaoIA.tipoSugestaoIaEnum = this.selectedTipo!;
+    this.sugestaoIA.tipoSugestaoIaEnum = this.selectedSubMenu!;
 
     this.sugestaoIaService.save(this.sugestaoIA).subscribe({
       next: (res) => {
@@ -397,7 +400,8 @@ export class PlanejarViagemComponent implements OnInit {
           summary: 'Sucesso',
           detail: `Registro salvo com sucesso`,
         }),
-          this.getSugestaoByViagemId();
+        this.exibirBotaoSalvarOpiniao(false);
+        this.getSugestaoByViagemId();
       },
       error: (err) =>
         this.messageService.add({
@@ -405,6 +409,9 @@ export class PlanejarViagemComponent implements OnInit {
           summary: 'Erro',
           detail: `${err.error.message}`,
         }),
+      
     });
   }
+
+  
 }
