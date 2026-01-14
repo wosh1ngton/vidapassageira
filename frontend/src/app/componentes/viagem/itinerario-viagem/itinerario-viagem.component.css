@@ -1,0 +1,11 @@
+:host ::ng-deep .customized-timeline .p-timeline-event-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:host ::ng-deep  .p-timeline-event-marker {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50% !important;
+}

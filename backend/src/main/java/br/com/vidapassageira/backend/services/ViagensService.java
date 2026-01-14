@@ -85,6 +85,12 @@ public class ViagensService {
         return viagemDTO;
     }
 
+    public ViagemCreateDTO editar(ViagemCreateDTO viagemCreateDTO) {
+        Viagem viagemRecuperada = this.viagemRepository.findById(viagemCreateDTO.getId()).orElseThrow(() -> new RuntimeException("Viagem não encontrada"));
+        ViagemMapper.INSTANCE.updateEntity(viagemCreateDTO, viagemRecuperada);        
+        this.viagemRepository.save(viagemRecuperada);
+        return ViagemMapper.INSTANCE.toDto(viagemRecuperada);
+    }
 
     
     public ItinerarioResponseDto cadastrarItinerario(ItinerarioCreateDto itinerarioCreateDto) {
@@ -123,6 +129,13 @@ public class ViagensService {
         itinerarioViagemRepository.deleteById(id);
     }
 
+    public void deletarViagem(Long id) {
+        if (!viagemRepository.existsById(id)) {
+            throw new EntityNotFoundException("Viagem com ID " + id + " não encontrado.");
+        }
+        viagemRepository.deleteById(id);
+    }
+    
     public Integer marcarComoConcluido(Long id) {
         if (!itinerarioViagemRepository.existsById(id)) {
             throw new EntityNotFoundException("Itinerário com ID " + id + " não encontrado.");

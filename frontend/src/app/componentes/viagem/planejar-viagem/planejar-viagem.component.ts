@@ -17,6 +17,7 @@ import { MenuItem, MessageService } from 'primeng/api';
 import {
   AtividadeItinerario,
   AtividadeItinerarioCreateDTO,
+  AtividadeItinerarioEditarDTO,
   ItinerarioResponseDto,
 } from '../../../model/atividade-itinerario';
 import { ItinerarioViagemComponent } from '../itinerario-viagem/itinerario-viagem.component';
@@ -24,16 +25,7 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ItinerarioFormComponent } from '../itinerario-viagem/form-itinerario-viagem/form-itinerario-viagem.component';
 import { DateUtil } from '../../../shared/util/date-util';
 
-export interface EventItem {
-  status?: string;
-  date?: string;
-  icon?: string;
-  color?: string;
-  image?: string;
-  descricao?: string;
-  itinerarioConcluido: boolean;
-  id: number;
-}
+
 @Component({
   selector: 'app-planejar-viagem',
   standalone: true,
@@ -59,7 +51,7 @@ export class PlanejarViagemComponent implements OnInit {
     private dialogService: DialogService
   ) {}
 
-  events: EventItem[] = [];
+  
   rawResultado = '';
   viagemId: any = {};
   viagem: ViagemResponseDTO | undefined;
@@ -142,8 +134,7 @@ export class PlanejarViagemComponent implements OnInit {
   }
 
   verificaExistenciaItinerarioDaViagem(): void {
-    this.viagemService
-      .verificaSeItinerarioExiste(this.viagemId)
+    this.viagemService.verificaSeItinerarioExiste(this.viagemId)
       .subscribe((value) => (this.hasItinerario = value));
   }
 
@@ -170,7 +161,7 @@ export class PlanejarViagemComponent implements OnInit {
         this.sugestoes.set(tipo, val.sugestao);
         this.sugestoesIds.set(tipo, val.id);
       });
-      console.log('dont think so', this.sugestoes);
+   
     });
   }
 
@@ -184,25 +175,9 @@ export class PlanejarViagemComponent implements OnInit {
     this.viagemService.findOndeIrPorViagemId(this.viagemId).subscribe({
 
       next: (item: ItinerarioResponseDto[]) => {
-        this.itinerarioDaViagem = item.map((item: ItinerarioResponseDto) => {
-            this.events.push({
-              id: item.id,
-              status: `${item.nome} - ${item.categoria}`, 
-              date: new Date(item.dia).toISOString(), 
-              icon: '', 
-              color: '', 
-              image: '' ,
-              descricao: item.descricao,
-              itinerarioConcluido: item.itinerarioConcluido
-            })
-            
-            return item;
-        }).sort((a, b) => {
+        this.itinerarioDaViagem = item.sort((a, b) => {
           return new Date(a.dia).getDate() - new Date(b.dia).getDate();
-        });
-        this.events = this.events.sort((a, b) => new Date(a.date).getDate() - new Date(b.date).getDate());
-        console.log(this.events);
-        return item;
+        });        
       },
       error: (err) => {
         console.error('um erro ocorreu ', err);
@@ -331,14 +306,14 @@ export class PlanejarViagemComponent implements OnInit {
   }
 
   salvarItemItinerario(item: AtividadeItinerario): void {
-    const itemItinerarioDto: AtividadeItinerarioCreateDTO = {
+    const itemItinerarioDto: AtividadeItinerarioEditarDTO = {
       id: 0,
       nome: item.nome,
       orcamento: this.parseOrcamento(item.orcamento),
       duracao: item.duracao,
       descricao: item.descricao,
       categoria: item.categoria,
-      dia: item.dia,
+      dia: item.dia.toISOString(),
       melhorHorario: item.melhorHorario,
       idViagem: this.viagemId,
     };

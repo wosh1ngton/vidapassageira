@@ -20,17 +20,17 @@
     </div>
 
     <!-- Categoria -->
-    <div class="field col-12">
+    <div class="field col-6">
         <label for="categoria">Categoria</label>
         <p-dropdown class="w-full" id="categoria" [options]="categorias" formControlName="categoria"
             placeholder="Selecione a categoria">
         </p-dropdown>
     </div>
 
-    <div class="field col-12">
-        <label for="categoria">Dia e Hora</label>
-        <p-datepicker class="w-full" inputId="calendar-24h"  appendTo="body" formControlName="dia" id="dia"
-         [showTime]="true" [hourFormat]="24" />
+    <div class="field col-6">
+        <label for="categoria">Dia e Hora</label> <br />
+        <p-datepicker  styleClass="w-full" appendTo="body" formControlName="dia" 
+        id="dia" [showTime]="true" [hourFormat]="24" [dateFormat]="'dd/mm/y'" />        
 
     </div>
 

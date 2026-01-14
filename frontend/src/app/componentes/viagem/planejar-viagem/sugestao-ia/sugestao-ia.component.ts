@@ -26,13 +26,24 @@ export class SugestaoIaComponent {
   @Input() sugestao: string | undefined;
   @Input() tipoSugestao: TipoSugestaoIaEnum | undefined;  
   @Input() id: number;
-  @Output() sugestaoChange = new EventEmitter<string>();
+  @Output() sugestaoChange = new EventEmitter<boolean>();
   sugestaoIA: SugestaoIaCreateDTO;
+  _isEdicao: boolean = false;
   ref: DynamicDialogRef;  
   private myService = inject(MY_SERVICE_TOKEN);
+  
   constructor(private dialogService: DialogService) {
 
   }
+
+  get isEdicao(): boolean {
+    if(this.id) {
+      this._isEdicao = true;
+      return this._isEdicao;
+    }
+    return false;
+  }
+ 
 
   ckEditor() {
     
@@ -42,6 +53,7 @@ export class SugestaoIaComponent {
       tipoSugestaoIaEnum: null,
       sugestao: this.sugestao
     };
+
     this.ref = this.dialogService.open(EditorComponent, {
       header: 'Editor',
       width: '70%',
@@ -51,17 +63,14 @@ export class SugestaoIaComponent {
         object: dto,
         field: 'sugestao',
         markdown: true,
-        service: this.myService
-        
+        service: this.myService        
       }
       
     })
     this.ref.onClose.subscribe((updated: SugestaoIaCreateDTO | null) => {
-
       if (!updated) return;
-
-      this.sugestao = updated.sugestao;
-      this.sugestaoChange.emit(this.sugestao);
+      // this.sugestao = updated.sugestao;
+      this.sugestaoChange.emit(true);
    });
   }
 

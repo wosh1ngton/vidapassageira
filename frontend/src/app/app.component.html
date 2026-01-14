@@ -26,7 +26,9 @@
       </div>
 
       <div class="flex align-items-center gap-2">
-        <span *ngIf="usuario"> {{ usuario.username.split(" ")[0] }} </span> |
+        <span *ngIf="usuario"> 
+          {{ usuario.username }} 
+        </span> |
         <p-button [text]="true" icon="pi pi-sign-out" severity="secondary" (click)="logout()"> </p-button>
       </div>
     </header>

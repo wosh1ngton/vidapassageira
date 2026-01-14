@@ -20,7 +20,6 @@ import br.com.vidapassageira.backend.dtos.itinerario.ItinerarioCreateDto;
 import br.com.vidapassageira.backend.dtos.itinerario.ItinerarioResponseDto;
 import br.com.vidapassageira.backend.dtos.viagem.ViagemCreateDTO;
 import br.com.vidapassageira.backend.dtos.viagem.ViagemResponseDTO;
-import br.com.vidapassageira.backend.services.UsuarioService;
 import br.com.vidapassageira.backend.services.ViagensService;
 
 @RestController
@@ -42,6 +41,11 @@ public class ViagensResource {
         return ResponseEntity.ok(
             viagensService.listarPorUsuario(keycloakId)
         );        
+    }
+
+    @PutMapping
+    public ResponseEntity<ViagemCreateDTO> editarViagem(@RequestBody ViagemCreateDTO viagemCreateDTO) {
+        return ResponseEntity.ok(viagensService.editar(viagemCreateDTO));
     }
 
     @GetMapping("/{id}")
@@ -81,5 +85,9 @@ public class ViagensResource {
         return ResponseEntity.ok().build();
     }
 
-    
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarViagem(@PathVariable Long id) {
+        viagensService.deletarViagem(id);
+        return ResponseEntity.noContent().build();
+    }
 }

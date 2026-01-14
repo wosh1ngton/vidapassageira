@@ -6,23 +6,25 @@ import { DestinosService } from '../../../../services/destinos.service';
 import { DestinoCreateDTO, DestinoResponseDTO } from '../../../../model/destino';
 import { FormViagemComponent } from "../../form-viagem/form-viagem.component";
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-destino',
-  imports: [FormDestinoComponent, PrimeNgModule, CommonModule, FormViagemComponent],
-  providers: [ConfirmationService, MessageService],
+  imports: [FormDestinoComponent, PrimeNgModule, CommonModule],  
   templateUrl: './destino.component.html',
   styleUrl: './destino.component.css',  
 })
 export class DestinoComponent implements OnInit {
 
-  constructor(private destinoService: DestinosService,
+  constructor(
+    private destinoService: DestinosService,
     private confirmationService: ConfirmationService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private dialogService: DialogService
   ) {}
   showPlanejarViagem: boolean = false;
   destinoViagem: DestinoResponseDTO | undefined;
-  
+  ref: DynamicDialogRef | undefined;
 
   ngOnInit(): void {
       this.listarDestinos();
@@ -94,4 +96,19 @@ export class DestinoComponent implements OnInit {
     this.destinoViagem = destino;
   }
   
+  criarViagem(destino: any) {
+    this.ref = this.dialogService.open(FormViagemComponent, {
+      header: 'Editar viagem',
+      width: '50vw',
+      modal: true,
+      data: {entidade: destino, isEdicao: false},
+      focusOnShow: false,
+      breakpoints: {
+        '960px': '75vw',
+        '640px': '90vw',
+      },
+    })
+   
+  
+  }
 }

@@ -20,6 +20,18 @@ export interface AtividadeItinerarioCreateDTO {
     idViagem: number;
 }
 
+export interface AtividadeItinerarioEditarDTO {
+    id: number;
+    nome: string;
+    descricao: string;
+    orcamento: number;
+    duracao: string;
+    categoria: string;
+    dia: string;
+    melhorHorario: string;
+    idViagem: number;
+}
+
 export interface ItinerarioResponseDto {
     id: number;
     nome: string;

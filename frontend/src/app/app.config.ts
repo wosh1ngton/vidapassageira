@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, LOCALE_ID, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
@@ -8,6 +8,8 @@ import { provideOAuthClient } from 'angular-oauth2-oidc';
 import { AuthInterceptor } from './interceptors/auth-interceptor';
 import { provideMarkdown } from 'ngx-markdown';
 import { CustomTheme } from './shared/theme';
+import { DialogService } from 'primeng/dynamicdialog';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -33,6 +35,10 @@ export const appConfig: ApplicationConfig = {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true,
-    }
+    },
+    { provide: LOCALE_ID, useValue: 'pt-BR' },
+    DialogService,
+    MessageService,
+    ConfirmationService,
   ],
 };

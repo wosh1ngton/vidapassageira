@@ -1,3 +1,5 @@
+import { formatDate } from "@angular/common";
+
 export class DateUtil {
     
      static dateConstructor(data: string): Date {
@@ -20,5 +22,14 @@ export class DateUtil {
         const [hour, minute, second] = timePart.split(':').map(Number);
 
       return new Date(year, month - 1, day, hour, minute, second || 0);
+    }
+
+    static localISO(data: string): string {
+        const date = data;
+        return formatDate(
+            date,
+            'yyyy-MM-ddTHH:mm:ss',
+            'pt-BR'
+        );
     }
 }

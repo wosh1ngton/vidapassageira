@@ -1,19 +1,23 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PrimeNgModule } from '../../../shared/prime.module';
 import { ViagemCreateDTO } from '../../../model/viagem';
 import { DestinoResponseDTO } from '../../../model/destino';
 import { FormsModule } from '@angular/forms';
 import { ViagemService } from '../../../services/viagem.service';
 import { OAuthService } from 'angular-oauth2-oidc';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-form-viagem',
-  imports: [PrimeNgModule, FormsModule],
+  imports: [PrimeNgModule, FormsModule, CommonModule],
   standalone: true,
+
   templateUrl: './form-viagem.component.html',
   styleUrl: './form-viagem.component.css',
 })
-export class FormViagemComponent {
+export class FormViagemComponent implements OnInit {
   private _destinoParaViajar?: DestinoResponseDTO;
   @Output() closeDialog = new EventEmitter<void>();
   usuario: any = {};
@@ -34,7 +38,43 @@ export class FormViagemComponent {
     sub: ''
   };
 
-  constructor(private viagemService: ViagemService, private oauthService: OAuthService) {}
+  constructor(private viagemService: ViagemService, 
+    private oauthService: OAuthService,
+    private configDialog: DynamicDialogConfig,
+    private ref: DynamicDialogRef,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {    
+      const isEdicao = this.isEdicao();
+      if(isEdicao) {        
+        this.getViagem();
+      } else {
+        this.destino.nome = this.configDialog.data?.entidade.nome;
+        this.viagem.idDestino = this.configDialog.data?.entidade.id;
+      }     
+      
+  }
+
+  private isEdicao(): boolean {
+    return !!this.configDialog.data?.isEdicao;
+  }
+
+  private getViagem() {
+    this.viagemService.findById(this.configDialog.data.id)
+      .subscribe((val) => {
+        this.destino = val.destino;
+        this.viagem = {
+          id: val.id,
+          dataIda: new Date(val.dataIda),
+          dataVolta: new Date(val.dataVolta),
+          idDestino: val.destino.id,
+          sub: this.usuario.sub
+        };
+
+
+      });
+  }
 
   @Input()
   set destinoParaViagem(value: DestinoResponseDTO | undefined) {
@@ -58,6 +98,8 @@ export class FormViagemComponent {
         imagemBase64: ''
       };
     }
+
+
   }
 
   getUserInfo() {
@@ -73,7 +115,26 @@ export class FormViagemComponent {
 
   salvar() {
     this.getUserInfo();
+    const isEdicao = this.isEdicao();
+    if(isEdicao) {
+      this.editar();
+      return;
+    }
     this.cadastrar();
+  }
+
+  editar() {
+    this.viagemService.editar(this.viagem)
+      .subscribe({
+      next: (response) => {        
+        console.log(response);
+        this.close();
+        this.closeDialog.emit();
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    })
   }
 
   cadastrar() {
@@ -81,11 +142,16 @@ export class FormViagemComponent {
     this.viagemService.save(this.viagem).subscribe({
       next: (response) => {        
         console.log(response);
-        this.closeDialog.emit();
+        this.router.navigateByUrl(`viagens`);        
+        this.close();
       },
       error: (error) => {
         console.error(error);
       }
     });
+  }
+
+  close() {
+    this.ref.close((val) => console.log('sair'));
   }
 }

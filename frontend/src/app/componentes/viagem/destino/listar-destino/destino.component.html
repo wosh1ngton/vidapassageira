@@ -25,7 +25,7 @@
                                 (click)="confirmarDelecao(destino.id)"></button>
 
                             <button pButton type="button" icon="pi pi-telegram" label="Agendar Viagem"
-                                class="p-button-sm p-button-default" (click)="planejarViagem(destino)"></button>
+                                class="p-button-sm p-button-default" (click)="criarViagem(destino)"></button>
                         </div>
                     </ng-template>
                 </p-card>
@@ -33,6 +33,6 @@
         </div>
     </section>
     
-    <p-dialog [header]="'Cadastrar Viagem'" [(visible)]="showPlanejarViagem" [style]="{ width: '35rem' }">
+    <!-- <p-dialog [header]="'Cadastrar Viagem'" [(visible)]="showPlanejarViagem" [style]="{ width: '35rem' }">
         <app-form-viagem [destinoParaViagem]="destinoViagem" (closeDialog)="showPlanejarViagem = false"> </app-form-viagem>
-    </p-dialog>
+    </p-dialog> -->

@@ -1,5 +1,5 @@
-<form #formViagem="ngForm" (ngSubmit)="salvar()">
-    <div class="formgrid grid">
+<form #formViagem="ngForm">
+    <div class="formgrid grid" >
         <div class="field col-12">
             <label for="destino"> Destino </label>
             {{destino.id}}
@@ -7,17 +7,21 @@
             <input type="text" name="destino" class="w-full" pInputText [value]=destino.nome [disabled]="true" />
         </div>
         <div class="field col-6 ">
-            <label for="dataIda">Data de Ida</label>
+            <label for="dataIda">Data de Ida</label> <br />
             <p-calendar [(ngModel)]="viagem.dataIda" inputId="icondisplay" dateFormat="dd/mm/yy" [iconDisplay]="'input'"
                 [showIcon]="true" appendTo="body" name="dataIda"> </p-calendar>
         </div>
-        <div class="field col-6 p-fluid">
+        <div class="field col-6">
             <label for="dataVolta">Data de Retorno</label>
-            <p-calendar [(ngModel)]="viagem.dataVolta" inputId="icondisplay" dateFormat="dd/mm/yy"
-                [iconDisplay]="'input'" [showIcon]="true" appendTo="body" name="dataVolta"></p-calendar>
+            <p-date-picker [(ngModel)]="viagem.dataVolta" class="w-full" inputId="icondisplay" dateFormat="dd/mm/yy"
+                [iconDisplay]="'input'" [showIcon]="true" appendTo="body" name="dataVolta"></p-date-picker>
         </div>
-        <div class="field col-12 text-right">
-            <button pButton label="Salvar"></button>
+        <div class="field col-6 text-left">
+            <button pButton label="Cancelar" (click)="close()" severity="danger"></button>
         </div>
+        <div class="field col-6 text-right">
+            <button pButton label="Salvar" (click)="salvar()"></button>
+        </div>
+        
     </div>
 </form>

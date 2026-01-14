@@ -21,6 +21,7 @@ public class UsuariosResource {
 
     @PostMapping
     public ResponseEntity<String> criarUsuario(@RequestBody UserRepresentation userRepresentation) {
+        
         service.criarUsuario(userRepresentation.getEmail(), userRepresentation.getUsername(), userRepresentation.getId());
         return ResponseEntity.ok("ok");
     }

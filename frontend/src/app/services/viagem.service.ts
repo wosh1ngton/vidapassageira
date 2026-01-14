@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ViagemCreateDTO, ViagemResponseDTO } from '../model/viagem';
 import { environment } from '../../environments/environment';
-import { AtividadeItinerario, AtividadeItinerarioCreateDTO, ItinerarioResponseDto } from '../model/atividade-itinerario';
+import { AtividadeItinerario, AtividadeItinerarioCreateDTO, AtividadeItinerarioEditarDTO, ItinerarioResponseDto } from '../model/atividade-itinerario';
 
 @Injectable({
   providedIn: 'root',
@@ -34,11 +34,11 @@ export class ViagemService {
     return this.http.get<ViagemResponseDTO>(`${this.baseUrl}/viagens/${id}`);
   }
 
-  salvarItemItinerario(item: AtividadeItinerarioCreateDTO): Observable<any> {
+  salvarItemItinerario(item: AtividadeItinerarioEditarDTO): Observable<any> {
     return this.http.post(`${this.baseUrl}/viagens/itinerario`, item);
   }
 
-  editarItemItinerario(item: AtividadeItinerarioCreateDTO): Observable<any> {
+  editarItemItinerario(item: AtividadeItinerarioEditarDTO): Observable<any> {
     return this.http.put(`${this.baseUrl}/viagens/itinerario`, item);
   }
 
@@ -56,5 +56,13 @@ export class ViagemService {
 
    marcarConcluido(id: number) {
     return this.http.get(`${this.baseUrl}/viagens/itinerario/marcar-visita/${id}`);
+  }
+
+  editar(viagem: ViagemCreateDTO): Observable<ViagemResponseDTO> {
+    return this.http.put<ViagemResponseDTO>(`${this.baseUrl}/viagens`, viagem);
+  }
+
+   deletarViagem(id: number) {
+    return this.http.delete(`${this.baseUrl}/viagens/${id}`);
   }
 }

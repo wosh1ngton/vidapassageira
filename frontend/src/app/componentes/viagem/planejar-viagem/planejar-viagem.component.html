@@ -28,7 +28,7 @@
                     size="small"></p-button>
             </div>
 
-            <app-itinerario-viagem *ngIf="events.length > 0" (updatePagina)="getOndeIr()" [eventosItinerario]="events"
+            <app-itinerario-viagem *ngIf="itinerarioDaViagem.length > 0" (updatePagina)="getOndeIr()"               
                 [atividades]="itinerarioDaViagem">
             </app-itinerario-viagem>
 
@@ -38,10 +38,10 @@
 
         <ng-container *ngIf="selectedSubMenu !== tipoSugestaoEnum.ONDE_IR && sugestoes.has(selectedSubMenu!)">       
 
-            <app-sugestao-ia *ngIf="selectedSubMenu" [tipoSugestao]="selectedSubMenu"
+            <app-sugestao-ia *ngIf="selectedSubMenu" (sugestaoChange)="getSugestaoByViagemId()"  [tipoSugestao]="selectedSubMenu"
                 [sugestao]="sugestoes.get(selectedSubMenu)" [id]="sugestoesIds.get(selectedSubMenu)">
             </app-sugestao-ia>          
-            {{exibirBtnSalvarOpiniaoIA | json}}
+            
             <p-button label="Salvar Sugestão" *ngIf="exibirBtnSalvarOpiniaoIA"
                 (click)="salvarOpiniaoIA(sugestoes.get(selectedSubMenu))" class="button-margin"></p-button>
         </ng-container>
