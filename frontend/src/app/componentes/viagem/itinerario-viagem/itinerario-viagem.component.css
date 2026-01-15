@@ -1,11 +1,18 @@
-:host ::ng-deep .customized-timeline .p-timeline-event-marker {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+@media screen and (max-width: 768px) {
+  :host ::ng-deep .customized-timeline.p-timeline-alternate {
+    align-items: flex-start;
+  }
 
-:host ::ng-deep  .p-timeline-event-marker {
-  width: 4rem;
-  height: 4rem;
-  border-radius: 50% !important;
+  :host ::ng-deep .customized-timeline .p-timeline-event {
+    flex-direction: row !important;
+  }
+
+  :host ::ng-deep .customized-timeline .p-timeline-event-content {
+    width: 100%;
+    text-align: left;
+  }
+
+  :host ::ng-deep .customized-timeline .p-timeline-event-opposite {
+    display: none;
+  }
 }

@@ -3,8 +3,12 @@
     <div class="col-12 py-0">
         <p style="font-size: larger;">
             <p-button icon="pi pi-arrow-left" [rounded]="true" [text]="true" (click)="voltar()" />
-            <strong> {{viagem?.destino?.nome}}
-            </strong> - {{viagem?.dataIda | date:'dd/MM/yyyy'}} a {{viagem?.dataVolta | date:'dd/MM/yyyy'}}
+            <strong> 
+                {{viagem?.destino?.nome}}                
+            </strong> -
+             
+                {{viagem?.dataIda | date:'dd/MM/yyyy'}} a {{viagem?.dataVolta | date:'dd/MM/yyyy'}}
+            
         </p>
     </div>
 

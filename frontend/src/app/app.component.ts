@@ -3,7 +3,7 @@ import { OAuthService, UserInfo } from 'angular-oauth2-oidc';
 import { PrimeNG } from 'primeng/config';
 import { authCodeFlowConfig } from './auth-config';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { RegistroComponent } from './componentes/registro/registro.component';
 import { PrimeNgModule } from './shared/prime.module';
@@ -30,7 +30,8 @@ export class AppComponent implements OnInit {
     private oauthService: OAuthService,
     private dialogService: DialogService,
     private messageService: MessageService,
-    private usuarioService: UsuarioService
+    private usuarioService: UsuarioService,
+    private router: Router
   ) {}
 
   async ngOnInit() {
@@ -43,6 +44,7 @@ export class AppComponent implements OnInit {
       await this.oauthService.loadDiscoveryDocumentAndTryLogin();
       if (this.oauthService.hasValidAccessToken()) {
         this.getUserInfo();
+        this.router.navigateByUrl('viagens');
       } else {
         if (this.oauthService.state && location.hash.includes('error=')) {
           console.error('Erro de autenticação:', location.hash);
