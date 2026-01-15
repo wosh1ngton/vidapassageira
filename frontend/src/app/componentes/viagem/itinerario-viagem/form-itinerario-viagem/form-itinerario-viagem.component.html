@@ -51,12 +51,12 @@
     <div class="col-12 flex">
         <div class="col-6">
 
-            <p-button label="Cancelar" severity="danger" icon="pi pi-times" (onClick)="cancelar()">
+            <p-button label="Cancelar" styleClass="w-full" severity="danger" icon="pi pi-times" (onClick)="cancelar()">
             </p-button>
         </div>
-        <div class="col-6 col-offset-3">
+        <div class="col-6">
             <p-button label="Salvar" icon="pi pi-check" (onClick)="salvar(atividadeForm)"
-                [disabled]="atividadeForm.invalid">
+                [disabled]="atividadeForm.invalid" styleClass="w-full">
             </p-button>
         </div>
 

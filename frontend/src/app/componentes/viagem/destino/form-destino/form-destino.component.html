@@ -23,14 +23,15 @@
             <label for="localizacao">Imagem</label>
             <p-toast />
 
-            <p-fileupload #fu mode="basic" chooseLabel="Selecionar" chooseIcon="pi pi-upload" name="demo[]" accept="image/*"
+            <p-fileupload #fu mode="basic" class="justify-content-start" chooseLabel="Selecionar" chooseIcon="pi pi-upload" 
+            name="demo[]" accept="image/*" styleClass="w-full"
                 maxFileSize="1000000" (onSelect)="onSelect($event)" />
 
 
         </div>
 
         <div class="flex justify-content-end mt-4">
-            <button pButton type="submit" label="Salvar" icon="pi pi-check" class="p-button-success"></button>
+            <p-button label="Salvar" icon="pi pi-check"></p-button>
         </div>
 
 

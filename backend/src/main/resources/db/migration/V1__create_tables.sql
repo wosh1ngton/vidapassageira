@@ -1,0 +1,109 @@
+-- --------------------------------------------------------
+-- Servidor:                     127.0.0.1
+-- Versão do servidor:           8.0.36 - MySQL Community Server - GPL
+-- OS do Servidor:               Win64
+-- HeidiSQL Versão:              12.7.0.6850
+-- --------------------------------------------------------
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+
+-- Copiando estrutura do banco de dados para vp
+CREATE DATABASE IF NOT EXISTS `vp` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `vp`;
+
+-- Copiando estrutura para tabela vp.destino
+CREATE TABLE IF NOT EXISTS `destino` (
+  `NM_DESTINO` varchar(255) NOT NULL,
+  `DS_LOCALIZACAO` varchar(255) NOT NULL,
+  `ID_DESTINO` bigint NOT NULL AUTO_INCREMENT,
+  `DS_DESTINO` varchar(2000) DEFAULT NULL,
+  `FL_DESTINO` longblob,
+  PRIMARY KEY (`ID_DESTINO`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Exportação de dados foi desmarcado.
+
+-- Copiando estrutura para tabela vp.itinerario_viagem
+CREATE TABLE IF NOT EXISTS `itinerario_viagem` (
+  `ID_ITINERARIO_VIAGEM` bigint NOT NULL AUTO_INCREMENT,
+  `NM_PASSEIO` varchar(255) DEFAULT NULL,
+  `DS_PASSEIO` text,
+  `QT_ORCAMENTO` double DEFAULT NULL,
+  `DS_DURACAO` varchar(1500) DEFAULT NULL,
+  `NM_CATEGORIA` varchar(100) DEFAULT NULL,
+  `DS_MELHOR_HORARIO` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `ID_VIAGEM` bigint DEFAULT NULL,
+  `DT_PASSEIO` datetime DEFAULT NULL,
+  `FG_REALIZADO` bit(1) DEFAULT NULL,
+  PRIMARY KEY (`ID_ITINERARIO_VIAGEM`),
+  KEY `FK_ITINERARIO_VIAGEM_VIAGEM` (`ID_VIAGEM`),
+  CONSTRAINT `FK_ITINERARIO_VIAGEM_VIAGEM` FOREIGN KEY (`ID_VIAGEM`) REFERENCES `viagem` (`ID_VIAGEM`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Exportação de dados foi desmarcado.
+
+-- Copiando estrutura para tabela vp.sugestao_ia
+CREATE TABLE IF NOT EXISTS `sugestao_ia` (
+  `ID_SUGESTAO_IA` bigint NOT NULL AUTO_INCREMENT,
+  `ID_TIPO_SUGESTAO_IA` int NOT NULL DEFAULT (0),
+  `DS_SUGESTAO_IA` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `ID_VIAGEM` bigint NOT NULL,
+  PRIMARY KEY (`ID_SUGESTAO_IA`),
+  KEY `FK_SUGESTAO_IA_VIAGEM` (`ID_VIAGEM`),
+  KEY `FK_SUGESTAO_IA_VIAGEM_TIPO_SUGESTAO_IA` (`ID_TIPO_SUGESTAO_IA`),
+  CONSTRAINT `FK_SUGESTAO_IA_VIAGEM` FOREIGN KEY (`ID_VIAGEM`) REFERENCES `viagem` (`ID_VIAGEM`),
+  CONSTRAINT `FK_SUGESTAO_IA_VIAGEM_TIPO_SUGESTAO_IA` FOREIGN KEY (`ID_TIPO_SUGESTAO_IA`) REFERENCES `tipo_sugestao_ia` (`ID_TIPO_SUGESTAO_IA`)
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Exportação de dados foi desmarcado.
+
+-- Copiando estrutura para tabela vp.tipo_sugestao_ia
+CREATE TABLE IF NOT EXISTS `tipo_sugestao_ia` (
+  `ID_TIPO_SUGESTAO_IA` int NOT NULL,
+  `NM_TIPO_SUGESTAO_IA` varchar(50) NOT NULL,
+  PRIMARY KEY (`ID_TIPO_SUGESTAO_IA`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Exportação de dados foi desmarcado.
+
+-- Copiando estrutura para tabela vp.usuario
+CREATE TABLE IF NOT EXISTS `usuario` (
+  `ID_USUARIO` int unsigned NOT NULL AUTO_INCREMENT,
+  `NM_USUARIO` varchar(355) NOT NULL,
+  `NM_EMAIL` varchar(455) NOT NULL,
+  `ID_KEYCLOAK` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID_USUARIO`),
+  UNIQUE KEY `ID_KEYCLOAK` (`ID_KEYCLOAK`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Exportação de dados foi desmarcado.
+
+-- Copiando estrutura para tabela vp.viagem
+CREATE TABLE IF NOT EXISTS `viagem` (
+  `ID_VIAGEM` bigint NOT NULL AUTO_INCREMENT,
+  `ID_DESTINO` bigint NOT NULL DEFAULT '0',
+  `DT_IDA` date NOT NULL,
+  `DT_VOLTA` date NOT NULL,
+  `ID_USUARIO` int unsigned DEFAULT NULL,
+  PRIMARY KEY (`ID_VIAGEM`),
+  KEY `FK_VIAGEM_DESTINO` (`ID_DESTINO`),
+  KEY `FK_VIAGEM_USUARIO` (`ID_USUARIO`),
+  CONSTRAINT `FK_VIAGEM_DESTINO` FOREIGN KEY (`ID_DESTINO`) REFERENCES `destino` (`ID_DESTINO`),
+  CONSTRAINT `FK_VIAGEM_USUARIO` FOREIGN KEY (`ID_USUARIO`) REFERENCES `usuario` (`ID_USUARIO`)
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Exportação de dados foi desmarcado.
+
+/*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;

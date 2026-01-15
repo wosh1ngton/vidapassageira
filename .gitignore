@@ -358,3 +358,9 @@ frontend/dist/
 build/
 dist/
 
+backend/Dockerfile.dev
+frontend/Dockerfile.dev
+compose.dev.yaml
+env.dev
+.env.dev
+.env.docker

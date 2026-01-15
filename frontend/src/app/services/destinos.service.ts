@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { DestinoCreateDTO, DestinoResponseDTO } from '../model/destino';
 import { Observable } from 'rxjs';
 import { OAuthService } from 'angular-oauth2-oidc';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +11,7 @@ import { OAuthService } from 'angular-oauth2-oidc';
 export class DestinosService {
   
   constructor(private http: HttpClient, private oauthService: OAuthService) {}
-  baseUrl: string = `http://localhost:8070/api`;
+  baseUrl: string = environment.mainUrlAPI;
 
   get accessToken(): string {
     return this.oauthService.getAccessToken();
