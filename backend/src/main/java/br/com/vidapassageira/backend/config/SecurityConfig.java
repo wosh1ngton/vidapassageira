@@ -21,6 +21,8 @@ public class SecurityConfig {
             .requestMatchers("/api/planejamento-ia/**").permitAll()          
             .requestMatchers("/api/auth/**").permitAll()
             .requestMatchers("/api/public").permitAll()
+            .requestMatchers("/actuator/health").permitAll()
+            .requestMatchers("/actuator/info").permitAll()
             .anyRequest().authenticated())
         .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> Customizer.withDefaults()));
 

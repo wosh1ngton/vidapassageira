@@ -21,25 +21,25 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
-                {
-                  "glob": "**/*",
-                  "input": "public"
-                },
-                {
-                  "glob": "**/*",
-                  "input": "src/assets",
-                  "output": "assets"
-                },
-                {
-                  "glob": "silent-refresh.html",
-                  "input": "src",
-                  "output": "/"
-                }
+              {
+                "glob": "**/*",
+                "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "assets"
+              },
+              {
+                "glob": "silent-refresh.html",
+                "input": "src",
+                "output": "/"
+              }
             ],
-            "styles": [
+            "styles": [              
+              "node_modules/primeflex/primeflex.css",
               "node_modules/primeicons/primeicons.css",
-              "node_modules/primeflex/primeflex.css",        
-              "src/styles.css"              
+              "src/styles.css"
             ],
             "scripts": []
           },
@@ -55,6 +55,15 @@
                   "type": "anyComponentStyle",
                   "maximumWarning": "4kB",
                   "maximumError": "8kB"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "docker": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.docker.ts"
                 }
               ],
               "outputHashing": "all"

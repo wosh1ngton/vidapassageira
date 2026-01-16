@@ -1,7 +1,8 @@
 import { AuthConfig } from 'angular-oauth2-oidc';
+import { environment } from '../environments/environment';
 
 export const authCodeFlowConfig: AuthConfig = {
-    issuer: 'http://localhost:8080/realms/VP',
+    issuer: `${environment.keycloakUrl}/realms/VP`,
     redirectUri: window.location.origin,
     clientId: 'vp-frontend',
     responseType: 'code',
