@@ -8,5 +8,6 @@ export interface UsuarioCreateDTO {
 export interface UsuarioDTO {
   username: string;
   email: string;
-  keycloakId: string;
+  id: string;
 }
+

@@ -1,0 +1,49 @@
+body.vp-login {
+    background: linear-gradient(135deg, #819d6a, #5f7d4f);
+    font-family: sans-serif;
+}
+
+@media screen and (max-width: 768px) {
+    .login-container {
+        width: 90vw;       
+    }   
+}
+
+.login-container {
+    width: 360px;
+    margin: 10vh auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0,0,0,.2);
+}
+
+.logo {
+    width: 240px;
+    display: block;
+    margin: 0 auto 1rem;
+}
+
+input {
+    width: 92%;
+    margin-bottom: 2rem;
+    border-radius: 0.5rem;
+    border-color: #819d6a;
+    padding: .75rem;
+}
+
+button {
+    width: 100%;
+    background: #819d6a;
+    color: white;
+    border: none;
+    padding: .75rem;
+    border-radius: 6px;
+}
+
+.error {
+    margin-top: 5px;
+    color: #333333;
+    font-weight: 500;
+}
+

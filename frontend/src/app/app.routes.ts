@@ -16,6 +16,11 @@ export const routes: Routes = [
     
     },
     {
+        path: '',
+        component: ListarViagemComponent,        
+        
+    },
+    {
         path: 'viagens',
         component: ListarViagemComponent,        
         

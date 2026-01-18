@@ -1,15 +1,16 @@
-import { ApplicationConfig, LOCALE_ID, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, inject, LOCALE_ID, provideAppInitializer, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
 import { routes } from './app.routes';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { provideOAuthClient } from 'angular-oauth2-oidc';
+import { OAuthService, provideOAuthClient } from 'angular-oauth2-oidc';
 import { AuthInterceptor } from './interceptors/auth-interceptor';
 import { provideMarkdown } from 'ngx-markdown';
 import { CustomTheme } from './shared/theme';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { authCodeFlowConfig } from './auth-config';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -26,8 +27,8 @@ export const appConfig: ApplicationConfig = {
           
         },
       },
-    }),
-    provideHttpClient(),
+    }),   
+    
     provideMarkdown(),
     provideOAuthClient(), 
     provideHttpClient(withInterceptorsFromDi()),   
@@ -40,5 +41,12 @@ export const appConfig: ApplicationConfig = {
     DialogService,
     MessageService,
     ConfirmationService,
+    provideAppInitializer(() => {
+      const oauth = inject(OAuthService);
+      oauth.configure(authCodeFlowConfig);
+      oauth.setupAutomaticSilentRefresh();
+      return oauth.loadDiscoveryDocumentAndTryLogin();
+
+  }),
   ],
 };
