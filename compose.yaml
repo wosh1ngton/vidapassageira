@@ -25,9 +25,7 @@ services:
       keycloak:
         condition: service_started      
     env_file:
-      - .env.docker
-    ports:
-      - "8084:8080"
+      - .env.docker    
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://localhost:8080/actuator/health | grep UP"]
       interval: 10s
