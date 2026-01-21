@@ -1,5 +1,5 @@
 server:
-  port: 8070
+  port: ${SERVER_PORT}
 spring:  
   flyway:
     enabled: true
