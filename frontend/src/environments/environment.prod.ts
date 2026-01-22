@@ -1,5 +1,5 @@
 export const environment = {
   production: false,
   mainUrlAPI: '/api',
-  keycloakUrl: 'https://sharedbill.com.br',
+  keycloakUrl: 'http://sharedbill.com.br',
 };
