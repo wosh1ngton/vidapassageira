@@ -505,19 +505,19 @@
       "clientId": "vp-frontend",
       "name": "",
       "description": "",
-      "rootUrl": "http://localhost:4200/",
-      "adminUrl": "http://localhost:4200/",
+      "rootUrl": "http://sharedbill.com.br",
+      "adminUrl": "http://sharedbill.com.br",
       "baseUrl": "",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "http://localhost:4200/silent-refresh.html",
-        "http://localhost:4200/*"
+        "http://sharedbill.com.br/silent-refresh.html",
+        "http://sharedbill.com.br/*"
       ],
       "webOrigins": [
-        "http://localhost:4200"
+        "http://sharedbill.com.br"
       ],
       "notBefore": 0,
       "bearerOnly": false,
