@@ -505,19 +505,20 @@
       "clientId": "vp-frontend",
       "name": "",
       "description": "",
-      "rootUrl": "http://sharedbill.com.br",
-      "adminUrl": "http://sharedbill.com.br",
+      "rootUrl": "https://sharedbill.com.br",
+      "adminUrl": "https://sharedbill.com.br",
       "baseUrl": "",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "http://sharedbill.com.br/silent-refresh.html",
-        "http://sharedbill.com.br/*"
+        "https://sharedbill.com.br",
+        "https://sharedbill.com.br/*",
+        "https://sharedbill.com.br/silent-refresh.html"        
       ],
       "webOrigins": [
-        "http://sharedbill.com.br"
+        "https://sharedbill.com.br"
       ],
       "notBefore": 0,
       "bearerOnly": false,
