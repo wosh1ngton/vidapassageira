@@ -532,7 +532,7 @@
       "protocol": "openid-connect",
       "attributes": {
         "access.token.lifespan": "10800",
-        "login_theme": "keycloak",
+        "login_theme": "vp-theme",
         "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false",
         "use.refresh.tokens": "true",
