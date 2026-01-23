@@ -492,7 +492,7 @@
         "roles",
         "profile",
         "email"
-      ],
+    ],
       "optionalClientScopes": [
         "address",
         "phone",
