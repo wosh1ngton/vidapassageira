@@ -15,10 +15,11 @@ public class SecurityConfig {
 
     @Bean
     @Order(1)
-    public SecurityFilterChain publicChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain publicChain(HttpSecurity http) throws Exception {
         http
             .securityMatcher("/api/auth/**", "/api/public/**", "/actuator/**")
             .csrf(csrf -> csrf.disable())
+            .oauth2ResourceServer(oauth2 -> oauth2.disable())
             .authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
 
         return http.build();
@@ -26,7 +27,7 @@ public class SecurityConfig {
 
     @Bean
     @Order(2)
-    public SecurityFilterChain securedChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain securedChain(HttpSecurity http) throws Exception {
         http
             .cors(Customizer.withDefaults())
             .csrf(csrf -> csrf.disable())
