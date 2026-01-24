@@ -13,44 +13,48 @@ import org.springframework.security.web.SecurityFilterChain;
 
 public class SecurityConfig {
 
-    @Bean
-    @Order(1)
-    SecurityFilterChain publicChain(HttpSecurity http) throws Exception {
-        http
-            .securityMatcher("/api/auth/**", "/api/public/**", "/actuator/**")
-            .csrf(csrf -> csrf.disable())
-            .oauth2ResourceServer(oauth2 -> oauth2.disable())
-            .authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
-
-        return http.build();
-    }
-
-    @Bean
-    @Order(2)
-    SecurityFilterChain securedChain(HttpSecurity http) throws Exception {
-        http
-            .cors(Customizer.withDefaults())
-            .csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
-            .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> Customizer.withDefaults()));
-
-        return http.build();
-    }
     // @Bean
-    // public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    // @Order(1)
+    // SecurityFilterChain publicChain(HttpSecurity http) throws Exception {
     //     http
-    //         .cors(cors -> Customizer.withDefaults())
+    //         .securityMatcher("/api/auth/**", "/api/public/**", "/actuator/**")
     //         .csrf(csrf -> csrf.disable())
-    //         .authorizeHttpRequests(auth -> auth  
-    //         .requestMatchers("/api/planejamento-ia/**").permitAll()          
-    //         .requestMatchers("/api/auth/**").permitAll()
-    //         .requestMatchers("/api/public").permitAll()
-    //         .requestMatchers("/actuator/health").permitAll()
-    //         .requestMatchers("/actuator/info").permitAll()
-    //         .anyRequest().authenticated())
-    //     .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> Customizer.withDefaults()));
+    //         .oauth2ResourceServer(oauth2 -> oauth2.disable())
+    //         .authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
 
     //     return http.build();
     // }
+
+    // @Bean
+    // @Order(2)
+    // SecurityFilterChain securedChain(HttpSecurity http) throws Exception {
+    //     http
+    //         .cors(Customizer.withDefaults())
+    //         .csrf(csrf -> csrf.disable())
+            
+    //         .authorizeHttpRequests(auth -> auth
+    //         .requestMatchers("/api/planejamento-ia/**").permitAll()  
+    //         .anyRequest()
+    //         .authenticated())
+    //         .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> Customizer.withDefaults()));
+
+    //     return http.build();
+    // }
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+            .cors(cors -> Customizer.withDefaults())
+            .csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests(auth -> auth  
+            .requestMatchers("/api/planejamento-ia/**").permitAll()          
+            .requestMatchers("/api/auth/**").permitAll()
+            .requestMatchers("/api/public").permitAll()
+            .requestMatchers("/actuator/health").permitAll()
+            .requestMatchers("/actuator/info").permitAll()
+            .anyRequest().authenticated())
+        .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> Customizer.withDefaults()));
+
+        return http.build();
+    }
 
 }
