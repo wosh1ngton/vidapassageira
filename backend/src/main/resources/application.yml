@@ -17,11 +17,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
     show-sql: false
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://localhost:8080/realms/VP
+  
 logging:
   level:
     org.springframework.web.cors: DEBUG
