@@ -1,6 +1,8 @@
 package br.com.vidapassageira.backend.services;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,8 +18,10 @@ import br.com.vidapassageira.backend.mappers.ViagemMapper;
 import br.com.vidapassageira.backend.models.ItinerarioViagem;
 import br.com.vidapassageira.backend.models.Usuario;
 import br.com.vidapassageira.backend.models.Viagem;
+import br.com.vidapassageira.backend.models.ViagemCompartilhamento;
 import br.com.vidapassageira.backend.repositories.ItinerarioViagemRepository;
 import br.com.vidapassageira.backend.repositories.UsuarioRepository;
+import br.com.vidapassageira.backend.repositories.ViagemCompartilhamentoRepository;
 import br.com.vidapassageira.backend.repositories.ViagemRepository;
 
 @Service
@@ -28,6 +32,9 @@ public class ViagensService {
 
     @Autowired 
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private ViagemCompartilhamentoRepository viagemCompartilhamentoRepository;
 
 
     @Autowired
@@ -62,12 +69,22 @@ public class ViagensService {
         Usuario usuario = usuarioRepository.findByKeyCloakId(keyCloakId);
         List<Viagem> viagens = this.viagemRepository.findAllByUsuario_Id(usuario.getId());
 
-        List<ViagemResponseDTO> viagensDto = viagens.stream().map(viagem -> {
-            ViagemResponseDTO viagemDTO = ViagemMapper.INSTANCE.toResponseDTO(viagem);
-            if (viagem.getDestino().getImagem() != null) {
-                String base64 = java.util.Base64.getEncoder().encodeToString(viagem.getDestino().getImagem());
-                viagemDTO.getDestino().setImagemBase64("data:image/jpeg;base64," + base64);
-            }
+        List<Viagem> compartilhadasPara = this.viagemCompartilhamentoRepository.findByUsuario_Id(usuario.getId())
+            .stream().map(ViagemCompartilhamento::getViagem).toList();
+
+        Map<Long, Viagem> viagensUnicas = new LinkedHashMap<>();
+        
+        viagens.forEach(viagem -> viagensUnicas.put(viagem.getId(), viagem));
+        compartilhadasPara.forEach(viagem -> viagensUnicas.put(viagem.getId(), viagem));
+        
+        List<ViagemResponseDTO> viagensDto = viagensUnicas.values()
+            .stream()
+            .map(viagem -> {
+                ViagemResponseDTO viagemDTO = ViagemMapper.INSTANCE.toResponseDTO(viagem);
+                if (viagem.getDestino().getImagem() != null) {
+                    String base64 = java.util.Base64.getEncoder().encodeToString(viagem.getDestino().getImagem());
+                    viagemDTO.getDestino().setImagemBase64("data:image/jpeg;base64," + base64);
+                }
             return viagemDTO;
         }).toList();
 

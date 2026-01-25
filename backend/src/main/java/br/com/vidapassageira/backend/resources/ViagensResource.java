@@ -20,6 +20,7 @@ import br.com.vidapassageira.backend.dtos.itinerario.ItinerarioCreateDto;
 import br.com.vidapassageira.backend.dtos.itinerario.ItinerarioResponseDto;
 import br.com.vidapassageira.backend.dtos.viagem.ViagemCreateDTO;
 import br.com.vidapassageira.backend.dtos.viagem.ViagemResponseDTO;
+import br.com.vidapassageira.backend.services.CompartilhamentoService;
 import br.com.vidapassageira.backend.services.ViagensService;
 
 @RestController
@@ -28,6 +29,8 @@ public class ViagensResource {
 
     @Autowired
     private ViagensService viagensService;
+
+    
 
     @PostMapping
     public ResponseEntity<ViagemCreateDTO> cadastrar(@RequestBody ViagemCreateDTO request) {

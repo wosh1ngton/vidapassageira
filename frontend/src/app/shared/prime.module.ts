@@ -19,6 +19,7 @@ import { DynamicDialogModule } from "primeng/dynamicdialog";
 import { DatePickerModule } from 'primeng/datepicker';
 import { TimelineModule } from 'primeng/timeline';
 import { SidebarModule } from 'primeng/sidebar';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
 @NgModule({
     imports: [],
@@ -43,7 +44,8 @@ import { SidebarModule } from 'primeng/sidebar';
         MenubarModule,
         DatePickerModule,
         TimelineModule,
-        SidebarModule
+        SidebarModule,
+        AutoCompleteModule
     ],
 })
 export class PrimeNgModule {

@@ -11,4 +11,5 @@ public class ViagemResponseDTO {
     private LocalDate dataIda;
     private LocalDate dataVolta;
     private DestinoReponseDTO destino;
+    private boolean compartilhada;
 }

@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { FormViagemComponent } from '../form-viagem/form-viagem.component';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { UsuarioBuscaComponent } from '../../usuario/usuario-busca/usuario-busca.component';
 
 @Component({
   selector: 'app-listar-viagem',
@@ -41,6 +42,24 @@ export class ListarViagemComponent implements OnInit {
           return Number(d1) - Number(d2);
         });
       });
+  }
+
+  compartilharViagem(id: number) {
+     this.ref = this.dialogService.open(UsuarioBuscaComponent, {
+      header: 'Buscar usuário',
+      width: '40vw',
+      height: '40vh',
+      modal: true,      
+      closable: true,
+      data: {idViagem: id},
+      focusOnShow: false,
+      
+    });
+
+    this.ref.onClose.subscribe(() => {
+      this.listarViagens();
+    });  
+  
   }
 
   editarViagem(id: number) {

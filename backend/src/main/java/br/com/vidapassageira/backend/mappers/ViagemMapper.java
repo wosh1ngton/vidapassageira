@@ -24,6 +24,7 @@ public interface ViagemMapper {
     ViagemCreateDTO toDto(Viagem entity);
 
     @Mapping(target = "destino.imagemBase64", ignore = true)
+    @Mapping(target = "compartilhada", ignore = true)
     ViagemResponseDTO toResponseDTO(Viagem entity);
 
     @Mapping(target = "usuario", ignore = true)

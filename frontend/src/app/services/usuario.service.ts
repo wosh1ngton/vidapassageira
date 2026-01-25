@@ -29,7 +29,9 @@ export class UsuarioService {
     return this.http.get<boolean>(`${this.baseUrl}/usuarios/verifica-existencia/${sub}`);
   }
 
- 
+  buscarUsuario(nome: string): Observable<UsuarioDTO[]> {
+    return this.http.get<UsuarioDTO[]>(`${this.baseUrl}/usuarios/busca-usuario?nome=${nome}`);
+  }
 
   
 }
