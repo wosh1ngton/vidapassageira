@@ -22,7 +22,6 @@ import br.com.vidapassageira.backend.services.IAService;
 import br.com.vidapassageira.backend.services.SugestaoIAService;
 import br.com.vidapassageira.backend.services.UsuarioService;
 import br.com.vidapassageira.backend.services.ViagensService;
-import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/planejamento-ia")
@@ -30,15 +29,12 @@ public class IAResource {
 
     private final IAService iaservice;
     private final ViagensService viagensService;
-    private final SugestaoIAService sugestaoIAService;
-    private final UsuarioService usuarioService;
-    
+    private final SugestaoIAService sugestaoIAService;    
 
-    public IAResource(IAService iaservice, ViagensService viagensService, SugestaoIAService sugestaoIAService, UsuarioService usuarioService) {
+    public IAResource(IAService iaservice, ViagensService viagensService, SugestaoIAService sugestaoIAService) {
         this.iaservice = iaservice;
         this.viagensService = viagensService;
-        this.sugestaoIAService = sugestaoIAService;
-        this.usuarioService = usuarioService;
+        this.sugestaoIAService = sugestaoIAService;        
     }       
 
     @GetMapping(value = "/gerar-async", produces = MediaType.TEXT_EVENT_STREAM_VALUE)

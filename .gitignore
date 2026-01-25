@@ -365,3 +365,4 @@ env.dev
 .env.dev
 .env.docker
 keycloak/realm/vp-realm.dev.json
+compose.yaml
