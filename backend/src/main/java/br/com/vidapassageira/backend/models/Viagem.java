@@ -11,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Data;
 
 @Data
@@ -36,4 +37,7 @@ public class Viagem {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ID_USUARIO")
     private Usuario usuario;
+
+    @Transient
+    private boolean compartilhada;
 }

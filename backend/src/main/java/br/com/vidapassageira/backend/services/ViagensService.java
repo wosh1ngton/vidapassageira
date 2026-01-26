@@ -70,7 +70,10 @@ public class ViagensService {
         List<Viagem> viagens = this.viagemRepository.findAllByUsuario_Id(usuario.getId());
 
         List<Viagem> compartilhadasPara = this.viagemCompartilhamentoRepository.findByUsuario_Id(usuario.getId())
-            .stream().map(ViagemCompartilhamento::getViagem).toList();
+            .stream().map(viagem -> {
+                viagem.getViagem().setCompartilhada(true);
+                return viagem.getViagem();
+            }).toList();
 
         Map<Long, Viagem> viagensUnicas = new LinkedHashMap<>();
         

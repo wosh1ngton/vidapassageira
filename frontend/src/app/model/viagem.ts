@@ -13,4 +13,5 @@ export interface ViagemResponseDTO {
     dataIda: Date;
     dataVolta: Date;
     destino: DestinoResponseDTO;
+    compartilhada: boolean;
 }

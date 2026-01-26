@@ -18,4 +18,6 @@ public class CompartilhamentoService {
         var saved = this.viagemCompartilhamentoRepository.save(entity);
         return ViagemCompartilhamentoMapper.INSTANCE.toDto(saved);
     }
+
+    
 }

@@ -2,7 +2,11 @@
         <p-toast />
     <p-confirmdialog />
         <div *ngFor="let viagem of viagens" class="col-12" style="width: 400px;">
-            <p-card [header]="viagem.destino.nome" [subheader]="viagem.destino.localizacao">
+            <p-card [header]="viagem.destino.nome" [subheader]="viagem.destino.localizacao" 
+            [ngClass]="{'shared-card': viagem.compartilhada}" class="relative">
+            <span *ngIf="viagem.compartilhada" class="shared-badge">
+        <i class="pi pi-users mr-1"></i> Compartilhada
+    </span>
                 <img [src]="viagem.destino.imagemBase64" alt="Imagem" class="w-full mb-3 border-round" />
 
 
@@ -11,7 +15,7 @@
                 <ng-template pTemplate="footer">
                     <div class="flex justify-content-end gap-1">
 
-                         <button pButton type="button" icon="pi pi-share-alt" class="p-button-sm p-button-outlined"
+                         <button *ngIf="!viagem.compartilhada" pButton type="button" icon="pi pi-share-alt" class="p-button-sm p-button-outlined"
                             (click)="compartilharViagem(viagem.id)"></button>
 
                         <button pButton type="button" icon="pi pi-pencil" class="p-button-sm p-button-outlined"
