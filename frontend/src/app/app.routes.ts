@@ -7,32 +7,27 @@ import { PageNotFoundComponent } from './componentes/shared/page-not-found/page-
 
 export const routes: Routes = [
     {
+        path: '',
+        component: HomeComponent,
+    },
+    {
+        path: 'home',
+        component: HomeComponent
+    },
+    {
+        path: 'viagens',
+        component: ListarViagemComponent,
+    },
+    {
         path: 'destinos',
         component: DestinoComponent
     },
     {
-        path: 'home',
-        component: HomeComponent    
-    
-    },
-    {
-        path: '',
-        component: ListarViagemComponent,        
-        
-    },
-    {
-        path: 'viagens',
-        component: ListarViagemComponent,        
-        
-    },
-    {
         path: 'planejar/:id',
-        component: PlanejarViagemComponent,        
+        component: PlanejarViagemComponent,
     },
     {
         path: '**',
         component: PageNotFoundComponent
     }
-     
-
 ];

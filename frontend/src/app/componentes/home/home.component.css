@@ -1,25 +1,373 @@
-.banner h1 {
-    font-family: var(--font-primaria);
-}
-.menu-principal {
-    background-color: var(--cor-primaria);
-    height: 2rem;
-    display: flex;
-    align-items: center;
+/* =============================================
+   HOME PAGE - VidaPassageira
+   ============================================= */
+
+.home-container {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
-.menu-principal ul {
-    display: flex;    
-    list-style: none;    
-    padding: 0;
-    margin: 0;
+/* =============================================
+   HERO SECTION
+   ============================================= */
+
+.hero-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4rem 6rem;
+  background: linear-gradient(135deg, rgba(129, 157, 106, 0.06) 0%, rgba(129, 157, 106, 0.18) 100%);
+  min-height: 80vh;
+  gap: 4rem;
 }
 
-.menu-principal ul li a {
-    font-family: var(--font-primaria);
-    font-weight: bold;
-    color: var(--cor-secundaria);
-    text-decoration: none;
-    padding: 3px;
-    margin: 3px;
+.hero-content {
+  flex: 1;
+  max-width: 620px;
+}
+
+.hero-title {
+  font-size: 3.2rem;
+  font-weight: 800;
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 2.5rem;
+  line-height: 1.7;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.hero-visual {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-icon-wrapper {
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(129, 157, 106, 0.15) 0%, rgba(129, 157, 106, 0.08) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.hero-icon-wrapper::before {
+  content: '';
+  position: absolute;
+  width: 380px;
+  height: 380px;
+  border-radius: 50%;
+  border: 2px dashed rgba(129, 157, 106, 0.2);
+  animation: spin 30s linear infinite;
+}
+
+.hero-icon-wrapper i {
+  font-size: 8rem;
+  color: var(--cor-primaria);
+  opacity: 0.6;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* =============================================
+   FEATURES SECTION
+   ============================================= */
+
+.features-section {
+  padding: 5rem 6rem;
+  background-color: #fff;
+}
+
+.section-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 0.75rem;
+}
+
+.section-subtitle {
+  font-size: 1.05rem;
+  text-align: center;
+  color: #777;
+  margin-bottom: 3rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.feature-card {
+  background: #fff;
+  border: 1px solid #e8e8e8;
+  border-radius: 16px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: default;
+}
+
+.feature-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 32px rgba(129, 157, 106, 0.12);
+  border-color: var(--cor-primaria);
+}
+
+.feature-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(129, 157, 106, 0.15) 0%, rgba(129, 157, 106, 0.08) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.25rem;
+}
+
+.feature-icon i {
+  font-size: 1.8rem;
+  color: var(--cor-primaria);
+}
+
+.feature-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 0.75rem;
+}
+
+.feature-description {
+  font-size: 0.92rem;
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* =============================================
+   HOW IT WORKS SECTION
+   ============================================= */
+
+.how-it-works-section {
+  padding: 5rem 6rem;
+  background: #f7f9f5;
+}
+
+.steps-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.step-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.step-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.step-number {
+  width: 48px;
+  height: 48px;
+  background: var(--cor-primaria);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+  flex-shrink: 0;
+}
+
+.step-content {
+  flex: 1;
+}
+
+.step-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.step-description {
+  font-size: 0.9rem;
+  color: #666;
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* =============================================
+   CTA SECTION
+   ============================================= */
+
+.cta-section {
+  padding: 5rem 6rem;
+  background: linear-gradient(135deg, var(--cor-primaria) 0%, #6d8456 100%);
+  color: #fff;
+}
+
+.cta-content {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.cta-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+.cta-subtitle {
+  font-size: 1.15rem;
+  margin-bottom: 2rem;
+  opacity: 0.92;
+  color: #fff;
+}
+
+/* =============================================
+   RESPONSIVE DESIGN
+   ============================================= */
+
+@media (max-width: 1200px) {
+  .features-grid,
+  .steps-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 1024px) {
+  .hero-section {
+    padding: 3rem 3rem;
+  }
+
+  .features-section,
+  .how-it-works-section,
+  .cta-section {
+    padding: 4rem 3rem;
+  }
+
+  .hero-title {
+    font-size: 2.6rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    flex-direction: column;
+    padding: 3rem 2rem;
+    min-height: auto;
+    text-align: center;
+  }
+
+  .hero-content {
+    max-width: 100%;
+  }
+
+  .hero-visual {
+    display: none;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.05rem;
+  }
+
+  .hero-actions {
+    justify-content: center;
+  }
+
+  .features-section,
+  .how-it-works-section,
+  .cta-section {
+    padding: 3rem 1.5rem;
+  }
+
+  .section-title {
+    font-size: 1.75rem;
+  }
+
+  .features-grid,
+  .steps-container {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cta-title {
+    font-size: 1.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-section {
+    padding: 2rem 1.25rem;
+  }
+
+  .hero-title {
+    font-size: 1.7rem;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .features-section,
+  .how-it-works-section,
+  .cta-section {
+    padding: 2.5rem 1.25rem;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  .feature-card,
+  .step-card {
+    padding: 1.5rem 1.25rem;
+  }
 }

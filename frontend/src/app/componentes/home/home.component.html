@@ -1,1 +1,91 @@
-<p>Home Page</p>
+<div class="home-container">
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <h1 class="hero-title">
+        Planeje Viagens Inesqueciveis com Inteligencia Artificial
+      </h1>
+      <p class="hero-subtitle">
+        VidaPassageira utiliza IA para criar itinerarios personalizados,
+        sugerir destinos incriveis e tornar suas viagens mais organizadas e especiais.
+      </p>
+      <div class="hero-actions">
+        <p-button
+          label="Comecar a Planejar"
+          icon="pi pi-map-marker"
+          severity="primary"
+          size="large"
+          [routerLink]="['/viagens']">
+        </p-button>
+        <p-button
+          label="Ver Destinos"
+          icon="pi pi-globe"
+          severity="secondary"
+          size="large"
+          [outlined]="true"
+          [routerLink]="['/destinos']">
+        </p-button>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-icon-wrapper">
+        <i class="pi pi-map"></i>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features-section">
+    <h2 class="section-title">O Que Nossa IA Sugere Para Voce</h2>
+    <p class="section-subtitle">
+      Receba recomendacoes personalizadas em 4 categorias essenciais para sua viagem
+    </p>
+
+    <div class="features-grid">
+      <div class="feature-card" *ngFor="let feature of features">
+        <div class="feature-icon">
+          <i [class]="feature.icon"></i>
+        </div>
+        <h3 class="feature-title">{{ feature.title }}</h3>
+        <p class="feature-description">{{ feature.description }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section class="how-it-works-section">
+    <h2 class="section-title">Como Funciona</h2>
+    <p class="section-subtitle">
+      4 passos simples para criar sua viagem perfeita
+    </p>
+
+    <div class="steps-container">
+      <div class="step-card" *ngFor="let step of steps; let i = index">
+        <div class="step-number">{{ i + 1 }}</div>
+        <div class="step-content">
+          <h3 class="step-title">{{ step.title }}</h3>
+          <p class="step-description">{{ step.description }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="cta-content">
+      <h2 class="cta-title">Pronto Para Sua Proxima Aventura?</h2>
+      <p class="cta-subtitle">
+        Comece a planejar sua viagem dos sonhos com ajuda da inteligencia artificial
+      </p>
+      <p-button
+        label="Criar Minha Primeira Viagem"
+        icon="pi pi-plus-circle"
+        severity="contrast"
+        size="large"
+        [routerLink]="['/destinos']">
+      </p-button>
+    </div>
+  </section>
+
+</div>
