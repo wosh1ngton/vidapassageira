@@ -71,6 +71,13 @@ export class HomeComponent {
   ];
 
   /**
+   * Verifica se o usuário está autenticado
+   */
+  get isAuthenticated(): boolean {
+    return this.authService.isAuthenticated();
+  }
+
+  /**
    * Navega para a rota desejada se autenticado, caso contrário inicia login
    */
   navigateOrLogin(route: string) {

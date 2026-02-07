@@ -29,8 +29,9 @@ export class AppComponent implements OnInit {
   ngOnInit() {
 
     this.primeng.ripple.set(true);
-    this.menuVisible = localStorage.getItem('menu') === 'open';
-    // Não inicia login automaticamente - apenas se usuário clicar
+    this.menuVisible = false; // Menu sempre inicia fechado
+    // Carrega usuário se houver token válido, mas não inicia login automaticamente
+    this.authService.initialize();
   }
 
   toggleMenu() {

@@ -65,6 +65,9 @@ export class FormDestinoComponent implements OnInit {
     imagem: undefined,
   };
 
+  imagePreviewUrl: string | null = null;
+  loading: boolean = false;
+
   constructor(
     private destinoService: DestinosService,
     private messageService: MessageService
@@ -72,11 +75,16 @@ export class FormDestinoComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  get destinoParaEditar() {
+    return this._destinoParaEditar;
+  }
+
   fecharModal() {
     this.modalStatus.set(false);
   }
 
   salvar() {
+    this.loading = true;
     if (this._destinoParaEditar) {
       this.atualizarDestino();
     } else {
@@ -85,19 +93,31 @@ export class FormDestinoComponent implements OnInit {
   }
 
   private atualizarDestino() {
-    
+
     if (!this._destinoParaEditar) {
       return;
     }
-    
+
     this.destinoService
       .atualizar(this.montarEdicaoDestino(), this._destinoParaEditar.id)
       .subscribe({
         next: (destinoSalvo) => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Sucesso!',
+            detail: 'Destino atualizado com sucesso'
+          });
           this.destinoSalvo.emit(destinoSalvo);
+          this.loading = false;
           this.fecharModal();
         },
         error: (error) => {
+          this.loading = false;
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erro ao atualizar',
+            detail: error.error?.message || 'Ocorreu um erro ao atualizar o destino'
+          });
           console.error('Erro ao salvar destino:', error);
         },
       });
@@ -106,10 +126,22 @@ export class FormDestinoComponent implements OnInit {
   salvarNovoDestino() {
     this.destinoService.save(this.montarDestino()).subscribe({
       next: (destinoSalvo) => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Sucesso!',
+          detail: 'Destino cadastrado com sucesso'
+        });
         this.destinoSalvo.emit(destinoSalvo);
+        this.loading = false;
         this.fecharModal();
       },
       error: (error) => {
+        this.loading = false;
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erro ao cadastrar',
+          detail: error.error?.message || 'Ocorreu um erro ao cadastrar o destino'
+        });
         console.error('Erro ao salvar destino:', error);
       },
     });
@@ -145,7 +177,43 @@ export class FormDestinoComponent implements OnInit {
   onSelect(event: FileSelectEvent) {
     const input = event.originalEvent.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
-      this.destino.imagem = input.files[0];
+      const file = input.files[0];
+
+      // Validações
+      if (file.size > 5 * 1024 * 1024) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Arquivo muito grande',
+          detail: 'O tamanho máximo permitido é 5MB'
+        });
+        return;
+      }
+
+      const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'];
+      if (!validTypes.includes(file.type)) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Formato inválido',
+          detail: 'Use apenas JPEG, PNG ou WebP'
+        });
+        return;
+      }
+
+      this.destino.imagem = file;
+      this.showImagePreview(file);
     }
+  }
+
+  showImagePreview(file: File) {
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.imagePreviewUrl = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  removeImage() {
+    this.destino.imagem = undefined;
+    this.imagePreviewUrl = null;
   }
 }

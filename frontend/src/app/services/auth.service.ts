@@ -15,8 +15,17 @@ export class AuthService {
     private usuarioService: UsuarioService
   ) {}
 
+  /**
+   * Inicializa o serviço carregando o usuário se houver token válido
+   */
+  initialize() {
+    if (this.oauthService.hasValidAccessToken()) {
+      this.loadUser();
+    }
+  }
+
   initLoginFlow() {
-    
+
     if (this.loginTriggered) {
       return;
     }

@@ -1,39 +1,148 @@
-<p-dialog #modal header="Cadastrar Destino" [(visible)]="modalStatus" [modal]="true" [style]="{width: '500px'}"
-    [closable]="true">
-    <form #formSubmit="ngForm" (ngSubmit)="salvar()" class="p-fluid" enctype="multipart/form-data">
+<p-dialog
+    #modal
+    [(visible)]="modalStatus"
+    [modal]="true"
+    [closable]="true"
+    [dismissableMask]="true"
+    [draggable]="false"
+    [resizable]="false"
+    styleClass="destino-dialog"
+    [style]="{width: '600px', maxWidth: '95vw'}">
 
-        <div class="field text-left">
-            <label for="nome">Nome</label>
-            <input class="w-full" pInputText id="nome" name="nome" [(ngModel)]="destino.nome" required />
+    <ng-template pTemplate="header">
+        <div class="dialog-header">
+            <h2 class="dialog-title">
+                <i class="pi pi-map-marker mr-2"></i>
+                {{ destinoParaEditar ? 'Editar Destino' : 'Novo Destino' }}
+            </h2>
+        </div>
+    </ng-template>
+
+    <p-toast></p-toast>
+
+    <form #formSubmit="ngForm" (ngSubmit)="salvar()" class="destino-form">
+
+        <!-- Nome do Destino -->
+        <div class="form-field">
+            <label for="nome" class="field-label">
+                <i class="pi pi-compass mr-1"></i>
+                Nome do Destino
+            </label>
+            <input
+                pInputText
+                id="nome"
+                name="nome"
+                [(ngModel)]="destino.nome"
+                placeholder="Ex: Paris, Torre Eiffel, Praia de Copacabana..."
+                class="form-input"
+                required
+                #nomeInput="ngModel" />
+            <small class="field-hint" *ngIf="!nomeInput.errors">
+                Digite o nome do local que deseja visitar
+            </small>
+            <small class="field-error" *ngIf="nomeInput.invalid && nomeInput.touched">
+                Nome é obrigatório
+            </small>
         </div>
 
-        <div class="field text-left">
-            <label for="descricao">Descrição</label>
-            <textarea class="w-full" pInputTextarea id="descricao" name="descricao" [(ngModel)]="destino.descricao"
-                rows="4"></textarea>
+        <!-- Localização -->
+        <div class="form-field">
+            <label for="localizacao" class="field-label">
+                <i class="pi pi-map mr-1"></i>
+                Localização
+            </label>
+            <input
+                pInputText
+                id="localizacao"
+                name="localizacao"
+                [(ngModel)]="destino.localizacao"
+                placeholder="Ex: França, Europa / Rio de Janeiro, Brasil"
+                class="form-input" />
+            <small class="field-hint">
+                País, cidade ou região onde o destino está localizado
+            </small>
         </div>
 
-        <div class="field text-left">
-            <label for="localizacao">Localização</label>
-            <textarea class="w-full" pInputTextarea id="localizacao" name="localizacao"
-                [(ngModel)]="destino.localizacao" rows="2"></textarea>
+        <!-- Descrição -->
+        <div class="form-field">
+            <label for="descricao" class="field-label">
+                <i class="pi pi-align-left mr-1"></i>
+                Descrição
+            </label>
+            <textarea
+                pInputTextarea
+                id="descricao"
+                name="descricao"
+                [(ngModel)]="destino.descricao"
+                placeholder="Descreva o destino, suas atrações, o que fazer, curiosidades..."
+                class="form-textarea"
+                rows="4"
+                [autoResize]="true"></textarea>
+            <small class="field-hint">
+                Informações que ajudem a conhecer melhor este destino
+            </small>
         </div>
 
-        <div class="field text-left">
-            <label for="localizacao">Imagem</label>
-            <p-toast />
+        <!-- Upload de Imagem -->
+        <div class="form-field">
+            <label class="field-label">
+                <i class="pi pi-image mr-1"></i>
+                Foto do Destino
+            </label>
 
-            <p-fileupload #fu mode="basic" class="justify-content-start" chooseLabel="Selecionar" chooseIcon="pi pi-upload" 
-            name="demo[]" accept="image/*" styleClass="w-full"
-                maxFileSize="1000000" (onSelect)="onSelect($event)" />
+            <!-- Preview da Imagem -->
+            <div class="image-preview-container" *ngIf="imagePreviewUrl">
+                <img [src]="imagePreviewUrl" alt="Preview" class="image-preview">
+                <button
+                    type="button"
+                    pButton
+                    icon="pi pi-times"
+                    class="p-button-rounded p-button-danger p-button-sm remove-image-btn"
+                    (click)="removeImage()"
+                    pTooltip="Remover imagem">
+                </button>
+            </div>
 
-
+            <!-- Upload Button -->
+            <div class="upload-area" *ngIf="!imagePreviewUrl">
+                <p-fileupload
+                    #fileUpload
+                    mode="basic"
+                    name="imagem"
+                    accept="image/jpeg,image/png,image/jpg,image/webp"
+                    [maxFileSize]="5000000"
+                    chooseLabel="Escolher Imagem"
+                    chooseIcon="pi pi-upload"
+                    styleClass="upload-button"
+                    (onSelect)="onSelect($event)"
+                    (onClear)="removeImage()">
+                </p-fileupload>
+                <div class="upload-hint">
+                    <i class="pi pi-info-circle mr-1"></i>
+                    JPG, PNG ou WebP (máx. 5MB)
+                </div>
+            </div>
         </div>
 
-        <div class="flex justify-content-end mt-4">
-            <p-button type="submit" label="Salvar" icon="pi pi-check"></p-button>
+        <!-- Botões de Ação -->
+        <div class="form-actions">
+            <p-button
+                type="button"
+                label="Cancelar"
+                icon="pi pi-times"
+                severity="secondary"
+                [outlined]="true"
+                (onClick)="fecharModal()"
+                styleClass="action-button">
+            </p-button>
+            <p-button
+                type="submit"
+                [label]="destinoParaEditar ? 'Atualizar' : 'Cadastrar'"
+                icon="pi pi-check"
+                [loading]="loading"
+                [disabled]="!formSubmit.valid || loading"
+                styleClass="action-button">
+            </p-button>
         </div>
-
-
     </form>
 </p-dialog>

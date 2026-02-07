@@ -1,3 +1,263 @@
-.p-fileupload-basic {
-    justify-content: start;
+/* =============================================
+   DIALOG HEADER
+   ============================================= */
+
+::ng-deep .destino-dialog .p-dialog-header {
+  background: linear-gradient(135deg, #819d6a 0%, #6b8558 100%);
+  padding: 1.5rem 2rem;
+  border-radius: 16px 16px 0 0;
+}
+
+::ng-deep .destino-dialog .p-dialog-header .p-dialog-title {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+::ng-deep .destino-dialog .p-dialog-header-icons button {
+  color: white !important;
+}
+
+::ng-deep .destino-dialog .p-dialog-header-icons button:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
+::ng-deep .destino-dialog .p-dialog-content {
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 0 0 16px 16px;
+}
+
+.dialog-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dialog-title {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+/* =============================================
+   FORM
+   ============================================= */
+
+.destino-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.field-label {
+  color: #333333;
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.25rem;
+}
+
+.field-label i {
+  color: #819d6a;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  color: #333333;
+  background: #f8f9fa;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  outline: none;
+  background: #ffffff;
+  border-color: #819d6a;
+  box-shadow: 0 0 0 3px rgba(129, 157, 106, 0.1);
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: #999999;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.field-hint {
+  color: #666666;
+  font-size: 0.8rem;
+  font-style: italic;
+  display: flex;
+  align-items: center;
+}
+
+.field-error {
+  color: #c33;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+/* =============================================
+   IMAGE UPLOAD
+   ============================================= */
+
+.upload-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  border: 2px dashed #e0e0e0;
+  border-radius: 12px;
+  background: #f8f9fa;
+  transition: all 0.3s ease;
+}
+
+.upload-area:hover {
+  border-color: #819d6a;
+  background: rgba(129, 157, 106, 0.05);
+}
+
+::ng-deep .upload-button button {
+  background: linear-gradient(135deg, #819d6a 0%, #6b8558 100%) !important;
+  border: none !important;
+  padding: 0.75rem 1.5rem !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  transition: all 0.3s ease !important;
+}
+
+::ng-deep .upload-button button:hover {
+  background: linear-gradient(135deg, #6b8558 0%, #5f7d4f 100%) !important;
+  box-shadow: 0 4px 12px rgba(129, 157, 106, 0.3) !important;
+  transform: translateY(-1px) !important;
+}
+
+.upload-hint {
+  color: #666666;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* =============================================
+   IMAGE PREVIEW
+   ============================================= */
+
+.image-preview-container {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.image-preview {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+}
+
+.remove-image-btn {
+  position: absolute !important;
+  top: 10px !important;
+  right: 10px !important;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* =============================================
+   FORM ACTIONS
+   ============================================= */
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+::ng-deep .action-button {
+  min-width: 120px;
+}
+
+/* =============================================
+   RESPONSIVIDADE
+   ============================================= */
+
+@media screen and (max-width: 768px) {
+  ::ng-deep .destino-dialog {
+    width: 95vw !important;
+  }
+
+  ::ng-deep .destino-dialog .p-dialog-content {
+    padding: 1.5rem;
+  }
+
+  .dialog-title {
+    font-size: 1.25rem;
+  }
+
+  .form-actions {
+    flex-direction: column-reverse;
+  }
+
+  ::ng-deep .action-button {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  ::ng-deep .destino-dialog .p-dialog-header {
+    padding: 1.25rem 1.5rem;
+  }
+
+  ::ng-deep .destino-dialog .p-dialog-content {
+    padding: 1.25rem;
+  }
+
+  .dialog-title {
+    font-size: 1.1rem;
+  }
+
+  .form-input,
+  .form-textarea {
+    padding: 0.625rem 0.875rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Override PrimeNG file upload styles */
+::ng-deep .p-fileupload-basic {
+  justify-content: center;
+}
+
+::ng-deep .p-fileupload-basic input[type="file"] {
+  display: none;
 }
