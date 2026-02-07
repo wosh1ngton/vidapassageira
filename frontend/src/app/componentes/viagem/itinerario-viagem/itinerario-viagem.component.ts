@@ -40,9 +40,9 @@ export interface EventItem {
   providers: [ConfirmationService, MessageService],
 })
 export class ItinerarioViagemComponent implements OnInit, OnChanges {
-  @Input() atividades: ItinerarioResponseDto[];
+  @Input() atividades: ItinerarioResponseDto[] = [];
   @Output() updatePagina = new EventEmitter<boolean>();
-  itensTimeLine: EventItem[] | undefined;
+  itensTimeLine: EventItem[] = [];
 
   ref: DynamicDialogRef | undefined;
 
@@ -59,6 +59,11 @@ export class ItinerarioViagemComponent implements OnInit, OnChanges {
   }
 
   private getItensTimeLine() {
+    if (!this.atividades || this.atividades.length === 0) {
+      this.itensTimeLine = [];
+      return;
+    }
+
     this.itensTimeLine = this.atividades.map((atividade) => ({
       ...atividade,
       color: '#f4f4f4',

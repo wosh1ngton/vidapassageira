@@ -1,81 +1,116 @@
-<section class="p-4">
+<div class="destinos-container">
     <p-toast />
     <p-confirmdialog />
-    <section class="pb-3" style="text-align: right;">
-        <app-form-destino [destinoParaEditar]="destinoSelecionado" (destinoSalvo)="atualizaListagemDestinos()" [(modalStatus)]="modalDialog">
-        </app-form-destino>
-        <button pButton type="button" label="Cadastrar destino" (click)="abrirDestinoDialog()"></button>
-    </section>
-    <section>
+
+    <!-- Header Section -->
+    <div class="page-header">
+        <div class="header-content">
+            <div class="header-left">
+                <div class="icon-wrapper">
+                    <i class="pi pi-map-marker"></i>
+                </div>
+                <div class="title-group">
+                    <h1 class="page-title">Meus Destinos</h1>
+                    <p class="page-subtitle">Gerencie seus destinos favoritos</p>
+                </div>
+            </div>
+            <button pButton
+                    label="Novo Destino"
+                    icon="pi pi-plus"
+                    class="add-button"
+                    (click)="abrirDestinoDialog()"></button>
+        </div>
+    </div>
+
+    <app-form-destino
+        [destinoParaEditar]="destinoSelecionado"
+        (destinoSalvo)="atualizaListagemDestinos()"
+        [(modalStatus)]="modalDialog">
+    </app-form-destino>
+
+    <!-- Content Section -->
+    <div class="content-wrapper">
         <!-- Skeleton Loading -->
-        <div class="grid" *ngIf="loading">
-            <div class="col-12 md:col-4" *ngFor="let item of [1,2,3]">
-                <div class="skeleton-card">
-                    <div class="skeleton-header">
-                        <div class="skeleton skeleton-title"></div>
-                        <div class="skeleton skeleton-subtitle"></div>
-                    </div>
-                    <div class="skeleton-body">
-                        <div class="skeleton skeleton-image"></div>
-                        <div class="skeleton skeleton-text"></div>
-                        <div class="skeleton skeleton-text short"></div>
-                    </div>
-                    <div class="skeleton-footer">
-                        <div class="skeleton skeleton-button"></div>
-                        <div class="skeleton skeleton-button"></div>
-                        <div class="skeleton skeleton-button wide"></div>
-                    </div>
+        <div class="destinos-grid" *ngIf="loading">
+            <div class="destino-card-skeleton" *ngFor="let item of [1,2,3,4,5,6]">
+                <div class="skeleton-image"></div>
+                <div class="skeleton-content">
+                    <div class="skeleton skeleton-title"></div>
+                    <div class="skeleton skeleton-location"></div>
+                    <div class="skeleton skeleton-text"></div>
+                    <div class="skeleton skeleton-text short"></div>
+                </div>
+                <div class="skeleton-actions">
+                    <div class="skeleton skeleton-button"></div>
+                    <div class="skeleton skeleton-button"></div>
+                    <div class="skeleton skeleton-button wide"></div>
                 </div>
             </div>
         </div>
 
         <!-- Empty State -->
         <div *ngIf="!loading && destinos.length === 0" class="empty-state">
-            <i class="pi pi-map-marker empty-state-icon"></i>
-            <h3 class="empty-state-title">Nenhum destino cadastrado</h3>
-            <p class="empty-state-text">
-                Comece adicionando seus destinos favoritos para planejar suas viagens dos sonhos.
+            <div class="empty-illustration">
+                <i class="pi pi-map-marker"></i>
+            </div>
+            <h3 class="empty-title">Nenhum destino cadastrado</h3>
+            <p class="empty-message">
+                Comece sua jornada adicionando seus destinos favoritos.<br>
+                Explore o mundo e planeje suas próximas aventuras!
             </p>
-            <button pButton type="button" label="Cadastrar Primeiro Destino"
+            <button pButton
+                    label="Adicionar Primeiro Destino"
                     icon="pi pi-plus"
-                    (click)="abrirDestinoDialog()"
-                    class="empty-state-button"></button>
+                    class="empty-button"
+                    (click)="abrirDestinoDialog()"></button>
         </div>
 
         <!-- Lista de Destinos -->
-        <div class="grid" *ngIf="!loading && destinos.length > 0">
-            <div class="col-12 md:col-4" *ngFor="let destino of destinos">
-                <p-card [header]="destino.nome" [subheader]="destino.localizacao">
-                    <div class="image-container mb-3">
-                        <img *ngIf="destino.imagemBase64"
-                             [src]="destino.imagemBase64"
-                             [alt]="destino.nome"
-                             class="destino-image" />
-                        <div *ngIf="!destino.imagemBase64" class="image-placeholder">
-                            <i class="pi pi-image"></i>
-                            <span>Sem imagem</span>
-                        </div>
+        <div class="destinos-grid" *ngIf="!loading && destinos.length > 0">
+            <div class="destino-card" *ngFor="let destino of destinos">
+                <div class="card-image-wrapper">
+                    <img *ngIf="destino.imagemBase64"
+                         [src]="destino.imagemBase64"
+                         [alt]="destino.nome"
+                         class="card-image" />
+                    <div *ngIf="!destino.imagemBase64" class="card-image-placeholder">
+                        <i class="pi pi-image"></i>
                     </div>
+                    <div class="card-overlay">
+                        <button pButton
+                                icon="pi pi-eye"
+                                class="p-button-rounded p-button-text overlay-button"
+                                pTooltip="Ver detalhes"></button>
+                    </div>
+                </div>
 
-                    <p>{{ destino.descricao }}</p>
+                <div class="card-content">
+                    <h3 class="card-title">{{ destino.nome }}</h3>
+                    <div class="card-location">
+                        <i class="pi pi-map-marker"></i>
+                        <span>{{ destino.localizacao }}</span>
+                    </div>
+                    <p class="card-description">{{ destino.descricao }}</p>
+                </div>
 
-                    <ng-template pTemplate="footer">
-                        <div class="flex justify-content-end gap-1">
-                            <button pButton type="button" icon="pi pi-pencil" class="p-button-sm p-button-outlined"
-                                (click)="editarDestino(destino)"></button>
-
-                            <button pButton type="button" icon="pi pi-trash" class="p-button-sm p-button-danger"
-                                (click)="confirmarDelecao(destino.id)"></button>
-
-                            <button pButton type="button" icon="pi pi-telegram" label="Agendar Viagem"
-                                class="p-button-sm p-button-default" (click)="criarViagem(destino)"></button>
-                        </div>
-                    </ng-template>
-                </p-card>
+                <div class="card-actions">
+                    <button pButton
+                            icon="pi pi-pencil"
+                            class="p-button-sm p-button-text"
+                            pTooltip="Editar"
+                            (click)="editarDestino(destino)"></button>
+                    <button pButton
+                            icon="pi pi-trash"
+                            class="p-button-sm p-button-text p-button-danger"
+                            pTooltip="Excluir"
+                            (click)="confirmarDelecao(destino.id)"></button>
+                    <button pButton
+                            label="Agendar Viagem"
+                            icon="pi pi-calendar-plus"
+                            class="p-button-sm schedule-button"
+                            (click)="criarViagem(destino)"></button>
+                </div>
             </div>
         </div>
-    </section>
-    
-    <!-- <p-dialog [header]="'Cadastrar Viagem'" [(visible)]="showPlanejarViagem" [style]="{ width: '35rem' }">
-        <app-form-viagem [destinoParaViagem]="destinoViagem" (closeDialog)="showPlanejarViagem = false"> </app-form-viagem>
-    </p-dialog> -->
+    </div>
+</div>

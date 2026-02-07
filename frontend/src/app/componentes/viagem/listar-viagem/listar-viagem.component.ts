@@ -37,13 +37,24 @@ export class ListarViagemComponent implements OnInit {
   private listarViagens() {
     this.loading = true;
     this.viagemService.getAll()
-      .subscribe((viagens: ViagemResponseDTO[]) => {
-        this.viagens = viagens.sort((a, b) => {
-          const d1 = new Date(a.dataVolta);
-          const d2 = new Date(b.dataVolta);
-          return Number(d1) - Number(d2);
-        });
-        this.loading = false;
+      .subscribe({
+        next: (viagens: ViagemResponseDTO[]) => {
+          this.viagens = viagens.sort((a, b) => {
+            const d1 = new Date(a.dataVolta);
+            const d2 = new Date(b.dataVolta);
+            return Number(d1) - Number(d2);
+          });
+          this.loading = false;
+        },
+        error: (error) => {
+          console.error('Erro ao carregar viagens:', error);
+          this.loading = false;
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail: 'Erro ao carregar viagens'
+          });
+        }
       });
   }
 

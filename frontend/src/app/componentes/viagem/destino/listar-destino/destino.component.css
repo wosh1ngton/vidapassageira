@@ -1,169 +1,364 @@
-/* Image Container */
-.image-container {
+/* Container & Layout */
+.destinos-container {
     width: 100%;
-    height: 200px;
-    border-radius: 8px;
+    min-height: calc(100vh - 100px);
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding-bottom: 2rem;
+}
+
+.content-wrapper {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Page Header */
+.page-header {
+    background: linear-gradient(135deg, #819d6a 0%, #6b8558 100%);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    margin-bottom: 0;
+    width: 100%;
+    padding: 0;
+}
+
+.header-content {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.icon-wrapper {
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+}
+
+.icon-wrapper i {
+    font-size: 2rem;
+    color: white;
+}
+
+.title-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: white;
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.page-subtitle {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0;
+}
+
+.add-button {
+    background: white !important;
+    color: #819d6a !important;
+    border: none !important;
+    padding: 0.75rem 1.5rem !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    transition: all 0.3s ease;
+}
+
+.add-button:hover {
+    background: #f8f9fa !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Destinos Grid */
+.destinos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2rem;
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Destino Card */
+.destino-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.destino-card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    transform: translateY(-4px);
+}
+
+.card-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 240px;
     overflow: hidden;
 }
 
-.destino-image {
+.card-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.3s ease;
 }
 
-.image-placeholder {
+.destino-card:hover .card-image {
+    transform: scale(1.05);
+}
+
+.card-image-placeholder {
     width: 100%;
     height: 100%;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     background: linear-gradient(135deg, rgba(129, 157, 106, 0.1) 0%, rgba(129, 157, 106, 0.05) 100%);
-    border: 2px dashed #e0e0e0;
-    border-radius: 8px;
     color: #999999;
 }
 
-.image-placeholder i {
-    font-size: 3rem;
-    margin-bottom: 0.5rem;
-    opacity: 0.5;
+.card-image-placeholder i {
+    font-size: 4rem;
+    opacity: 0.3;
 }
 
-.image-placeholder span {
-    font-size: 0.9rem;
-    font-weight: 500;
+.card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.7) 100%);
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding: 1rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.destino-card:hover .card-overlay {
+    opacity: 1;
+}
+
+.overlay-button {
+    background: white !important;
+    color: #819d6a !important;
+}
+
+.card-content {
+    padding: 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #333333;
+    margin: 0;
+    line-height: 1.3;
+}
+
+.card-location {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #666666;
+    font-size: 0.95rem;
+}
+
+.card-location i {
+    color: #819d6a;
+    font-size: 1rem;
+}
+
+.card-description {
+    font-size: 0.95rem;
+    color: #666666;
+    line-height: 1.6;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.card-actions {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid #f0f0f0;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    background: #fafafa;
+}
+
+.schedule-button {
+    margin-left: auto;
+    background: linear-gradient(135deg, #819d6a 0%, #6b8558 100%) !important;
+    border: none !important;
+}
+
+.schedule-button:hover {
+    box-shadow: 0 4px 12px rgba(129, 157, 106, 0.3) !important;
 }
 
 /* Empty State */
 .empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 4rem 2rem;
-  text-align: center;
-  background: linear-gradient(135deg, rgba(129, 157, 106, 0.05) 0%, rgba(129, 157, 106, 0.02) 100%);
-  border-radius: 16px;
-  border: 2px dashed #e0e0e0;
-  margin: 2rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 6rem 2rem;
+    text-align: center;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-.empty-state-icon {
-  font-size: 4rem;
-  color: #819d6a;
-  margin-bottom: 1.5rem;
-  opacity: 0.6;
+.empty-illustration {
+    width: 120px;
+    height: 120px;
+    background: linear-gradient(135deg, rgba(129, 157, 106, 0.1) 0%, rgba(129, 157, 106, 0.05) 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
 }
 
-.empty-state-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #333333;
-  margin: 0 0 0.75rem 0;
+.empty-illustration i {
+    font-size: 4rem;
+    color: #819d6a;
+    opacity: 0.6;
 }
 
-.empty-state-text {
-  font-size: 1rem;
-  color: #666666;
-  max-width: 500px;
-  margin: 0 0 2rem 0;
-  line-height: 1.6;
+.empty-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #333333;
+    margin: 0 0 1rem 0;
 }
 
-.empty-state-button {
-  min-width: 220px;
+.empty-message {
+    font-size: 1.1rem;
+    color: #666666;
+    max-width: 500px;
+    margin: 0 0 2.5rem 0;
+    line-height: 1.8;
 }
 
-/* =============================================
-   SKELETON LOADERS
-   ============================================= */
-
-.skeleton-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
-  animation: fadeIn 0.3s ease-in;
+.empty-button {
+    padding: 0.875rem 2rem !important;
+    font-size: 1.1rem !important;
+    background: linear-gradient(135deg, #819d6a 0%, #6b8558 100%) !important;
+    border: none !important;
 }
 
-.skeleton-header {
-  padding: 1.25rem;
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.skeleton-body {
-  padding: 1.25rem;
-}
-
-.skeleton-footer {
-  padding: 1.25rem;
-  border-top: 1px solid #f0f0f0;
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
-}
-
-.skeleton {
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
-  border-radius: 4px;
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: 200% 0;
-  }
-  100% {
-    background-position: -200% 0;
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.skeleton-title {
-  height: 24px;
-  width: 70%;
-  margin-bottom: 0.75rem;
-}
-
-.skeleton-subtitle {
-  height: 18px;
-  width: 50%;
+/* Skeleton Loading */
+.destino-card-skeleton {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
 }
 
 .skeleton-image {
-  height: 200px;
-  width: 100%;
-  margin-bottom: 1rem;
-  border-radius: 8px;
+    width: 100%;
+    height: 240px;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
 }
 
-.skeleton-text {
-  height: 16px;
-  width: 100%;
-  margin-bottom: 0.5rem;
+.skeleton-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
 }
 
-.skeleton-text.short {
-  width: 80%;
+.skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 4px;
 }
 
-.skeleton-button {
-  height: 36px;
-  width: 36px;
-  border-radius: 4px;
+@keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
 }
 
-.skeleton-button.wide {
-  width: 140px;
+.skeleton-title { height: 28px; width: 70%; }
+.skeleton-location { height: 20px; width: 50%; }
+.skeleton-text { height: 16px; width: 100%; }
+.skeleton-text.short { width: 80%; }
+
+.skeleton-actions {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid #f0f0f0;
+    display: flex;
+    gap: 0.5rem;
+    background: #fafafa;
+}
+
+.skeleton-button { height: 36px; width: 36px; border-radius: 4px; }
+.skeleton-button.wide { width: 140px; margin-left: auto; }
+
+/* Responsividade */
+@media screen and (max-width: 992px) {
+    .destinos-grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+    .page-title { font-size: 1.5rem; }
+    .header-content { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .add-button { width: 100%; }
+}
+
+@media screen and (max-width: 768px) {
+    .content-wrapper { padding: 1rem; }
+    .header-content { padding: 1.5rem 1rem; }
+    .icon-wrapper { width: 50px; height: 50px; }
+    .icon-wrapper i { font-size: 1.5rem; }
+    .destinos-grid { grid-template-columns: 1fr; gap: 1rem; }
+    .card-title { font-size: 1.25rem; }
+}
+
+@media screen and (max-width: 480px) {
+    .header-left { gap: 1rem; }
+    .page-title { font-size: 1.25rem; }
+    .page-subtitle { font-size: 0.9rem; }
+    .card-actions { flex-wrap: wrap; }
+    .schedule-button { width: 100%; margin-left: 0; }
 }

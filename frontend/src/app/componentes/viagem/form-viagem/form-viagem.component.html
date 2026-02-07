@@ -1,27 +1,72 @@
-<form #formViagem="ngForm">
-    <div class="formgrid grid" >
-        <div class="field col-12">
-            <label for="destino"> Destino </label>
-            {{destino.id}}
-            <input type="hidden" name="idDestino" [(ngModel)]="viagem.idDestino">
-            <input type="text" name="destino" class="w-full" pInputText [value]=destino.nome [disabled]="true" />
+<div class="form-viagem-container">
+    <form #formViagem="ngForm">
+        <div class="form-content">
+            <!-- Destino Info -->
+            <div class="destino-info-card">
+                <div class="info-icon">
+                    <i class="pi pi-map-marker"></i>
+                </div>
+                <div class="info-content">
+                    <label class="info-label">Destino selecionado</label>
+                    <h3 class="destino-name">{{ destino.nome }}</h3>
+                    <input type="hidden" name="idDestino" [(ngModel)]="viagem.idDestino">
+                </div>
+            </div>
+
+            <!-- Datas -->
+            <div class="dates-grid">
+                <div class="form-field">
+                    <label for="dataIda" class="field-label">
+                        <i class="pi pi-calendar"></i>
+                        Data de Ida
+                    </label>
+                    <p-calendar
+                        [(ngModel)]="viagem.dataIda"
+                        inputId="dataIda"
+                        dateFormat="dd/mm/yy"
+                        [iconDisplay]="'input'"
+                        [showIcon]="true"
+                        appendTo="body"
+                        name="dataIda"
+                        placeholder="Selecione a data de ida"
+                        [style]="{'width': '100%'}">
+                    </p-calendar>
+                </div>
+
+                <div class="form-field">
+                    <label for="dataVolta" class="field-label">
+                        <i class="pi pi-calendar"></i>
+                        Data de Retorno
+                    </label>
+                    <p-calendar
+                        [(ngModel)]="viagem.dataVolta"
+                        inputId="dataVolta"
+                        dateFormat="dd/mm/yy"
+                        [iconDisplay]="'input'"
+                        [showIcon]="true"
+                        appendTo="body"
+                        name="dataVolta"
+                        placeholder="Selecione a data de retorno"
+                        [style]="{'width': '100%'}">
+                    </p-calendar>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="form-actions">
+                <button pButton
+                        type="button"
+                        label="Cancelar"
+                        icon="pi pi-times"
+                        class="cancel-button"
+                        (click)="close()"></button>
+                <button pButton
+                        type="button"
+                        label="Salvar Viagem"
+                        icon="pi pi-check"
+                        class="save-button"
+                        (click)="salvar()"></button>
+            </div>
         </div>
-        <div class="field col-6 ">
-            <label for="dataIda">Data de Ida</label> <br />
-            <p-calendar [(ngModel)]="viagem.dataIda" inputId="icondisplay" dateFormat="dd/mm/yy" [iconDisplay]="'input'"
-                [showIcon]="true" appendTo="body" name="dataIda"> </p-calendar>
-        </div>
-        <div class="field col-6">
-            <label for="dataVolta">Data de Retorno</label>
-            <p-date-picker [(ngModel)]="viagem.dataVolta" class="w-full" inputId="icondisplay" dateFormat="dd/mm/yy"
-                [iconDisplay]="'input'" [showIcon]="true" appendTo="body" name="dataVolta"></p-date-picker>
-        </div>
-        <div class="field col-6 text-left">
-            <button pButton label="Cancelar" (click)="close()" severity="danger"></button>
-        </div>
-        <div class="field col-6 text-right">
-            <button pButton label="Salvar" (click)="salvar()"></button>
-        </div>
-        
-    </div>
-</form>
+    </form>
+</div>

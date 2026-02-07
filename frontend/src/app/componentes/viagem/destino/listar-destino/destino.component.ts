@@ -37,9 +37,20 @@ export class DestinoComponent implements OnInit {
 
   listarDestinos() {
     this.loading = true;
-    this.destinoService.getAll().subscribe((destinos) => {
-      this.destinos = destinos;
-      this.loading = false;
+    this.destinoService.getAll().subscribe({
+      next: (destinos) => {
+        this.destinos = destinos;
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Erro ao carregar destinos:', error);
+        this.loading = false;
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erro',
+          detail: 'Erro ao carregar destinos'
+        });
+      }
     });
   }
 

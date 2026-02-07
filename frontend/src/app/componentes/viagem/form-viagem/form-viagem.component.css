@@ -1,0 +1,162 @@
+/* Form Container */
+.form-viagem-container {
+    padding: 0;
+}
+
+.form-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Destino Info Card */
+.destino-info-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(129, 157, 106, 0.1) 0%, rgba(129, 157, 106, 0.05) 100%);
+    border-radius: 12px;
+    border-left: 4px solid #819d6a;
+}
+
+.info-icon {
+    width: 50px;
+    height: 50px;
+    background: #819d6a;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.info-icon i {
+    font-size: 1.5rem;
+    color: white;
+}
+
+.info-content {
+    flex: 1;
+}
+
+.info-label {
+    font-size: 0.85rem;
+    color: #666666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.destino-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #333333;
+    margin: 0;
+}
+
+/* Dates Grid */
+.dates-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+/* Form Field */
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.field-label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333333;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.field-label i {
+    color: #819d6a;
+    font-size: 1.1rem;
+}
+
+/* Calendar Customization */
+::ng-deep .p-calendar {
+    width: 100%;
+}
+
+::ng-deep .p-calendar .p-inputtext {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+::ng-deep .p-calendar .p-inputtext:hover {
+    border-color: #819d6a;
+}
+
+::ng-deep .p-calendar .p-inputtext:focus {
+    border-color: #819d6a;
+    box-shadow: 0 0 0 3px rgba(129, 157, 106, 0.1);
+}
+
+/* Form Actions */
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    padding-top: 1rem;
+    border-top: 1px solid #f0f0f0;
+}
+
+.cancel-button {
+    background: white !important;
+    color: #666666 !important;
+    border: 2px solid #e0e0e0 !important;
+}
+
+.cancel-button:hover {
+    background: #f8f9fa !important;
+    border-color: #999999 !important;
+    color: #333333 !important;
+}
+
+.save-button {
+    background: linear-gradient(135deg, #819d6a 0%, #6b8558 100%) !important;
+    border: none !important;
+    padding: 0.75rem 2rem !important;
+}
+
+.save-button:hover {
+    box-shadow: 0 4px 12px rgba(129, 157, 106, 0.3) !important;
+    transform: translateY(-2px);
+}
+
+/* Responsividade */
+@media screen and (max-width: 768px) {
+    .dates-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .destino-name {
+        font-size: 1.25rem;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .cancel-button,
+    .save-button {
+        width: 100%;
+    }
+}

@@ -1,29 +1,157 @@
-.logo-container {
+/* =============================================
+   APP HEADER - BANNER SUPERIOR
+   ============================================= */
+
+.app-header {
+  background: white;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  padding: 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.header-container {
+  max-width: 1600px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  height: 80px;
+}
+
+.header-left {
   display: flex;
   align-items: center;
-  height: 80px; 
+  gap: 1rem;
+}
+
+.menu-toggle-button {
+  background: #f5f5f5;
+  border: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.menu-toggle-button i {
+  color: #333333;
+  font-size: 1.5rem;
+}
+
+.menu-toggle-button:hover {
+  background: #819d6a;
+  transform: scale(1.05);
+}
+
+.menu-toggle-button:hover i {
+  color: white;
+}
+
+.menu-toggle-button:active {
+  transform: scale(0.95);
+}
+
+.logo-wrapper {
+  display: flex;
+  align-items: center;
+  height: 70px;
+  padding: 0.5rem 1rem;
+  background: #f8f9fa;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .logo {
   height: 100%;
-  max-height: 80px;
-  width: auto;
-  margin-left: 5px;
-  object-fit: contain;
-}
-
-@media screen and (max-width: 768px) { 
-  .logo {
-  height: 100%;
   max-height: 60px;
   width: auto;
-  margin-left: 5px;
   object-fit: contain;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
 }
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 1rem;
+  background: #f8f9fa;
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #819d6a 0%, #6b8558 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(129, 157, 106, 0.3);
+}
+
+.user-avatar i {
+  color: white;
+  font-size: 1.25rem;
+}
+
 .username-text {
-  font-size: small;
+  color: #333333;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.3px;
 }
+
+.logout-button {
+  background: #f5f5f5;
+  border: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
+
+.logout-button i {
+  color: #dc3545;
+  font-size: 1.25rem;
+}
+
+.logout-button:hover {
+  background: #dc3545;
+  transform: scale(1.05);
+}
+
+.logout-button:hover i {
+  color: white;
+}
+
+.logout-button:active {
+  transform: scale(0.95);
+}
+
+/* =============================================
+   AUTH CONTAINER
+   ============================================= */
+
 .auth-container {
   display: flex;
   justify-content: center;
@@ -32,7 +160,6 @@
   background: #f4f4f4;
   font-family: #333;
 }
-
 
 .auth-content {
   text-align: center;
@@ -44,15 +171,29 @@
   justify-content: center;
   gap: 1rem;
   margin-top: 1rem;
-  font-family: var(--font-primaria);  
+  font-family: var(--font-primaria);
 }
 
-.app-header {
-  background: linear-gradient(90deg, #e9e9e9 0%, #819d6a 100%);
-  color: #666;
-  font-family: var(--font-primaria);
-  font-weight: 600;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+/* =============================================
+   SIDEBAR MENU
+   ============================================= */
+
+.sidebar-menu {
+  width: 8rem;
+}
+
+.menu-link {
+  display: block;
+  padding: 0.5rem;
+  border-radius: 6px;
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.menu-link:hover {
+  background: var(--surface-100);
+  text-decoration: none;
 }
 
 a {
@@ -64,17 +205,101 @@ a:hover {
   text-decoration: underline;
 }
 
-.sidebar-menu {
-  width: 8rem;
+/* =============================================
+   LAYOUT FIXES - Remove padding do PrimeFlex
+   ============================================= */
+
+/* Previne scroll horizontal */
+body, html {
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
-.menu-link {
-  display: block;
-  padding: 0.5rem;
-  border-radius: 6px;
-  color: var(--primary-color);
+/* Remove padding do .col para páginas ocuparem largura total */
+.col {
+  padding: 0 !important;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
 }
 
-.menu-link:hover {
-  background: var(--surface-100);
+/* Remove padding e margin dos grids do PrimeFlex */
+.grid {
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* =============================================
+   RESPONSIVIDADE
+   ============================================= */
+
+@media screen and (max-width: 768px) {
+  .header-container {
+    padding: 0.5rem 1rem;
+    height: 70px;
+  }
+
+  .logo-wrapper {
+    height: 60px;
+    padding: 0.4rem 0.75rem;
+  }
+
+  .logo {
+    max-height: 50px;
+  }
+
+  .menu-toggle-button,
+  .logout-button {
+    width: 42px;
+    height: 42px;
+  }
+
+  .menu-toggle-button i,
+  .logout-button i {
+    font-size: 1.2rem;
+  }
+
+  .user-avatar {
+    width: 36px;
+    height: 36px;
+  }
+
+  .user-avatar i {
+    font-size: 1.1rem;
+  }
+
+  .username-text {
+    font-size: 0.9rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .header-container {
+    height: 60px;
+  }
+
+  .logo-wrapper {
+    height: 50px;
+    padding: 0.3rem 0.5rem;
+  }
+
+  .logo {
+    max-height: 40px;
+  }
+
+  .user-info {
+    padding: 0.4rem 0.75rem;
+    gap: 0.5rem;
+  }
+
+  .user-avatar {
+    display: none;
+  }
+
+  .username-text {
+    font-size: 0.85rem;
+  }
 }

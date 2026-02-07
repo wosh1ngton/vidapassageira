@@ -1,20 +1,40 @@
-<div class="grid col-12">
+<div class="viagens-container">
     <p-toast />
     <p-confirmdialog />
 
-    <!-- Skeleton Loading -->
-    <ng-container *ngIf="loading">
-        <div class="col-12" style="width: 400px;" *ngFor="let item of [1,2,3]">
-            <div class="skeleton-card">
-                <div class="skeleton-header">
+    <!-- Header Section -->
+    <div class="page-header">
+        <div class="header-content">
+            <div class="header-left">
+                <div class="icon-wrapper">
+                    <i class="pi pi-map"></i>
+                </div>
+                <div class="title-group">
+                    <h1 class="page-title">Minhas Viagens</h1>
+                    <p class="page-subtitle">Gerencie e planeje suas aventuras</p>
+                </div>
+            </div>
+            <button pButton
+                    label="Ver Destinos"
+                    icon="pi pi-map-marker"
+                    class="add-button"
+                    routerLink="/destinos"></button>
+        </div>
+    </div>
+
+    <!-- Content Section -->
+    <div class="content-wrapper">
+        <!-- Skeleton Loading -->
+        <div class="viagens-grid" *ngIf="loading">
+            <div class="viagem-card-skeleton" *ngFor="let item of [1,2,3,4,5,6]">
+                <div class="skeleton-image"></div>
+                <div class="skeleton-content">
+                    <div class="skeleton skeleton-badge"></div>
                     <div class="skeleton skeleton-title"></div>
-                    <div class="skeleton skeleton-subtitle"></div>
+                    <div class="skeleton skeleton-location"></div>
+                    <div class="skeleton skeleton-dates"></div>
                 </div>
-                <div class="skeleton-body">
-                    <div class="skeleton skeleton-image"></div>
-                    <div class="skeleton skeleton-text"></div>
-                </div>
-                <div class="skeleton-footer">
+                <div class="skeleton-actions">
                     <div class="skeleton skeleton-button"></div>
                     <div class="skeleton skeleton-button"></div>
                     <div class="skeleton skeleton-button"></div>
@@ -22,65 +42,102 @@
                 </div>
             </div>
         </div>
-    </ng-container>
 
-    <!-- Empty State -->
-    <div *ngIf="!loading && viagens.length === 0" class="empty-state col-12">
-        <div class="empty-state-icon">
-            <i class="pi pi-map"></i>
+        <!-- Empty State -->
+        <div *ngIf="!loading && viagens.length === 0" class="empty-state">
+            <div class="empty-illustration">
+                <i class="pi pi-map"></i>
+            </div>
+            <h3 class="empty-title">Nenhuma viagem cadastrada</h3>
+            <p class="empty-message">
+                Comece criando seu primeiro destino e planeje viagens incríveis com ajuda da IA!
+            </p>
+            <button pButton
+                    label="Cadastrar Primeiro Destino"
+                    icon="pi pi-plus"
+                    class="empty-button"
+                    routerLink="/destinos"></button>
         </div>
-        <h2 class="empty-state-title">Nenhuma Viagem Cadastrada</h2>
-        <p class="empty-state-message">
-            Comece criando seu primeiro destino e planeje viagens incriveis com ajuda da IA!
-        </p>
-        <button pButton label="Cadastrar Destino" icon="pi pi-plus"
-            class="p-button-primary" routerLink="/destinos"></button>
-    </div>
 
-    <!-- Trip Cards -->
-    <ng-container *ngIf="!loading">
-        <div *ngFor="let viagem of viagens" class="col-12" style="width: 400px;">
-            <p-card [header]="viagem.destino.nome" [subheader]="viagem.destino.localizacao"
-            [ngClass]="{'shared-card': viagem.compartilhada}" class="relative">
-            <span *ngIf="viagem.compartilhada" class="shared-badge">
-        <i class="pi pi-users mr-1"></i> Compartilhada
-    </span>
-                <div class="image-container mb-3">
+        <!-- Lista de Viagens -->
+        <div class="viagens-grid" *ngIf="!loading && viagens.length > 0">
+            <div class="viagem-card" *ngFor="let viagem of viagens">
+                <!-- Shared Badge -->
+                <div class="shared-badge" *ngIf="viagem.compartilhada">
+                    <i class="pi pi-users"></i>
+                    <span>Compartilhada</span>
+                </div>
+
+                <!-- Image Section -->
+                <div class="card-image-wrapper">
                     <img *ngIf="viagem.destino.imagemBase64"
                          [src]="viagem.destino.imagemBase64"
                          [alt]="viagem.destino.nome"
-                         class="destino-image" />
-                    <div *ngIf="!viagem.destino.imagemBase64" class="image-placeholder">
+                         class="card-image" />
+                    <div *ngIf="!viagem.destino.imagemBase64" class="card-image-placeholder">
                         <i class="pi pi-image"></i>
-                        <span>Sem imagem</span>
+                    </div>
+                    <div class="card-overlay">
+                        <button pButton
+                                icon="pi pi-telegram"
+                                class="p-button-rounded p-button-text overlay-button"
+                                pTooltip="Planejar Viagem"
+                                [routerLink]="['/planejar', viagem.id]"></button>
                     </div>
                 </div>
 
-                <p>{{ viagem.dataIda | date: 'dd/MM/yyyy' }} ate {{ viagem.dataVolta | date: 'dd/MM/yyyy'}} </p>
-
-                <ng-template pTemplate="footer">
-                    <div class="flex justify-content-end gap-1">
-
-                         <button *ngIf="!viagem.compartilhada" pButton type="button" icon="pi pi-share-alt" class="p-button-sm p-button-outlined"
-                            (click)="compartilharViagem(viagem.id)"></button>
-
-                        <button pButton type="button" icon="pi pi-pencil" class="p-button-sm p-button-outlined"
-                            (click)="editarViagem(viagem.id)"></button>
-
-                        <button pButton type="button" icon="pi pi-trash" class="p-button-sm p-button-danger"
-                            (click)="confirmarDelecao(viagem.id)"></button>
-
-                        <button pButton icon="pi pi-telegram" class="p-button-sm p-button-default"
-                            [routerLink]="['/planejar',viagem.id]">
-                            Planejar Viagem
-                        </button>
+                <!-- Card Content -->
+                <div class="card-content">
+                    <h3 class="card-title">{{ viagem.destino.nome }}</h3>
+                    <div class="card-location">
+                        <i class="pi pi-map-marker"></i>
+                        <span>{{ viagem.destino.localizacao }}</span>
                     </div>
-                </ng-template>
+                    <div class="card-dates">
+                        <div class="date-item">
+                            <i class="pi pi-calendar"></i>
+                            <div class="date-info">
+                                <span class="date-label">Ida</span>
+                                <span class="date-value">{{ viagem.dataIda | date: 'dd/MM/yyyy' }}</span>
+                            </div>
+                        </div>
+                        <div class="date-separator">
+                            <i class="pi pi-arrow-right"></i>
+                        </div>
+                        <div class="date-item">
+                            <i class="pi pi-calendar"></i>
+                            <div class="date-info">
+                                <span class="date-label">Volta</span>
+                                <span class="date-value">{{ viagem.dataVolta | date: 'dd/MM/yyyy' }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-            </p-card>
-
+                <!-- Card Actions -->
+                <div class="card-actions">
+                    <button *ngIf="!viagem.compartilhada" pButton
+                            icon="pi pi-share-alt"
+                            class="p-button-sm p-button-text"
+                            pTooltip="Compartilhar"
+                            (click)="compartilharViagem(viagem.id)"></button>
+                    <button pButton
+                            icon="pi pi-pencil"
+                            class="p-button-sm p-button-text"
+                            pTooltip="Editar"
+                            (click)="editarViagem(viagem.id)"></button>
+                    <button pButton
+                            icon="pi pi-trash"
+                            class="p-button-sm p-button-text p-button-danger"
+                            pTooltip="Excluir"
+                            (click)="confirmarDelecao(viagem.id)"></button>
+                    <button pButton
+                            label="Planejar Viagem"
+                            icon="pi pi-telegram"
+                            class="p-button-sm plan-button"
+                            [routerLink]="['/planejar', viagem.id]"></button>
+                </div>
+            </div>
         </div>
-    </ng-container>
-
-
+    </div>
 </div>
