@@ -1,32 +1,171 @@
-.p-menubar {
-    width: 100%;
-   
+/* =============================================
+   CONTAINER PRINCIPAL
+   ============================================= */
+
+.planejar-viagem-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding-bottom: 2rem;
 }
 
-::ng-deep .active-menu {    
-    color: #000 !important;
-    
-}
-.p-menuitem-text {
-    margin: 3px;
-}
-::ng-deep .active-menu .p-menuitem-text {
-    margin: 3px;
-    color: #000 !important;
-    font-weight: bold;
+/* =============================================
+   HEADER DA VIAGEM
+   ============================================= */
+
+.viagem-header {
+    background: linear-gradient(135deg, #819d6a 0%, #6b8558 100%);
+    padding: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-::ng-deep .active-menu .pi {
-    color: #000 !important;
+.header-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
 }
 
-/* Loading Indicator */
+.back-button {
+    color: white !important;
+    font-size: 1.25rem !important;
+}
+
+.back-button:hover {
+    background: rgba(255, 255, 255, 0.2) !important;
+}
+
+.viagem-info {
+    flex: 1;
+}
+
+.viagem-titulo {
+    color: white;
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.viagem-titulo i {
+    font-size: 1.75rem;
+}
+
+.viagem-periodo {
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 1.1rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* =============================================
+   MENU DE NAVEGAÇÃO
+   ============================================= */
+
+.menu-navegacao {
+    background: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.menu-tabs {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.menu-tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.menu-tab {
+    flex: 1;
+    min-width: 180px;
+    padding: 1.25rem 1.5rem;
+    background: white;
+    border: none;
+    border-bottom: 3px solid transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #666666;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.menu-tab i {
+    font-size: 1.25rem;
+}
+
+.menu-tab:hover {
+    background: #f8f9fa;
+    color: #819d6a;
+}
+
+.menu-tab.active {
+    color: #819d6a;
+    border-bottom-color: #819d6a;
+    background: linear-gradient(to bottom, rgba(129, 157, 106, 0.05) 0%, transparent 100%);
+}
+
+.menu-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #819d6a, transparent);
+}
+
+/* =============================================
+   ÁREA DE CONTEÚDO
+   ============================================= */
+
+.content-area {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.content-wrapper {
+    animation: fadeIn 0.4s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =============================================
+   LOADING INDICATOR
+   ============================================= */
+
 .loading-container {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 400px;
-    padding: 3rem 2rem;
+    min-height: 500px;
+    padding: 4rem 2rem;
 }
 
 .loading-content {
@@ -34,36 +173,327 @@
     max-width: 500px;
 }
 
-.loading-icon {
-    font-size: 4rem;
+.loading-spinner {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 2rem;
+    background: linear-gradient(135deg, rgba(129, 157, 106, 0.1) 0%, rgba(129, 157, 106, 0.05) 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loading-spinner i {
+    font-size: 3rem;
     color: #819d6a;
-    margin-bottom: 1.5rem;
-    display: block;
 }
 
 .loading-title {
     font-size: 1.5rem;
     font-weight: 600;
     color: #333333;
-    margin: 0 0 0.5rem 0;
+    margin: 0 0 0.75rem 0;
 }
 
 .loading-subtitle {
     font-size: 1rem;
     color: #666666;
+    margin: 0 0 2rem 0;
+}
+
+.loading-progress {
+    width: 100%;
+    height: 4px;
+    background: #e0e0e0;
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+}
+
+.loading-progress::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 40%;
+    background: linear-gradient(90deg, #819d6a, #6b8558);
+    border-radius: 2px;
+    animation: progressMove 1.5s ease-in-out infinite;
+}
+
+@keyframes progressMove {
+    0% {
+        left: -40%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+/* =============================================
+   SEÇÃO HEADER
+   ============================================= */
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.section-title i {
+    font-size: 2rem;
+    color: #819d6a;
+}
+
+.section-title h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #333333;
     margin: 0;
 }
 
-/* Loading animation */
-@keyframes pulse {
-    0%, 100% {
-        opacity: 1;
+/* =============================================
+   EMPTY STATES
+   ============================================= */
+
+.empty-itinerario,
+.empty-suggestion {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    margin-bottom: 2rem;
+}
+
+.empty-itinerario i,
+.empty-suggestion i {
+    font-size: 4rem;
+    color: #819d6a;
+    opacity: 0.6;
+    display: block;
+    margin-bottom: 1.5rem;
+}
+
+.empty-itinerario h3,
+.empty-suggestion h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333333;
+    margin: 0 0 0.75rem 0;
+}
+
+.empty-itinerario p,
+.empty-suggestion p {
+    font-size: 1rem;
+    color: #666666;
+    margin: 0 0 2rem 0;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+}
+
+/* =============================================
+   BOTÃO IA
+   ============================================= */
+
+.ia-button {
+    background: linear-gradient(135deg, #819d6a 0%, #6b8558 100%) !important;
+    border: none !important;
+    padding: 1rem 2rem !important;
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 12px rgba(129, 157, 106, 0.3) !important;
+    transition: all 0.3s ease !important;
+}
+
+.ia-button:hover {
+    box-shadow: 0 6px 16px rgba(129, 157, 106, 0.4) !important;
+    transform: translateY(-2px) !important;
+}
+
+.ia-button:active {
+    transform: translateY(0) !important;
+}
+
+/* =============================================
+   CARD DE SUGESTÃO
+   ============================================= */
+
+.suggestion-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+.suggestion-card .card-header {
+    background: linear-gradient(135deg, rgba(129, 157, 106, 0.1) 0%, rgba(129, 157, 106, 0.05) 100%);
+    padding: 1.5rem 2rem;
+    border-bottom: 2px solid #e0e0e0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.suggestion-card .card-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #333333;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.suggestion-card .card-header h2 i {
+    color: #819d6a;
+    font-size: 1.75rem;
+}
+
+.suggestion-card .card-content {
+    padding: 2rem;
+    line-height: 1.8;
+}
+
+.suggestion-card .card-footer {
+    padding: 1.5rem 2rem;
+    background: #f8f9fa;
+    border-top: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* =============================================
+   RESPONSIVIDADE
+   ============================================= */
+
+@media screen and (max-width: 992px) {
+    .viagem-titulo {
+        font-size: 1.5rem;
     }
-    50% {
-        opacity: 0.6;
+
+    .viagem-titulo i {
+        font-size: 1.5rem;
+    }
+
+    .viagem-periodo {
+        font-size: 1rem;
+    }
+
+    .menu-tab {
+        min-width: 150px;
+        padding: 1rem;
+        font-size: 0.95rem;
+    }
+
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
     }
 }
 
-.loading-content {
-    animation: pulse 2s ease-in-out infinite;
+@media screen and (max-width: 768px) {
+    .viagem-header {
+        padding: 1.5rem;
+    }
+
+    .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .viagem-titulo {
+        font-size: 1.25rem;
+    }
+
+    .content-area {
+        padding: 1rem;
+    }
+
+    .menu-tab {
+        min-width: 120px;
+        padding: 0.875rem 0.75rem;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .menu-tab i {
+        font-size: 1.5rem;
+    }
+
+    .menu-tab span {
+        font-size: 0.75rem;
+    }
+
+    .suggestion-card .card-header,
+    .suggestion-card .card-content,
+    .suggestion-card .card-footer {
+        padding: 1.25rem;
+    }
+
+    .empty-itinerario,
+    .empty-suggestion {
+        padding: 2rem 1rem;
+    }
 }
+
+@media screen and (max-width: 480px) {
+    .viagem-header {
+        padding: 1rem;
+    }
+
+    .viagem-titulo {
+        font-size: 1.1rem;
+    }
+
+    .viagem-periodo {
+        font-size: 0.9rem;
+    }
+
+    .content-area {
+        padding: 0.75rem;
+    }
+
+    .ia-button {
+        width: 100%;
+        font-size: 1rem !important;
+    }
+}
+
+/* =============================================
+   ANIMAÇÕES PERSONALIZADAS
+   ============================================= */
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.menu-tab {
+    animation: slideIn 0.3s ease-out;
+}
+
+.menu-tab:nth-child(1) { animation-delay: 0.05s; }
+.menu-tab:nth-child(2) { animation-delay: 0.1s; }
+.menu-tab:nth-child(3) { animation-delay: 0.15s; }
+.menu-tab:nth-child(4) { animation-delay: 0.2s; }

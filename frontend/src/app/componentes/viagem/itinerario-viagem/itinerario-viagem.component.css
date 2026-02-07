@@ -1,18 +1,343 @@
-@media screen and (max-width: 768px) {
-  :host ::ng-deep .customized-timeline.p-timeline-alternate {
-    align-items: flex-start;
-  }
+/* =============================================
+   CONTAINER
+   ============================================= */
 
-  :host ::ng-deep .customized-timeline .p-timeline-event {
-    flex-direction: row !important;
-  }
-
-  :host ::ng-deep .customized-timeline .p-timeline-event-content {
+.itinerario-container {
     width: 100%;
-    text-align: left;
-  }
+    margin-bottom: 2rem;
+}
 
-  :host ::ng-deep .customized-timeline .p-timeline-event-opposite {
-    display: none;
-  }
+.timeline-wrapper {
+    padding: 1rem 0;
+}
+
+/* =============================================
+   TIMELINE CUSTOMIZADA
+   ============================================= */
+
+::ng-deep .custom-timeline .p-timeline-event-separator {
+    flex-direction: column;
+}
+
+::ng-deep .custom-timeline .p-timeline-event-connector {
+    background: linear-gradient(to bottom, #e0e0e0 0%, #e0e0e0 100%);
+    width: 3px;
+}
+
+/* Marcador da Timeline */
+.timeline-marker {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    background: white;
+    border: 4px solid #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.timeline-marker i {
+    font-size: 1.5rem;
+    color: #999999;
+}
+
+.timeline-marker.completed {
+    background: linear-gradient(135deg, #819d6a 0%, #6b8558 100%);
+    border-color: #819d6a;
+    box-shadow: 0 4px 12px rgba(129, 157, 106, 0.3);
+}
+
+.timeline-marker.completed i {
+    color: white;
+}
+
+/* =============================================
+   CARD DE ATIVIDADE
+   ============================================= */
+
+.activity-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    border-left: 4px solid #e0e0e0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    animation: fadeInUp 0.4s ease-out;
+}
+
+.activity-card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
+}
+
+.activity-card.completed {
+    border-left-color: #819d6a;
+    background: linear-gradient(to right, rgba(129, 157, 106, 0.02) 0%, white 100%);
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =============================================
+   CARD HEADER
+   ============================================= */
+
+.card-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.header-info {
+    flex: 1;
+}
+
+.activity-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #333333;
+    margin: 0 0 0.75rem 0;
+}
+
+.activity-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.9rem;
+    color: #666666;
+}
+
+.meta-item i {
+    color: #819d6a;
+    font-size: 0.95rem;
+}
+
+.status-badge {
+    background: linear-gradient(135deg, #819d6a 0%, #6b8558 100%);
+    color: white;
+    padding: 0.4rem 0.9rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    white-space: nowrap;
+}
+
+.status-badge i {
+    font-size: 0.9rem;
+}
+
+/* =============================================
+   CARD BODY
+   ============================================= */
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.activity-description {
+    font-size: 1rem;
+    color: #555555;
+    line-height: 1.6;
+    margin: 0 0 1.25rem 0;
+}
+
+.activity-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid #f5f5f5;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.detail-item i {
+    color: #819d6a;
+    font-size: 1rem;
+}
+
+.detail-label {
+    color: #777777;
+    font-weight: 500;
+}
+
+.detail-value {
+    color: #333333;
+    font-weight: 600;
+}
+
+/* =============================================
+   CARD FOOTER
+   ============================================= */
+
+.card-footer {
+    padding: 1rem 1.5rem;
+    background: #fafafa;
+    border-top: 1px solid #f0f0f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* =============================================
+   RESPONSIVIDADE
+   ============================================= */
+
+/* Desktop - Timeline Alternada */
+::ng-deep .custom-timeline.p-timeline-alternate {
+    align-items: stretch;
+}
+
+::ng-deep .custom-timeline .p-timeline-event {
+    min-height: unset;
+}
+
+::ng-deep .custom-timeline .p-timeline-event-content {
+    margin: 0.5rem 0;
+}
+
+::ng-deep .custom-timeline .p-timeline-event-opposite {
+    margin: 0.5rem 0;
+}
+
+/* Tablet e Mobile */
+@media screen and (max-width: 960px) {
+    ::ng-deep .custom-timeline.p-timeline-alternate {
+        align-items: flex-start;
+    }
+
+    ::ng-deep .custom-timeline .p-timeline-event {
+        flex-direction: row !important;
+    }
+
+    ::ng-deep .custom-timeline .p-timeline-event-content {
+        width: 100%;
+        text-align: left;
+    }
+
+    ::ng-deep .custom-timeline .p-timeline-event-opposite {
+        display: none;
+    }
+
+    .activity-card {
+        max-width: 600px;
+    }
+
+    .activity-title {
+        font-size: 1.1rem;
+    }
+
+    .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .status-badge {
+        align-self: flex-start;
+    }
+
+    .activity-details {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+}
+
+@media screen and (max-width: 640px) {
+    .timeline-marker {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+
+    .timeline-marker i {
+        font-size: 1.2rem;
+    }
+
+    .card-header,
+    .card-body,
+    .card-footer {
+        padding: 1rem;
+    }
+
+    .activity-title {
+        font-size: 1rem;
+    }
+
+    .card-footer {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .action-buttons {
+        justify-content: flex-end;
+        width: 100%;
+    }
+}
+
+/* =============================================
+   ANIMAÇÕES PERSONALIZADAS
+   ============================================= */
+
+::ng-deep .custom-timeline .p-timeline-event {
+    animation: slideInFromSide 0.5s ease-out;
+}
+
+::ng-deep .custom-timeline .p-timeline-event:nth-child(even) {
+    animation-delay: 0.1s;
+}
+
+@keyframes slideInFromSide {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Hover no marcador */
+.timeline-marker {
+    cursor: pointer;
+}
+
+.timeline-marker:hover {
+    transform: scale(1.1);
+}
+
+.timeline-marker.completed:hover {
+    box-shadow: 0 6px 16px rgba(129, 157, 106, 0.4);
 }

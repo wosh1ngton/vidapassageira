@@ -33,11 +33,14 @@ export class DestinoComponent implements OnInit {
   destinoSelecionado?: DestinoResponseDTO;
 
   destinos: any = [];
+  loading: boolean = true;
 
   listarDestinos() {
+    this.loading = true;
     this.destinoService.getAll().subscribe((destinos) => {
       this.destinos = destinos;
-    });  
+      this.loading = false;
+    });
   }
 
   abrirDestinoDialog() { 

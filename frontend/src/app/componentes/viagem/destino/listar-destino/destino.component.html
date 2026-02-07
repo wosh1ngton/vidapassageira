@@ -7,8 +7,30 @@
         <button pButton type="button" label="Cadastrar destino" (click)="abrirDestinoDialog()"></button>
     </section>
     <section>
+        <!-- Skeleton Loading -->
+        <div class="grid" *ngIf="loading">
+            <div class="col-12 md:col-4" *ngFor="let item of [1,2,3]">
+                <div class="skeleton-card">
+                    <div class="skeleton-header">
+                        <div class="skeleton skeleton-title"></div>
+                        <div class="skeleton skeleton-subtitle"></div>
+                    </div>
+                    <div class="skeleton-body">
+                        <div class="skeleton skeleton-image"></div>
+                        <div class="skeleton skeleton-text"></div>
+                        <div class="skeleton skeleton-text short"></div>
+                    </div>
+                    <div class="skeleton-footer">
+                        <div class="skeleton skeleton-button"></div>
+                        <div class="skeleton skeleton-button"></div>
+                        <div class="skeleton skeleton-button wide"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Empty State -->
-        <div *ngIf="destinos.length === 0" class="empty-state">
+        <div *ngIf="!loading && destinos.length === 0" class="empty-state">
             <i class="pi pi-map-marker empty-state-icon"></i>
             <h3 class="empty-state-title">Nenhum destino cadastrado</h3>
             <p class="empty-state-text">
@@ -21,7 +43,7 @@
         </div>
 
         <!-- Lista de Destinos -->
-        <div class="grid" *ngIf="destinos.length > 0">
+        <div class="grid" *ngIf="!loading && destinos.length > 0">
             <div class="col-12 md:col-4" *ngFor="let destino of destinos">
                 <p-card [header]="destino.nome" [subheader]="destino.localizacao">
                     <div class="image-container mb-3">

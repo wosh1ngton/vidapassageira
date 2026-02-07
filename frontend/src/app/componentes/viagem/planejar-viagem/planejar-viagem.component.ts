@@ -458,6 +458,58 @@ export class PlanejarViagemComponent implements OnInit {
 
 
 
+  getSugestaoIcon(): string {
+    switch (this.selectedSubMenu) {
+      case TipoSugestaoIaEnum.ONDE_FICAR:
+        return 'pi pi-home';
+      case TipoSugestaoIaEnum.COMO_CHEGAR:
+        return 'pi pi-map-marker';
+      case TipoSugestaoIaEnum.ONDE_COMER:
+        return 'pi pi-star';
+      default:
+        return 'pi pi-info-circle';
+    }
+  }
+
+  getSugestaoTitulo(): string {
+    switch (this.selectedSubMenu) {
+      case TipoSugestaoIaEnum.ONDE_FICAR:
+        return 'Onde Ficar';
+      case TipoSugestaoIaEnum.COMO_CHEGAR:
+        return 'Como Chegar';
+      case TipoSugestaoIaEnum.ONDE_COMER:
+        return 'Onde Comer';
+      default:
+        return 'Sugestão';
+    }
+  }
+
+  getSugestaoEmptyTitulo(): string {
+    switch (this.selectedSubMenu) {
+      case TipoSugestaoIaEnum.ONDE_FICAR:
+        return 'Ainda sem sugestões de hospedagem';
+      case TipoSugestaoIaEnum.COMO_CHEGAR:
+        return 'Ainda sem informações de transporte';
+      case TipoSugestaoIaEnum.ONDE_COMER:
+        return 'Ainda sem dicas gastronômicas';
+      default:
+        return 'Sem sugestões';
+    }
+  }
+
+  getSugestaoEmptyDescricao(): string {
+    switch (this.selectedSubMenu) {
+      case TipoSugestaoIaEnum.ONDE_FICAR:
+        return 'Deixe a IA sugerir as melhores opções de hospedagem para sua viagem';
+      case TipoSugestaoIaEnum.COMO_CHEGAR:
+        return 'Descubra as melhores rotas e meios de transporte para o seu destino';
+      case TipoSugestaoIaEnum.ONDE_COMER:
+        return 'Encontre os melhores restaurantes e experiências gastronômicas';
+      default:
+        return 'Peça uma sugestão à IA';
+    }
+  }
+
   voltar() {
     this.router.navigateByUrl(`viagens`);
   }

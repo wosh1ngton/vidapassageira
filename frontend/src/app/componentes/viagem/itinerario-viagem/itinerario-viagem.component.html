@@ -1,48 +1,99 @@
-<div class="col-12">
+<div class="itinerario-container">
     <p-toast />
     <p-confirmdialog />
-    <div class="card" *ngIf="itensTimeLine.length > 0">
 
-        <p-timeline [value]="itensTimeLine" align="alternate" class="customized-timeline">
+    <div class="timeline-wrapper" *ngIf="itensTimeLine.length > 0">
+        <p-timeline [value]="itensTimeLine" align="alternate" class="custom-timeline">
+            <!-- Marcador da Timeline -->
             <ng-template #marker let-event>
-                <span [style]="{ 'background-color': event.itinerarioConcluido ? '#819d6a' : '#f4f4f4' }"
-                    style="border-radius: 50%; width: 2rem; height: 2rem; display: flex; align-items: center; justify-content: center;">
+                <div class="timeline-marker" [class.completed]="event.itinerarioConcluido">
                     <i [class]="event.itinerarioConcluido ? 'pi pi-check' : 'pi pi-clock'"></i>
-
-                </span>
+                </div>
             </ng-template>
+
+            <!-- Conteúdo do Card -->
             <ng-template #content let-event>
-                <p-card [header]="event.nome" [subheader]="event.dia | date: 'dd/MM/yyyy HH:mm'">
-                    <p>
-                        {{event.descricao}}
-                    </p>
-                    <div class="grid align-items-center gap-2">
-                        <div class="col-12 md:col-7">
-                            <ng-container *ngIf="event.itinerarioConcluido">
-                                <p-button size="small" label="Visitado" icon="pi pi-check" rounded="true"
-                                    (click)="marcarComoVisitado(event.id)" />
-                            </ng-container>
-
-                            <ng-container *ngIf="!event.itinerarioConcluido">
-                                <p-button size="small" label="Marcar como Visitado" text="true"
-                                    (click)="marcarComoVisitado(event.id)" />
-                            </ng-container>
+                <div class="activity-card" [class.completed]="event.itinerarioConcluido">
+                    <!-- Header do Card -->
+                    <div class="card-header">
+                        <div class="header-info">
+                            <h3 class="activity-title">{{ event.nome }}</h3>
+                            <div class="activity-meta">
+                                <span class="meta-item">
+                                    <i class="pi pi-calendar"></i>
+                                    {{ event.dia | date: 'dd/MM/yyyy' }}
+                                </span>
+                                <span class="meta-item" *ngIf="event.melhorHorario">
+                                    <i class="pi pi-clock"></i>
+                                    {{ event.melhorHorario }}
+                                </span>
+                            </div>
                         </div>
-
-                        <div class="col-6 md:col-2 text-left md:text-right">
-                            <p-button size="small" icon="pi pi-pencil" rounded="true" severity="secondary"
-                                (click)="editarItemItinerario(event)" />
-                        </div>
-
-                        <div class="col-5 md:col-2 text-right">
-                            <p-button size="small" icon="pi pi-trash" severity="danger" rounded="true"
-                                (click)="confirmarDelecao(event.id)" />
-                        </div>
-
+                        <span class="status-badge" *ngIf="event.itinerarioConcluido">
+                            <i class="pi pi-check"></i>
+                            Visitado
+                        </span>
                     </div>
-                </p-card>
+
+                    <!-- Informações Principais -->
+                    <div class="card-body">
+                        <p class="activity-description" *ngIf="event.descricao">
+                            {{ event.descricao }}
+                        </p>
+
+                        <div class="activity-details">
+                            <div class="detail-item" *ngIf="event.categoria">
+                                <i class="pi pi-tag"></i>
+                                <span class="detail-label">Categoria:</span>
+                                <span class="detail-value">{{ event.categoria }}</span>
+                            </div>
+                            <div class="detail-item" *ngIf="event.duracaoHoras">
+                                <i class="pi pi-hourglass"></i>
+                                <span class="detail-label">Duração:</span>
+                                <span class="detail-value">{{ event.duracaoHoras }}</span>
+                            </div>
+                            <div class="detail-item" *ngIf="event.orcamento">
+                                <i class="pi pi-dollar"></i>
+                                <span class="detail-label">Orçamento:</span>
+                                <span class="detail-value">{{ event.orcamento }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ações do Card -->
+                    <div class="card-footer">
+                        <button pButton
+                                *ngIf="!event.itinerarioConcluido"
+                                label="Marcar como Visitado"
+                                icon="pi pi-check"
+                                class="p-button-text p-button-success"
+                                (click)="marcarComoVisitado(event.id)">
+                        </button>
+                        <button pButton
+                                *ngIf="event.itinerarioConcluido"
+                                label="Desmarcar"
+                                icon="pi pi-times"
+                                class="p-button-text p-button-secondary"
+                                (click)="marcarComoVisitado(event.id)">
+                        </button>
+
+                        <div class="action-buttons">
+                            <button pButton
+                                    icon="pi pi-pencil"
+                                    class="p-button-rounded p-button-outlined"
+                                    pTooltip="Editar atividade"
+                                    (click)="editarItemItinerario(event)">
+                            </button>
+                            <button pButton
+                                    icon="pi pi-trash"
+                                    class="p-button-rounded p-button-outlined p-button-danger"
+                                    pTooltip="Excluir atividade"
+                                    (click)="confirmarDelecao(event.id)">
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </ng-template>
         </p-timeline>
-
     </div>
 </div>

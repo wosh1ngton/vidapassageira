@@ -34,7 +34,19 @@ deepseek:
     key: ${DEEPSEEK_API_KEY}
     url: https://api.deepseek.com/v1/chat/completions
 app:
-  version: '@project.version@'    
+  version: '@project.version@'
+  openapi:
+    dev-url: http://localhost:8070
+    prod-url: https://api.vidapassageira.com
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha
+    display-request-duration: true
+    disable-swagger-default-url: true    
 management:
   endpoints:
     web:

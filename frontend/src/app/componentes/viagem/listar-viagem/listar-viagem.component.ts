@@ -18,6 +18,7 @@ import { UsuarioBuscaComponent } from '../../usuario/usuario-busca/usuario-busca
 })
 export class ListarViagemComponent implements OnInit {
   viagens: ViagemResponseDTO[] = [];
+  loading: boolean = true;
   ref: DynamicDialogRef | undefined;
 
   constructor(private viagemService: ViagemService    ,
@@ -34,6 +35,7 @@ export class ListarViagemComponent implements OnInit {
   }
 
   private listarViagens() {
+    this.loading = true;
     this.viagemService.getAll()
       .subscribe((viagens: ViagemResponseDTO[]) => {
         this.viagens = viagens.sort((a, b) => {
@@ -41,6 +43,7 @@ export class ListarViagemComponent implements OnInit {
           const d2 = new Date(b.dataVolta);
           return Number(d1) - Number(d2);
         });
+        this.loading = false;
       });
   }
 

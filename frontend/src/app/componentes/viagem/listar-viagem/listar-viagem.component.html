@@ -2,8 +2,30 @@
     <p-toast />
     <p-confirmdialog />
 
+    <!-- Skeleton Loading -->
+    <ng-container *ngIf="loading">
+        <div class="col-12" style="width: 400px;" *ngFor="let item of [1,2,3]">
+            <div class="skeleton-card">
+                <div class="skeleton-header">
+                    <div class="skeleton skeleton-title"></div>
+                    <div class="skeleton skeleton-subtitle"></div>
+                </div>
+                <div class="skeleton-body">
+                    <div class="skeleton skeleton-image"></div>
+                    <div class="skeleton skeleton-text"></div>
+                </div>
+                <div class="skeleton-footer">
+                    <div class="skeleton skeleton-button"></div>
+                    <div class="skeleton skeleton-button"></div>
+                    <div class="skeleton skeleton-button"></div>
+                    <div class="skeleton skeleton-button wide"></div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+
     <!-- Empty State -->
-    <div *ngIf="viagens.length === 0" class="empty-state col-12">
+    <div *ngIf="!loading && viagens.length === 0" class="empty-state col-12">
         <div class="empty-state-icon">
             <i class="pi pi-map"></i>
         </div>
@@ -16,47 +38,49 @@
     </div>
 
     <!-- Trip Cards -->
-    <div *ngFor="let viagem of viagens" class="col-12" style="width: 400px;">
-        <p-card [header]="viagem.destino.nome" [subheader]="viagem.destino.localizacao"
-        [ngClass]="{'shared-card': viagem.compartilhada}" class="relative">
-        <span *ngIf="viagem.compartilhada" class="shared-badge">
-    <i class="pi pi-users mr-1"></i> Compartilhada
-</span>
-            <div class="image-container mb-3">
-                <img *ngIf="viagem.destino.imagemBase64"
-                     [src]="viagem.destino.imagemBase64"
-                     [alt]="viagem.destino.nome"
-                     class="destino-image" />
-                <div *ngIf="!viagem.destino.imagemBase64" class="image-placeholder">
-                    <i class="pi pi-image"></i>
-                    <span>Sem imagem</span>
+    <ng-container *ngIf="!loading">
+        <div *ngFor="let viagem of viagens" class="col-12" style="width: 400px;">
+            <p-card [header]="viagem.destino.nome" [subheader]="viagem.destino.localizacao"
+            [ngClass]="{'shared-card': viagem.compartilhada}" class="relative">
+            <span *ngIf="viagem.compartilhada" class="shared-badge">
+        <i class="pi pi-users mr-1"></i> Compartilhada
+    </span>
+                <div class="image-container mb-3">
+                    <img *ngIf="viagem.destino.imagemBase64"
+                         [src]="viagem.destino.imagemBase64"
+                         [alt]="viagem.destino.nome"
+                         class="destino-image" />
+                    <div *ngIf="!viagem.destino.imagemBase64" class="image-placeholder">
+                        <i class="pi pi-image"></i>
+                        <span>Sem imagem</span>
+                    </div>
                 </div>
-            </div>
 
-            <p>{{ viagem.dataIda | date: 'dd/MM/yyyy' }} ate {{ viagem.dataVolta | date: 'dd/MM/yyyy'}} </p>
+                <p>{{ viagem.dataIda | date: 'dd/MM/yyyy' }} ate {{ viagem.dataVolta | date: 'dd/MM/yyyy'}} </p>
 
-            <ng-template pTemplate="footer">
-                <div class="flex justify-content-end gap-1">
+                <ng-template pTemplate="footer">
+                    <div class="flex justify-content-end gap-1">
 
-                     <button *ngIf="!viagem.compartilhada" pButton type="button" icon="pi pi-share-alt" class="p-button-sm p-button-outlined"
-                        (click)="compartilharViagem(viagem.id)"></button>
+                         <button *ngIf="!viagem.compartilhada" pButton type="button" icon="pi pi-share-alt" class="p-button-sm p-button-outlined"
+                            (click)="compartilharViagem(viagem.id)"></button>
 
-                    <button pButton type="button" icon="pi pi-pencil" class="p-button-sm p-button-outlined"
-                        (click)="editarViagem(viagem.id)"></button>
+                        <button pButton type="button" icon="pi pi-pencil" class="p-button-sm p-button-outlined"
+                            (click)="editarViagem(viagem.id)"></button>
 
-                    <button pButton type="button" icon="pi pi-trash" class="p-button-sm p-button-danger"
-                        (click)="confirmarDelecao(viagem.id)"></button>
+                        <button pButton type="button" icon="pi pi-trash" class="p-button-sm p-button-danger"
+                            (click)="confirmarDelecao(viagem.id)"></button>
 
-                    <button pButton icon="pi pi-telegram" class="p-button-sm p-button-default"
-                        [routerLink]="['/planejar',viagem.id]">
-                        Planejar Viagem
-                    </button>
-                </div>
-            </ng-template>
+                        <button pButton icon="pi pi-telegram" class="p-button-sm p-button-default"
+                            [routerLink]="['/planejar',viagem.id]">
+                            Planejar Viagem
+                        </button>
+                    </div>
+                </ng-template>
 
-        </p-card>
+            </p-card>
 
-    </div>
+        </div>
+    </ng-container>
 
 
 </div>

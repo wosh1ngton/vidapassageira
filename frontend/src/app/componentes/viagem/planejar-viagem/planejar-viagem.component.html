@@ -1,71 +1,135 @@
-<div class="grid">
-
-    <div class="col-12 py-0">
-        <p style="font-size: larger;">
-            <p-button icon="pi pi-arrow-left" [rounded]="true" [text]="true" (click)="voltar()" />
-            <strong> 
-                {{viagem?.destino?.nome}}                
-            </strong> -
-             
-                {{viagem?.dataIda | date:'dd/MM/yyyy'}} a {{viagem?.dataVolta | date:'dd/MM/yyyy'}}
-            
-        </p>
+<div class="planejar-viagem-container">
+    <!-- Header da Viagem -->
+    <div class="viagem-header">
+        <div class="header-content">
+            <button pButton icon="pi pi-arrow-left"
+                    class="p-button-rounded p-button-text back-button"
+                    (click)="voltar()"
+                    pTooltip="Voltar para viagens">
+            </button>
+            <div class="viagem-info">
+                <h1 class="viagem-titulo">
+                    <i class="pi pi-map-marker"></i>
+                    {{viagem?.destino?.nome}}
+                </h1>
+                <p class="viagem-periodo">
+                    <i class="pi pi-calendar"></i>
+                    {{viagem?.dataIda | date:'dd/MM/yyyy'}} até {{viagem?.dataVolta | date:'dd/MM/yyyy'}}
+                </p>
+            </div>
+        </div>
     </div>
 
-    <div class="col-12 py-0">
-        <p-menubar [model]="items">
-            <ng-template #item let-item>
-                <li class="p-menuitem">
-                    <a pRipple [ngClass]="{'active-menu': isMenuActive(item.label)}">
-                        <span [class]="item.icon"> </span>
-                        <span class="p-menuitem-text">{{ item.label }} </span>
-                    </a>
-                </li>
-            </ng-template>
-        </p-menubar>
+    <!-- Menu de Navegação -->
+    <div class="menu-navegacao">
+        <div class="menu-tabs">
+            <button *ngFor="let item of items"
+                    class="menu-tab"
+                    [class.active]="isMenuActive(item.label)"
+                    (click)="item.command && item.command()"
+                    pRipple>
+                <i [class]="item.icon"></i>
+                <span>{{ item.label }}</span>
+            </button>
+        </div>
     </div>
-    <div class="sugestoes-container px-3">
+    <!-- Conteúdo Principal -->
+    <div class="content-area">
         <!-- Loading Indicator -->
         <div *ngIf="loadingIA" class="loading-container">
             <div class="loading-content">
-                <i class="pi pi-spin pi-spinner loading-icon"></i>
+                <div class="loading-spinner">
+                    <i class="pi pi-spin pi-spinner"></i>
+                </div>
                 <h3 class="loading-title">{{ loadingMessage }}</h3>
                 <p class="loading-subtitle">Isso pode levar alguns segundos...</p>
+                <div class="loading-progress"></div>
             </div>
         </div>
 
         <!-- Conteúdo quando não está loading -->
-        <ng-container *ngIf="!loadingIA">
+        <div *ngIf="!loadingIA" class="content-wrapper">
+            <!-- Onde Ir (Itinerário) -->
             <ng-container *ngIf="selectedSubMenu === tipoSugestaoEnum.ONDE_IR">
-                <div class="text-align-right mx-2 my-2">
-                    <p-button rounded="true" icon="pi pi-plus" (click)="adicionarItemItinerario()" class="button-margin"
-                        size="small"></p-button>
+                <div class="section-header">
+                    <div class="section-title">
+                        <i class="pi pi-search"></i>
+                        <h2>Seu Itinerário</h2>
+                    </div>
+                    <button pButton
+                            icon="pi pi-plus"
+                            label="Adicionar Atividade"
+                            class="p-button-rounded"
+                            (click)="adicionarItemItinerario()">
+                    </button>
                 </div>
 
-                <app-itinerario-viagem *ngIf="itinerarioDaViagem.length > 0" (updatePagina)="getOndeIr()"
+                <app-itinerario-viagem
+                    *ngIf="itinerarioDaViagem.length > 0"
+                    (updatePagina)="getOndeIr()"
                     [atividades]="itinerarioDaViagem">
                 </app-itinerario-viagem>
 
-                <p-button label="Pedir Sugestão da IA" (click)="gerarOpiniaoOndeIr(selectedSubMenu)"
-                    class="button-margin"></p-button>
+                <div class="empty-itinerario" *ngIf="itinerarioDaViagem.length === 0">
+                    <i class="pi pi-map"></i>
+                    <h3>Nenhuma atividade no itinerário</h3>
+                    <p>Adicione atividades manualmente ou peça sugestões à IA</p>
+                </div>
+
+                <button pButton
+                        label="Gerar Itinerário com IA"
+                        icon="pi pi-sparkles"
+                        class="p-button-lg ia-button"
+                        (click)="gerarOpiniaoOndeIr(selectedSubMenu)">
+                </button>
             </ng-container>
 
-            <ng-container *ngIf="selectedSubMenu !== tipoSugestaoEnum.ONDE_IR && sugestoes.has(selectedSubMenu!)">
+            <!-- Outras Sugestões (Onde Ficar, Como Chegar, Onde Comer) -->
+            <ng-container *ngIf="selectedSubMenu !== tipoSugestaoEnum.ONDE_IR">
+                <div class="suggestion-card" *ngIf="sugestoes.has(selectedSubMenu!)">
+                    <div class="card-header">
+                        <h2>
+                            <i [class]="getSugestaoIcon()"></i>
+                            {{ getSugestaoTitulo() }}
+                        </h2>
+                        <button pButton
+                                icon="pi pi-pencil"
+                                class="p-button-rounded p-button-text"
+                                *ngIf="sugestoesIds.get(selectedSubMenu!)"
+                                pTooltip="Editar sugestão">
+                        </button>
+                    </div>
+                    <div class="card-content">
+                        <app-sugestao-ia
+                            *ngIf="selectedSubMenu"
+                            (sugestaoChange)="getSugestaoByViagemId()"
+                            [tipoSugestao]="selectedSubMenu"
+                            [sugestao]="sugestoes.get(selectedSubMenu)"
+                            [id]="sugestoesIds.get(selectedSubMenu)">
+                        </app-sugestao-ia>
+                    </div>
+                    <div class="card-footer" *ngIf="exibirBtnSalvarOpiniaoIA">
+                        <button pButton
+                                label="Salvar Sugestão"
+                                icon="pi pi-check"
+                                class="p-button-success"
+                                (click)="salvarOpiniaoIA(sugestoes.get(selectedSubMenu))">
+                        </button>
+                    </div>
+                </div>
 
-                <app-sugestao-ia *ngIf="selectedSubMenu" (sugestaoChange)="getSugestaoByViagemId()"  [tipoSugestao]="selectedSubMenu"
-                    [sugestao]="sugestoes.get(selectedSubMenu)" [id]="sugestoesIds.get(selectedSubMenu)">
-                </app-sugestao-ia>
-
-                <p-button label="Salvar Sugestão" *ngIf="exibirBtnSalvarOpiniaoIA"
-                    (click)="salvarOpiniaoIA(sugestoes.get(selectedSubMenu))" class="button-margin"></p-button>
+                <div class="empty-suggestion" *ngIf="!sugestoes.has(selectedSubMenu!)">
+                    <i [class]="getSugestaoIcon()"></i>
+                    <h3>{{ getSugestaoEmptyTitulo() }}</h3>
+                    <p>{{ getSugestaoEmptyDescricao() }}</p>
+                    <button pButton
+                            label="Pedir Sugestão à IA"
+                            icon="pi pi-sparkles"
+                            class="p-button-lg ia-button"
+                            (click)="gerarOpiniao(selectedSubMenu)">
+                    </button>
+                </div>
             </ng-container>
-
-            <ng-container *ngIf="selectedSubMenu !== tipoSugestaoEnum.ONDE_IR && !sugestoes.has(selectedSubMenu!)">
-                <p-button label="Pedir Sugestão da IA" (click)="gerarOpiniao(selectedSubMenu)"
-                    class="button-margin"></p-button>
-            </ng-container>
-        </ng-container>
+        </div>
     </div>
-
-
 </div>
