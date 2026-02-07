@@ -1,5 +1,30 @@
 <div class="home-container">
 
+  <!-- Header com Login/Registro -->
+  <header class="home-header">
+    <div class="header-content">
+      <div class="logo-container">
+        <img src="assets/imagens/logo.png" alt="VidaPassageira" class="header-logo">
+      </div>
+      <div class="header-actions">
+        <p-button
+          label="Login"
+          icon="pi pi-sign-in"
+          severity="secondary"
+          [text]="true"
+          (onClick)="navigateOrLogin('/viagens')">
+        </p-button>
+        <p-button
+          label="Criar Conta"
+          icon="pi pi-user-plus"
+          severity="primary"
+          [outlined]="true"
+          routerLink="/registro">
+        </p-button>
+      </div>
+    </div>
+  </header>
+
   <!-- Hero Section -->
   <section class="hero-section">
     <div class="hero-content">

@@ -3,6 +3,7 @@ import { DestinoComponent } from './componentes/viagem/destino/listar-destino/de
 import { HomeComponent } from './componentes/home/home.component';
 import { ListarViagemComponent } from './componentes/viagem/listar-viagem/listar-viagem.component';
 import { PlanejarViagemComponent } from './componentes/viagem/planejar-viagem/planejar-viagem.component';
+import { RegistroComponent } from './componentes/registro/registro.component';
 import { PageNotFoundComponent } from './componentes/shared/page-not-found/page-not-found.component';
 
 export const routes: Routes = [
@@ -13,6 +14,10 @@ export const routes: Routes = [
     {
         path: 'home',
         component: HomeComponent
+    },
+    {
+        path: 'registro',
+        component: RegistroComponent
     },
     {
         path: 'viagens',

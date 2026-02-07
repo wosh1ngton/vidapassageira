@@ -1,3 +1,128 @@
-.text-right {
-  text-align: right;
+.registro-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #819d6a 0%, #5f7d4f 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.registro-container {
+  width: 100%;
+  max-width: 480px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.15), 0 8px 16px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  animation: slideIn 0.4s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.registro-header {
+  background: linear-gradient(135deg, #819d6a 0%, #6b8558 100%);
+  padding: 2.5rem 2rem 2rem;
+  text-align: center;
+}
+
+.logo-link {
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.logo {
+  width: 200px;
+  max-width: 80%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.registro-title {
+  color: #ffffff;
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin: 0.5rem 0 0.25rem;
+}
+
+.registro-subtitle {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.95rem;
+  font-weight: 400;
+  margin: 0;
+}
+
+.registro-form-wrapper {
+  padding: 2rem;
+}
+
+.registro-footer {
+  padding: 1.5rem 2rem;
+  text-align: center;
+  background: #f8f9fa;
+  border-top: 1px solid #e0e0e0;
+}
+
+/* Responsividade Mobile */
+@media screen and (max-width: 480px) {
+  .registro-page {
+    padding: 0.5rem;
+  }
+
+  .registro-container {
+    border-radius: 12px;
+  }
+
+  .registro-header {
+    padding: 2rem 1.5rem 1.5rem;
+  }
+
+  .logo {
+    width: 160px;
+  }
+
+  .registro-title {
+    font-size: 1.5rem;
+  }
+
+  .registro-subtitle {
+    font-size: 0.875rem;
+  }
+
+  .registro-form-wrapper {
+    padding: 1.5rem;
+  }
+
+  .registro-footer {
+    padding: 1.25rem 1.5rem;
+  }
+}
+
+/* Landscape mobile */
+@media screen and (max-height: 600px) and (orientation: landscape) {
+  .registro-page {
+    align-items: flex-start;
+    padding: 1rem;
+  }
+
+  .registro-container {
+    margin: 1rem auto;
+  }
+
+  .registro-header {
+    padding: 1.5rem 2rem 1.25rem;
+  }
+
+  .logo {
+    width: 140px;
+  }
 }

@@ -509,7 +509,7 @@
       "clientId": "vp-frontend",
       "name": "",
       "description": "",
-      "rootUrl": "http://localhost/",
+      "rootUrl": "http://localhost:4600/",
       "adminUrl": "http://localhost/",
       "baseUrl": "",
       "surrogateAuthRequired": false,
@@ -517,11 +517,11 @@
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "http://localhost/silent-refresh.html",
-        "http://localhost/*"
+        "http://localhost:4600/silent-refresh.html",
+        "http://localhost:4600/*"
       ],
       "webOrigins": [
-        "http://localhost"
+        "http://localhost:4600"
       ],
       "notBefore": 0,
       "bearerOnly": false,

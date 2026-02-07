@@ -56,6 +56,13 @@
                 Entrar
             </button>
         </form>
+
+        <div class="register-link-container">
+            <p class="register-text">Ainda não tem uma conta?</p>
+            <a href="${properties.kcBaseUrl!'http://localhost:4200'}/registro" class="register-link">
+                Criar conta grátis
+            </a>
+        </div>
     </div>
 
     <!-- Footer -->
