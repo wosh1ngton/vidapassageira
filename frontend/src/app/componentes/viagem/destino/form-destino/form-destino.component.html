@@ -19,6 +19,7 @@
     </ng-template>
 
     <p-toast></p-toast>
+    <p-confirmDialog></p-confirmDialog>
 
     <form #formSubmit="ngForm" (ngSubmit)="salvar()" class="destino-form">
 
@@ -77,10 +78,16 @@
                 placeholder="Descreva o destino, suas atrações, o que fazer, curiosidades..."
                 class="form-textarea"
                 rows="4"
+                maxlength="500"
                 [autoResize]="true"></textarea>
-            <small class="field-hint">
-                Informações que ajudem a conhecer melhor este destino
-            </small>
+            <div class="char-counter">
+                <small class="field-hint">
+                    Informações que ajudem a conhecer melhor este destino
+                </small>
+                <small class="char-count" [class.char-limit-near]="(destino.descricao?.length || 0) > 450">
+                    {{ destino.descricao?.length || 0 }}/500
+                </small>
+            </div>
         </div>
 
         <!-- Upload de Imagem -->

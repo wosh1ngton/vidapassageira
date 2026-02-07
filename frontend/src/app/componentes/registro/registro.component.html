@@ -22,7 +22,16 @@
               name="username"
               [(ngModel)]="usuario.username"
               placeholder="Escolha um nome de usuário"
-              required />
+              required
+              minlength="3"
+              #usernameInput="ngModel" />
+            <small class="field-hint" *ngIf="!usernameInput.errors">
+              Mínimo de 3 caracteres
+            </small>
+            <small class="field-error" *ngIf="usernameInput.invalid && usernameInput.touched">
+              <span *ngIf="usernameInput.errors?.['required']">Nome de usuário é obrigatório</span>
+              <span *ngIf="usernameInput.errors?.['minlength']">Mínimo de 3 caracteres</span>
+            </small>
           </div>
 
           <div class="field mb-4">
@@ -35,7 +44,16 @@
               [(ngModel)]="usuario.email"
               type="email"
               placeholder="seu@email.com"
-              required />
+              required
+              pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+              #emailInput="ngModel" />
+            <small class="field-hint" *ngIf="!emailInput.errors">
+              Digite um e-mail válido
+            </small>
+            <small class="field-error" *ngIf="emailInput.invalid && emailInput.touched">
+              <span *ngIf="emailInput.errors?.['required']">E-mail é obrigatório</span>
+              <span *ngIf="emailInput.errors?.['pattern']">E-mail inválido</span>
+            </small>
           </div>
 
           <div class="field mb-4">
@@ -48,7 +66,16 @@
               [(ngModel)]="usuario.password"
               placeholder="Crie uma senha segura"
               required
-              [feedback]="false" />
+              minlength="6"
+              [feedback]="false"
+              #passwordInput="ngModel" />
+            <small class="field-hint" *ngIf="!passwordInput.errors">
+              Mínimo de 6 caracteres
+            </small>
+            <small class="field-error" *ngIf="passwordInput.invalid && passwordInput.touched">
+              <span *ngIf="passwordInput.errors?.['required']">Senha é obrigatória</span>
+              <span *ngIf="passwordInput.errors?.['minlength']">Mínimo de 6 caracteres</span>
+            </small>
           </div>
 
           <div class="field mb-3">

@@ -22,8 +22,16 @@
         <span *ngIf="viagem.compartilhada" class="shared-badge">
     <i class="pi pi-users mr-1"></i> Compartilhada
 </span>
-            <img [src]="viagem.destino.imagemBase64" alt="Imagem" class="w-full mb-3 border-round" />
-
+            <div class="image-container mb-3">
+                <img *ngIf="viagem.destino.imagemBase64"
+                     [src]="viagem.destino.imagemBase64"
+                     [alt]="viagem.destino.nome"
+                     class="destino-image" />
+                <div *ngIf="!viagem.destino.imagemBase64" class="image-placeholder">
+                    <i class="pi pi-image"></i>
+                    <span>Sem imagem</span>
+                </div>
+            </div>
 
             <p>{{ viagem.dataIda | date: 'dd/MM/yyyy' }} ate {{ viagem.dataVolta | date: 'dd/MM/yyyy'}} </p>
 

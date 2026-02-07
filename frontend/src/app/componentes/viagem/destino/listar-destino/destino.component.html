@@ -7,12 +7,33 @@
         <button pButton type="button" label="Cadastrar destino" (click)="abrirDestinoDialog()"></button>
     </section>
     <section>
+        <!-- Empty State -->
+        <div *ngIf="destinos.length === 0" class="empty-state">
+            <i class="pi pi-map-marker empty-state-icon"></i>
+            <h3 class="empty-state-title">Nenhum destino cadastrado</h3>
+            <p class="empty-state-text">
+                Comece adicionando seus destinos favoritos para planejar suas viagens dos sonhos.
+            </p>
+            <button pButton type="button" label="Cadastrar Primeiro Destino"
+                    icon="pi pi-plus"
+                    (click)="abrirDestinoDialog()"
+                    class="empty-state-button"></button>
+        </div>
 
-        <div class="grid">
+        <!-- Lista de Destinos -->
+        <div class="grid" *ngIf="destinos.length > 0">
             <div class="col-12 md:col-4" *ngFor="let destino of destinos">
                 <p-card [header]="destino.nome" [subheader]="destino.localizacao">
-                    <img [src]="destino.imagemBase64" alt="Imagem" class="w-full mb-3 border-round" />
-
+                    <div class="image-container mb-3">
+                        <img *ngIf="destino.imagemBase64"
+                             [src]="destino.imagemBase64"
+                             [alt]="destino.nome"
+                             class="destino-image" />
+                        <div *ngIf="!destino.imagemBase64" class="image-placeholder">
+                            <i class="pi pi-image"></i>
+                            <span>Sem imagem</span>
+                        </div>
+                    </div>
 
                     <p>{{ destino.descricao }}</p>
 

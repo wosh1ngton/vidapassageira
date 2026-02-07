@@ -65,6 +65,23 @@
   padding: 2rem;
 }
 
+/* Validações de formulário */
+.field-hint {
+  color: #666666;
+  font-size: 0.8rem;
+  font-style: italic;
+  display: block;
+  margin-top: 0.25rem;
+}
+
+.field-error {
+  color: #dc3545;
+  font-size: 0.8rem;
+  font-weight: 500;
+  display: block;
+  margin-top: 0.25rem;
+}
+
 .registro-footer {
   padding: 1.5rem 2rem;
   text-align: center;

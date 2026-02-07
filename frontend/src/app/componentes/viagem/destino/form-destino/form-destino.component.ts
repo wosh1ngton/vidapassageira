@@ -19,7 +19,7 @@ import {
   DestinoResponseDTO,
 } from '../../../../model/destino';
 import { FileSelectEvent, FileUpload } from 'primeng/fileupload';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 interface UploadEvent {
   originalEvent: Event;
@@ -70,7 +70,8 @@ export class FormDestinoComponent implements OnInit {
 
   constructor(
     private destinoService: DestinosService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService
   ) {}
 
   ngOnInit(): void {}
@@ -213,7 +214,23 @@ export class FormDestinoComponent implements OnInit {
   }
 
   removeImage() {
-    this.destino.imagem = undefined;
-    this.imagePreviewUrl = null;
+    this.confirmationService.confirm({
+      message: 'Deseja realmente remover esta imagem?',
+      header: 'Confirmar Remoção',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'Sim, remover',
+      rejectLabel: 'Cancelar',
+      acceptButtonStyleClass: 'p-button-danger',
+      rejectButtonStyleClass: 'p-button-secondary p-button-outlined',
+      accept: () => {
+        this.destino.imagem = undefined;
+        this.imagePreviewUrl = null;
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Imagem removida',
+          detail: 'A imagem foi removida com sucesso'
+        });
+      }
+    });
   }
 }
