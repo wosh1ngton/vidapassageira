@@ -16,9 +16,10 @@ import { AuthService } from './services/auth.service';
   providers: [DialogService, MessageService],
 })
 export class AppComponent implements OnInit {
-  title = 'frontend';  
+  title = 'frontend';
   dialogCadastroUsuarioRef: DynamicDialogRef | undefined;
   menuVisible = false;
+  currentYear = new Date().getFullYear();
 
   constructor(
     private primeng: PrimeNG,

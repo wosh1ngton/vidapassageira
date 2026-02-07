@@ -7,4 +7,6 @@ public class UsuarioAutenticacao {
     private String username;
     private String email;
     private String password;
+    private Boolean termsAccepted;
+    private Boolean privacyAccepted;
 }   

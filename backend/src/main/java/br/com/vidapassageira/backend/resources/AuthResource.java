@@ -27,7 +27,13 @@ public class AuthResource {
     public ResponseEntity<Void> registrar(@RequestBody UsuarioAutenticacao usuario) {
         // Registro público - sem validação de token
         String keycloakId  = this.keycloakUserService.createUser(usuario.getUsername(), usuario.getEmail(), usuario.getPassword());
-        this.usuarioService.criarUsuario(usuario.getEmail(), usuario.getUsername(), keycloakId);
+        this.usuarioService.criarUsuario(
+            usuario.getEmail(),
+            usuario.getUsername(),
+            keycloakId,
+            usuario.getTermsAccepted(),
+            usuario.getPrivacyAccepted()
+        );
         return ResponseEntity.ok().build();
     }
 

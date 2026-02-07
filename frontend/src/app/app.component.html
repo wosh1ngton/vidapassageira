@@ -59,6 +59,37 @@
       <!-- MAIN CONTENT -->
       <div class="col transition-all" [ngClass]="{ 'ml-16': !menuVisible, 'ml-64': menuVisible }">
         <router-outlet></router-outlet>
+
+        <!-- FOOTER -->
+        <footer class="app-footer">
+          <div class="footer-container">
+            <div class="footer-content">
+              <div class="footer-logo">
+                <img src="assets/imagens/logo.png" alt="VidaPassageira" class="logo-footer">
+                <span class="footer-brand">VidaPassageira</span>
+              </div>
+              <p class="footer-description">
+                Planeje suas viagens com inteligência artificial e compartilhe experiências inesquecíveis.
+              </p>
+            </div>
+
+            <div class="footer-bottom">
+              <p class="footer-copyright">
+                © {{ currentYear }} VidaPassageira. Todos os direitos reservados.
+              </p>
+              <div class="footer-badges">
+                <span class="badge-item">
+                  <i class="pi pi-shield"></i>
+                  Dados Protegidos
+                </span>
+                <span class="badge-item">
+                  <i class="pi pi-lock"></i>
+                  <span>HTTPS</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </footer>
       </div>
 
     </div>

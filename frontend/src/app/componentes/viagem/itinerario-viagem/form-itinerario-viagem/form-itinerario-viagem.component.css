@@ -1,0 +1,270 @@
+/* Container */
+.itinerario-form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1rem;
+}
+
+/* Header Info */
+.form-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem;
+    background: linear-gradient(135deg, rgba(129, 157, 106, 0.1) 0%, rgba(129, 157, 106, 0.05) 100%);
+    border-radius: 12px;
+    border-left: 4px solid #819d6a;
+}
+
+.header-icon {
+    width: 50px;
+    height: 50px;
+    background: #819d6a;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.header-icon i {
+    font-size: 1.5rem;
+    color: white;
+}
+
+.header-content {
+    flex: 1;
+}
+
+.form-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #333333;
+    margin: 0 0 0.25rem 0;
+}
+
+.form-subtitle {
+    font-size: 0.9rem;
+    color: #666666;
+    margin: 0;
+}
+
+/* Form Sections */
+.form-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.section-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #333333;
+    margin: 0 0 0.5rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #f0f0f0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.section-title i {
+    color: #819d6a;
+    font-size: 1.1rem;
+}
+
+/* Form Grid */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+}
+
+.form-grid.single-column {
+    grid-template-columns: 1fr;
+}
+
+/* Form Field */
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-field.full-width {
+    grid-column: 1 / -1;
+}
+
+.field-label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #333333;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.field-label i {
+    color: #819d6a;
+    font-size: 1rem;
+}
+
+.required-mark {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+/* Input Styling */
+::ng-deep .p-inputtext,
+::ng-deep .p-dropdown,
+::ng-deep .p-inputtextarea,
+::ng-deep .p-datepicker-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+::ng-deep .p-inputtext:hover,
+::ng-deep .p-dropdown:hover,
+::ng-deep .p-inputtextarea:hover {
+    border-color: #819d6a;
+}
+
+::ng-deep .p-inputtext:focus,
+::ng-deep .p-dropdown:focus,
+::ng-deep .p-inputtextarea:focus {
+    border-color: #819d6a;
+    box-shadow: 0 0 0 3px rgba(129, 157, 106, 0.1);
+}
+
+::ng-deep .p-dropdown {
+    border: 2px solid #e0e0e0;
+}
+
+::ng-deep .p-dropdown:hover {
+    border-color: #819d6a;
+}
+
+::ng-deep .p-datepicker {
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+}
+
+/* Textarea */
+::ng-deep .p-inputtextarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Category Chips Preview */
+.category-preview {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.75rem;
+    background: rgba(129, 157, 106, 0.1);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #819d6a;
+    margin-top: 0.5rem;
+}
+
+.category-preview i {
+    font-size: 0.9rem;
+}
+
+/* Actions Section */
+.form-actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+    padding-top: 1rem;
+    border-top: 1px solid #f0f0f0;
+}
+
+::ng-deep .cancel-button {
+    background: white !important;
+    color: #dc3545 !important;
+    border: 2px solid #dc3545 !important;
+    padding: 0.75rem 1.5rem !important;
+}
+
+::ng-deep .cancel-button:hover {
+    background: #dc3545 !important;
+    color: white !important;
+}
+
+::ng-deep .save-button {
+    background: linear-gradient(135deg, #819d6a 0%, #6b8558 100%) !important;
+    border: none !important;
+    padding: 0.75rem 2rem !important;
+}
+
+::ng-deep .save-button:hover:not(:disabled) {
+    box-shadow: 0 4px 12px rgba(129, 157, 106, 0.3) !important;
+    transform: translateY(-2px);
+}
+
+::ng-deep .save-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Field Helper Text */
+.field-helper {
+    font-size: 0.85rem;
+    color: #666666;
+    margin-top: 0.25rem;
+}
+
+.field-helper i {
+    color: #819d6a;
+    margin-right: 0.25rem;
+}
+
+/* Validation Messages */
+::ng-deep .p-error {
+    color: #dc3545;
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+}
+
+/* Responsividade */
+@media screen and (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-actions {
+        flex-direction: column-reverse;
+    }
+
+    ::ng-deep .cancel-button,
+    ::ng-deep .save-button {
+        width: 100% !important;
+    }
+
+    .form-header {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .itinerario-form-container {
+        padding: 0.5rem;
+    }
+
+    .section-title {
+        font-size: 0.9rem;
+    }
+
+    .field-label {
+        font-size: 0.85rem;
+    }
+}

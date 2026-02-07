@@ -45,6 +45,10 @@
   height: auto;
   display: block;
   margin: 0 auto;
+  background: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .registro-title {
@@ -80,6 +84,135 @@
   font-weight: 500;
   display: block;
   margin-top: 0.25rem;
+}
+
+/* =============================================
+   SEÇÃO DE CONSENTIMENTOS LGPD
+   ============================================= */
+
+.consent-section {
+  background: #f8f9fa;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.consent-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333333;
+  margin: 0 0 1.25rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.consent-title i {
+  color: #819d6a;
+  font-size: 1.1rem;
+}
+
+.consent-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  transition: all 0.3s ease;
+}
+
+.consent-item:hover {
+  border-color: #819d6a;
+  box-shadow: 0 2px 8px rgba(129, 157, 106, 0.1);
+}
+
+.consent-item:last-of-type {
+  margin-bottom: 0.75rem;
+}
+
+.consent-label {
+  font-size: 0.9rem;
+  color: #333333;
+  line-height: 1.5;
+  cursor: pointer;
+  flex: 1;
+  margin: 0;
+  padding-top: 0.15rem;
+}
+
+.consent-link {
+  color: #819d6a;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.consent-link:hover {
+  color: #6b8558;
+  text-decoration: underline;
+}
+
+.required-indicator {
+  color: #dc3545;
+  font-weight: bold;
+  margin-left: 0.25rem;
+}
+
+.optional-indicator {
+  color: #666666;
+  font-size: 0.85rem;
+  font-style: italic;
+  margin-left: 0.25rem;
+}
+
+.consent-note {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: #666666;
+  padding: 0.75rem;
+  background: rgba(129, 157, 106, 0.05);
+  border-radius: 8px;
+  border-left: 3px solid #819d6a;
+  margin-top: 0.75rem;
+}
+
+.consent-note i {
+  color: #819d6a;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+/* Customização do PrimeNG Checkbox */
+::ng-deep .consent-item .p-checkbox {
+  margin-top: 0.15rem;
+}
+
+::ng-deep .consent-item .p-checkbox .p-checkbox-box {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #d0d0d0;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+::ng-deep .consent-item .p-checkbox .p-checkbox-box:hover {
+  border-color: #819d6a;
+}
+
+::ng-deep .consent-item .p-checkbox .p-checkbox-box.p-highlight {
+  background: #819d6a;
+  border-color: #819d6a;
+}
+
+::ng-deep .consent-item .p-checkbox .p-checkbox-box.p-highlight:hover {
+  background: #6b8558;
+  border-color: #6b8558;
 }
 
 .registro-footer {
@@ -121,6 +254,27 @@
 
   .registro-footer {
     padding: 1.25rem 1.5rem;
+  }
+
+  .consent-section {
+    padding: 1rem;
+  }
+
+  .consent-title {
+    font-size: 0.9rem;
+  }
+
+  .consent-label {
+    font-size: 0.85rem;
+  }
+
+  .consent-item {
+    padding: 0.6rem;
+  }
+
+  .consent-note {
+    font-size: 0.8rem;
+    padding: 0.6rem;
   }
 }
 

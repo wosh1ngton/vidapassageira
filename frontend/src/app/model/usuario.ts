@@ -2,6 +2,8 @@ export interface UsuarioCreateDTO {
   username: string;
   email: string;
   password: string;
+  termsAccepted?: boolean;
+  privacyAccepted?: boolean;
 }
 
 

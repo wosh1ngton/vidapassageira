@@ -25,8 +25,15 @@ public class UsuariosResource {
 
     @PostMapping
     public ResponseEntity<String> criarUsuario(@RequestBody UserRepresentation userRepresentation) {
-        
-        service.criarUsuario(userRepresentation.getEmail(), userRepresentation.getUsername(), userRepresentation.getId());
+
+        // Criação de usuário via sistema/admin - sem consentimentos explícitos
+        service.criarUsuario(
+            userRepresentation.getEmail(),
+            userRepresentation.getUsername(),
+            userRepresentation.getId(),
+            false,  // termsAccepted
+            false   // privacyAccepted
+        );
         return ResponseEntity.ok("ok");
     }
 

@@ -22,6 +22,7 @@ import { DateUtil } from '../../../../shared/util/date-util';
 @Component({
   selector: 'app-form-itinerario-viagem',
   templateUrl: './form-itinerario-viagem.component.html',
+  styleUrl: './form-itinerario-viagem.component.css',
   imports: [FormsModule, PrimeNgModule, CommonModule, ReactiveFormsModule],
 })
 export class ItinerarioFormComponent implements OnInit {

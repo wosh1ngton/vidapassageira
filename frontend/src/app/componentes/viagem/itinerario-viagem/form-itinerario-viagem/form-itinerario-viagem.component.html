@@ -1,65 +1,179 @@
-<form [formGroup]="atividadeForm" class="p-fluid grid">
-
-    <!-- Nome -->
-    <div class="field col-12">
-        <label for="nome">Nome</label>
-        <input id="nome" class="w-full" pInputText formControlName="nome" />
-    </div>
-
-    <!-- Orçamento -->
-    <div class="field col-12">
-        <label for="orcamento">Orçamento</label>
-        <input id="orcamento" class="w-full" formControlName="orcamento" pInputText />
-
-    </div>
-
-    <!-- Duração -->
-    <div class="field col-12">
-        <label for="duracao">Duração</label>
-        <input id="duracao" pInputText formControlName="duracao" class="w-full" />
-    </div>
-
-    <!-- Categoria -->
-    <div class="field col-6">
-        <label for="categoria">Categoria</label>
-        <p-dropdown class="w-full" id="categoria" [options]="categorias" formControlName="categoria"
-            placeholder="Selecione a categoria">
-        </p-dropdown>
-    </div>
-
-    <div class="field col-6">
-        <label for="categoria">Dia e Hora</label> <br />
-        <p-datepicker  styleClass="w-full" appendTo="body" formControlName="dia" 
-        id="dia" [showTime]="true" [hourFormat]="24" [dateFormat]="'dd/mm/y'" />        
-
-    </div>
-
-    <!-- Melhor horário -->
-    <div class="field col-12">
-        <label for="melhorHorario">Melhor horário</label>
-        <input id="melhorHorario" pInputText class="w-full" formControlName="melhorHorario" />
-    </div>
-
-    <!-- Descrição -->
-    <div class="field col-12">
-        <label for="descricao">Descrição</label>
-        <textarea class="w-full" id="descricao" pInputTextarea rows="4" formControlName="descricao">
-    </textarea>
-    </div>
-
-    <!-- Botão -->
-    <div class="col-12 flex">
-        <div class="col-6">
-
-            <p-button label="Cancelar" styleClass="w-full" severity="danger" icon="pi pi-times" (onClick)="cancelar()">
-            </p-button>
+<div class="itinerario-form-container">
+    <!-- Header -->
+    <div class="form-header">
+        <div class="header-icon">
+            <i class="pi pi-calendar-plus"></i>
         </div>
-        <div class="col-6">
-            <p-button label="Salvar" icon="pi pi-check" (onClick)="salvar(atividadeForm)"
-                [disabled]="atividadeForm.invalid" styleClass="w-full">
-            </p-button>
+        <div class="header-content">
+            <h3 class="form-title">{{ itinerarioEditar?.id ? 'Editar' : 'Novo' }} Item do Itinerário</h3>
+            <p class="form-subtitle">Preencha os detalhes da atividade para sua viagem</p>
         </div>
-
     </div>
 
-</form>
+    <!-- Formulário -->
+    <form [formGroup]="atividadeForm">
+        <!-- Seção: Informações Básicas -->
+        <div class="form-section">
+            <h4 class="section-title">
+                <i class="pi pi-info-circle"></i>
+                Informações Básicas
+            </h4>
+
+            <div class="form-grid">
+                <!-- Nome -->
+                <div class="form-field full-width">
+                    <label for="nome" class="field-label">
+                        <i class="pi pi-tag"></i>
+                        Nome da Atividade
+                        <span class="required-mark">*</span>
+                    </label>
+                    <input
+                        id="nome"
+                        pInputText
+                        formControlName="nome"
+                        placeholder="Ex: Visita ao museu, Jantar em restaurante..."
+                    />
+                </div>
+
+                <!-- Categoria -->
+                <div class="form-field">
+                    <label for="categoria" class="field-label">
+                        <i class="pi pi-bookmark"></i>
+                        Categoria
+                        <span class="required-mark">*</span>
+                    </label>
+                    <p-dropdown
+                        id="categoria"
+                        [options]="categorias"
+                        formControlName="categoria"
+                        placeholder="Selecione uma categoria"
+                    ></p-dropdown>
+                </div>
+
+                <!-- Orçamento -->
+                <div class="form-field">
+                    <label for="orcamento" class="field-label">
+                        <i class="pi pi-dollar"></i>
+                        Orçamento Estimado
+                        <span class="required-mark">*</span>
+                    </label>
+                    <input
+                        id="orcamento"
+                        pInputText
+                        formControlName="orcamento"
+                        placeholder="Ex: R$ 150,00"
+                    />
+                    <small class="field-helper">
+                        <i class="pi pi-info-circle"></i>
+                        Valor aproximado que você pretende gastar
+                    </small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção: Data e Horário -->
+        <div class="form-section">
+            <h4 class="section-title">
+                <i class="pi pi-clock"></i>
+                Data e Horário
+            </h4>
+
+            <div class="form-grid">
+                <!-- Dia e Hora -->
+                <div class="form-field">
+                    <label for="dia" class="field-label">
+                        <i class="pi pi-calendar"></i>
+                        Data e Hora
+                        <span class="required-mark">*</span>
+                    </label>
+                    <p-datepicker
+                        id="dia"
+                        formControlName="dia"
+                        [showTime]="true"
+                        [hourFormat]="24"
+                        [dateFormat]="'dd/mm/yy'"
+                        appendTo="body"
+                        placeholder="Selecione data e hora"
+                    ></p-datepicker>
+                </div>
+
+                <!-- Duração -->
+                <div class="form-field">
+                    <label for="duracao" class="field-label">
+                        <i class="pi pi-hourglass"></i>
+                        Duração
+                        <span class="required-mark">*</span>
+                    </label>
+                    <input
+                        id="duracao"
+                        pInputText
+                        formControlName="duracao"
+                        placeholder="Ex: 2 horas, 3h30min..."
+                    />
+                </div>
+
+                <!-- Melhor Horário -->
+                <div class="form-field full-width">
+                    <label for="melhorHorario" class="field-label">
+                        <i class="pi pi-sun"></i>
+                        Melhor Horário
+                        <span class="required-mark">*</span>
+                    </label>
+                    <input
+                        id="melhorHorario"
+                        pInputText
+                        formControlName="melhorHorario"
+                        placeholder="Ex: Manhã, Tarde, Noite, Final da tarde..."
+                    />
+                    <small class="field-helper">
+                        <i class="pi pi-lightbulb"></i>
+                        Indique o período ideal para realizar esta atividade
+                    </small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção: Detalhes -->
+        <div class="form-section">
+            <h4 class="section-title">
+                <i class="pi pi-file-edit"></i>
+                Detalhes
+            </h4>
+
+            <div class="form-grid single-column">
+                <!-- Descrição -->
+                <div class="form-field">
+                    <label for="descricao" class="field-label">
+                        <i class="pi pi-align-left"></i>
+                        Descrição
+                        <span class="required-mark">*</span>
+                    </label>
+                    <textarea
+                        id="descricao"
+                        pInputTextarea
+                        formControlName="descricao"
+                        rows="4"
+                        placeholder="Descreva os detalhes da atividade, local, o que levar, etc..."
+                    ></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="form-actions">
+            <p-button
+                label="Cancelar"
+                icon="pi pi-times"
+                styleClass="cancel-button"
+                (onClick)="cancelar()"
+            ></p-button>
+            <p-button
+                [label]="itinerarioEditar?.id ? 'Salvar Alterações' : 'Adicionar ao Itinerário'"
+                icon="pi pi-check"
+                styleClass="save-button"
+                (onClick)="salvar(atividadeForm)"
+                [disabled]="atividadeForm.invalid"
+            ></p-button>
+        </div>
+    </form>
+</div>

@@ -27,11 +27,26 @@ export class RegistroComponent {
     username: '',
     password: '',
     email: '',
+    termsAccepted: false,
+    privacyAccepted: false,
   };
 
   loading = false;
 
+  isConsentValid(): boolean {
+    return this.usuario.termsAccepted === true && this.usuario.privacyAccepted === true;
+  }
+
   salvar() {
+    if (!this.isConsentValid()) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Atenção',
+        detail: 'Você precisa aceitar os Termos de Uso e a Política de Privacidade para continuar.',
+      });
+      return;
+    }
+
     this.loading = true;
     this.usuarioService.save(this.usuario).subscribe({
       next: (response) => {

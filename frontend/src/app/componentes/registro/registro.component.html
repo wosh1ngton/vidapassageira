@@ -78,13 +78,52 @@
             </small>
           </div>
 
+          <!-- Seção de Consentimentos LGPD -->
+          <div class="consent-section mb-4">
+            <h4 class="consent-title">
+              <i class="pi pi-shield"></i>
+              Consentimento e Privacidade
+            </h4>
+
+            <div class="consent-item required">
+              <p-checkbox
+                [(ngModel)]="usuario.termsAccepted"
+                inputId="termsAccepted"
+                name="termsAccepted"
+                #termsCheckbox="ngModel">
+              </p-checkbox>
+              <label for="termsAccepted" class="consent-label">
+                Li e aceito os <a href="/termos" target="_blank" class="consent-link">Termos de Uso</a>
+                <span class="required-indicator">*</span>
+              </label>
+            </div>
+
+            <div class="consent-item required">
+              <p-checkbox
+                [(ngModel)]="usuario.privacyAccepted"
+                inputId="privacyAccepted"
+                name="privacyAccepted"
+                #privacyCheckbox="ngModel">
+              </p-checkbox>
+              <label for="privacyAccepted" class="consent-label">
+                Li e aceito a <a href="/privacidade" target="_blank" class="consent-link">Política de Privacidade</a>
+                <span class="required-indicator">*</span>
+              </label>
+            </div>
+
+            <small class="consent-note">
+              <i class="pi pi-info-circle"></i>
+              Seus dados estão protegidos com HTTPS e seguem a LGPD (Lei Geral de Proteção de Dados).
+            </small>
+          </div>
+
           <div class="field mb-3">
             <p-button
               type="submit"
               label="Criar Conta"
               icon="pi pi-user-plus"
               [loading]="loading"
-              [disabled]="!formSubmit.valid || loading"
+              [disabled]="!formSubmit.valid || !isConsentValid() || loading"
               styleClass="w-full">
             </p-button>
           </div>

@@ -5,6 +5,8 @@ import { ListarViagemComponent } from './componentes/viagem/listar-viagem/listar
 import { PlanejarViagemComponent } from './componentes/viagem/planejar-viagem/planejar-viagem.component';
 import { RegistroComponent } from './componentes/registro/registro.component';
 import { PageNotFoundComponent } from './componentes/shared/page-not-found/page-not-found.component';
+import { TermosComponent } from './componentes/legal/termos/termos.component';
+import { PrivacidadeComponent } from './componentes/legal/privacidade/privacidade.component';
 
 export const routes: Routes = [
     {
@@ -30,6 +32,14 @@ export const routes: Routes = [
     {
         path: 'planejar/:id',
         component: PlanejarViagemComponent,
+    },
+    {
+        path: 'termos',
+        component: TermosComponent
+    },
+    {
+        path: 'privacidade',
+        component: PrivacidadeComponent
     },
     {
         path: '**',

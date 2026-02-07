@@ -8,6 +8,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Table(name = "usuario")
 @Entity
 @Data
@@ -26,4 +28,13 @@ public class Usuario {
 
     @Column(name = "ID_KEYCLOAK")
     private String keyCloakId;
+
+    @Column(name = "FG_TERMOS_ACEITOS")
+    private Boolean termosAceitos;
+
+    @Column(name = "FG_PRIVACIDADE_ACEITA")
+    private Boolean privacidadeAceita;
+
+    @Column(name = "DT_CONSENTIMENTO")
+    private LocalDateTime dataConsentimento;
 }

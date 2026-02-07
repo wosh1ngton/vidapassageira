@@ -1,5 +1,6 @@
 package br.com.vidapassageira.backend.services;
 
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,13 +18,21 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public void criarUsuario(String email, String userName, String id) {
+    public void criarUsuario(String email, String userName, String id, Boolean termsAccepted, Boolean privacyAccepted) {
         if(verificaUsuarioExiste(id)) return;
-        
+
         Usuario usuario = new Usuario();
         usuario.setEmail(email);
-        usuario.setUserName(userName);   
+        usuario.setUserName(userName);
         usuario.setKeyCloakId(id);
+        usuario.setTermosAceitos(termsAccepted);
+        usuario.setPrivacidadeAceita(privacyAccepted);
+
+        // Registra a data do consentimento se ambos foram aceitos
+        if (Boolean.TRUE.equals(termsAccepted) && Boolean.TRUE.equals(privacyAccepted)) {
+            usuario.setDataConsentimento(LocalDateTime.now());
+        }
+
         usuarioRepository.save(usuario);
     }
 
