@@ -25,59 +25,46 @@
         </p-menubar>
     </div>
     <div class="sugestoes-container px-3">
-
-        <ng-container *ngIf="selectedSubMenu === tipoSugestaoEnum.ONDE_IR">
-            <div class="text-align-right mx-2 my-2">
-                <p-button rounded="true" icon="pi pi-plus" (click)="adicionarItemItinerario()" class="button-margin"
-                    size="small"></p-button>
-            </div>
-
-            <app-itinerario-viagem *ngIf="itinerarioDaViagem.length > 0" (updatePagina)="getOndeIr()"               
-                [atividades]="itinerarioDaViagem">
-            </app-itinerario-viagem>
-
-            <p-button label="Pedir Sugestão da IA" (click)="gerarOpiniaoOndeIr(selectedSubMenu)"
-                class="button-margin"></p-button>
-        </ng-container>
-
-        <ng-container *ngIf="selectedSubMenu !== tipoSugestaoEnum.ONDE_IR && sugestoes.has(selectedSubMenu!)">       
-
-            <app-sugestao-ia *ngIf="selectedSubMenu" (sugestaoChange)="getSugestaoByViagemId()"  [tipoSugestao]="selectedSubMenu"
-                [sugestao]="sugestoes.get(selectedSubMenu)" [id]="sugestoesIds.get(selectedSubMenu)">
-            </app-sugestao-ia>          
-            
-            <p-button label="Salvar Sugestão" *ngIf="exibirBtnSalvarOpiniaoIA"
-                (click)="salvarOpiniaoIA(sugestoes.get(selectedSubMenu))" class="button-margin"></p-button>
-        </ng-container>
-
-        <ng-container *ngIf="selectedSubMenu !== tipoSugestaoEnum.ONDE_IR && !sugestoes.has(selectedSubMenu!)">
-            <p-button label="Pedir Sugestão da IA" (click)="gerarOpiniao(selectedSubMenu)"
-                class="button-margin"></p-button>             
-        </ng-container>
-
-        <div class="col-12">
-
-            <div *ngIf="atividades.length > 0">
-
-                <div *ngFor="let activity of atividades; let i = index" class="activity-card">
-                    <h3>{{ activity.nome }}</h3>
-                    <p><strong>Orçamento:</strong> {{ activity.orcamento }}</p>
-                    <p><strong>Duração:</strong> {{ activity.duracao }}</p>
-                    <p><strong>Categoria:</strong> {{ activity.categoria }}</p>
-                    <p><strong>Dia:</strong> {{ activity.dia }}</p>
-                    <p><strong>Descrição:</strong> {{ activity.descricao }}</p>
-                    <p><strong>Melhor horário:</strong> {{ activity.melhorHorario }}</p>
-
-                    <p-button (click)="salvarItemItinerario(activity)" icon="pi pi-save" label="Salvar no Itinerário">
-                    </p-button>
-                </div>
-            </div>
-
-            <div *ngIf="atividades.length === 0 && resultado" [innerHTML]="resultado">
-                
-                
+        <!-- Loading Indicator -->
+        <div *ngIf="loadingIA" class="loading-container">
+            <div class="loading-content">
+                <i class="pi pi-spin pi-spinner loading-icon"></i>
+                <h3 class="loading-title">{{ loadingMessage }}</h3>
+                <p class="loading-subtitle">Isso pode levar alguns segundos...</p>
             </div>
         </div>
+
+        <!-- Conteúdo quando não está loading -->
+        <ng-container *ngIf="!loadingIA">
+            <ng-container *ngIf="selectedSubMenu === tipoSugestaoEnum.ONDE_IR">
+                <div class="text-align-right mx-2 my-2">
+                    <p-button rounded="true" icon="pi pi-plus" (click)="adicionarItemItinerario()" class="button-margin"
+                        size="small"></p-button>
+                </div>
+
+                <app-itinerario-viagem *ngIf="itinerarioDaViagem.length > 0" (updatePagina)="getOndeIr()"
+                    [atividades]="itinerarioDaViagem">
+                </app-itinerario-viagem>
+
+                <p-button label="Pedir Sugestão da IA" (click)="gerarOpiniaoOndeIr(selectedSubMenu)"
+                    class="button-margin"></p-button>
+            </ng-container>
+
+            <ng-container *ngIf="selectedSubMenu !== tipoSugestaoEnum.ONDE_IR && sugestoes.has(selectedSubMenu!)">
+
+                <app-sugestao-ia *ngIf="selectedSubMenu" (sugestaoChange)="getSugestaoByViagemId()"  [tipoSugestao]="selectedSubMenu"
+                    [sugestao]="sugestoes.get(selectedSubMenu)" [id]="sugestoesIds.get(selectedSubMenu)">
+                </app-sugestao-ia>
+
+                <p-button label="Salvar Sugestão" *ngIf="exibirBtnSalvarOpiniaoIA"
+                    (click)="salvarOpiniaoIA(sugestoes.get(selectedSubMenu))" class="button-margin"></p-button>
+            </ng-container>
+
+            <ng-container *ngIf="selectedSubMenu !== tipoSugestaoEnum.ONDE_IR && !sugestoes.has(selectedSubMenu!)">
+                <p-button label="Pedir Sugestão da IA" (click)="gerarOpiniao(selectedSubMenu)"
+                    class="button-margin"></p-button>
+            </ng-container>
+        </ng-container>
     </div>
 
 

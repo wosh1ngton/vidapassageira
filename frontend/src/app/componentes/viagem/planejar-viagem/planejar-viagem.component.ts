@@ -70,6 +70,8 @@ export class PlanejarViagemComponent implements OnInit {
   hasItinerario: boolean = false;
   ref: DynamicDialogRef | undefined;
   exibirBtnSalvarOpiniaoIA: boolean = false;
+  loadingIA: boolean = false;
+  loadingMessage: string = '';
 
   setMenuSelecionado(label: string) {
     this.menuSelecionado = label;
@@ -193,6 +195,23 @@ export class PlanejarViagemComponent implements OnInit {
   gerarOpiniao(tipoSugestao: TipoSugestaoIaEnum | undefined) {
     let resultado = '';
     this.tipoSugestaoSelected = tipoSugestao;
+    this.loadingIA = true;
+
+    // Define mensagem de loading baseada no tipo de sugestão
+    switch (tipoSugestao) {
+      case TipoSugestaoIaEnum.ONDE_FICAR:
+        this.loadingMessage = 'Buscando melhores opções de hospedagem...';
+        break;
+      case TipoSugestaoIaEnum.COMO_CHEGAR:
+        this.loadingMessage = 'Analisando rotas e transporte...';
+        break;
+      case TipoSugestaoIaEnum.ONDE_COMER:
+        this.loadingMessage = 'Procurando restaurantes e gastronomia local...';
+        break;
+      default:
+        this.loadingMessage = 'Gerando sugestões...';
+    }
+
     const tipoSugestaoName = TipoSugestaoIaEnum[tipoSugestao!];
     this.iaService
       .gerarOpiniaoStream(this.viagemId, tipoSugestaoName)
@@ -202,16 +221,23 @@ export class PlanejarViagemComponent implements OnInit {
           resultado += decodedChunk;
 
           const tipo = tipoSugestao;
-          
+
           this.sugestoes.set(tipo!, resultado);
           this.cdRef.detectChanges();
         },
         error: (err) => {
           console.error('Erro:', err);
-          this.resultado = 'Erro ao gerar opinião. Tente novamente mais tarde.';
+          this.loadingIA = false;
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail: 'Erro ao gerar sugestão. Tente novamente mais tarde.'
+          });
           this.cdRef.detectChanges();
         },
         complete: () => {
+          this.loadingIA = false;
+          this.loadingMessage = '';
           this.exibirBotaoSalvarOpiniao(true);
           this.cdRef.detectChanges();
         },
@@ -222,6 +248,8 @@ export class PlanejarViagemComponent implements OnInit {
     this.selectedSubMenu = tipoSugestao;
     this.rawResultado = '';
     this.atividades = [];
+    this.loadingIA = true;
+    this.loadingMessage = 'Preparando seu itinerário...';
     const tipoSugestaoName = TipoSugestaoIaEnum[tipoSugestao!];
 
     this.iaService
@@ -235,13 +263,17 @@ export class PlanejarViagemComponent implements OnInit {
         },
         error: (err) => {
           console.error('Erro:', err);
-          this.rawResultado =
-            'Erro ao gerar opinião. Tente novamente mais tarde.';
+          this.loadingIA = false;
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail: 'Erro ao gerar itinerário. Tente novamente mais tarde.'
+          });
           this.cdRef.detectChanges();
         },
         complete: () => {
           this.parsearFormatarItinerario();
-          this.cdRef.detectChanges();
+          this.salvarTodosItensItinerario();
         },
       });
   }
@@ -319,7 +351,7 @@ export class PlanejarViagemComponent implements OnInit {
     };
 
     this.viagemService.salvarItemItinerario(itemItinerarioDto).subscribe({
-      next: (response: any) => {        
+      next: (response: any) => {
         this.messageService.add({
           severity: 'success',
           summary: 'Sucesso',
@@ -335,6 +367,79 @@ export class PlanejarViagemComponent implements OnInit {
         });
       },
     });
+  }
+
+  salvarTodosItensItinerario(): void {
+    if (this.atividades.length === 0) {
+      this.loadingIA = false;
+      this.loadingMessage = '';
+      return;
+    }
+
+    this.loadingMessage = 'Salvando itinerário...';
+    let itemsSalvos = 0;
+    let erros = 0;
+
+    this.atividades.forEach((item) => {
+      const itemItinerarioDto: AtividadeItinerarioEditarDTO = {
+        id: 0,
+        nome: item.nome,
+        orcamento: this.parseOrcamento(item.orcamento),
+        duracao: item.duracao,
+        descricao: item.descricao,
+        categoria: item.categoria,
+        dia: item.dia.toISOString(),
+        melhorHorario: item.melhorHorario,
+        idViagem: this.viagemId,
+      };
+
+      this.viagemService.salvarItemItinerario(itemItinerarioDto).subscribe({
+        next: () => {
+          itemsSalvos++;
+
+          // Quando todos os itens forem processados
+          if (itemsSalvos + erros === this.atividades.length) {
+            this.finalizarSalvamentoItinerario(itemsSalvos, erros);
+          }
+        },
+        error: (err: any) => {
+          console.error('Erro ao salvar item:', err);
+          erros++;
+
+          // Quando todos os itens forem processados
+          if (itemsSalvos + erros === this.atividades.length) {
+            this.finalizarSalvamentoItinerario(itemsSalvos, erros);
+          }
+        },
+      });
+    });
+  }
+
+  private finalizarSalvamentoItinerario(itemsSalvos: number, erros: number): void {
+    this.loadingIA = false;
+    this.loadingMessage = '';
+    this.atividades = [];
+    this.resultado = '';
+
+    if (itemsSalvos > 0) {
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Itinerário Criado!',
+        detail: `${itemsSalvos} ${itemsSalvos === 1 ? 'atividade foi adicionada' : 'atividades foram adicionadas'} ao seu itinerário`,
+      });
+      this.getOndeIr();
+      this.verificaExistenciaItinerarioDaViagem();
+    }
+
+    if (erros > 0) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Atenção',
+        detail: `${erros} ${erros === 1 ? 'item falhou' : 'itens falharam'} ao salvar`,
+      });
+    }
+
+    this.cdRef.detectChanges();
   }
 
   private parseOrcamento(orcamento: string): number {    

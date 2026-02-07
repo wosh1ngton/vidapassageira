@@ -19,3 +19,51 @@
 ::ng-deep .active-menu .pi {
     color: #000 !important;
 }
+
+/* Loading Indicator */
+.loading-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    padding: 3rem 2rem;
+}
+
+.loading-content {
+    text-align: center;
+    max-width: 500px;
+}
+
+.loading-icon {
+    font-size: 4rem;
+    color: #819d6a;
+    margin-bottom: 1.5rem;
+    display: block;
+}
+
+.loading-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333333;
+    margin: 0 0 0.5rem 0;
+}
+
+.loading-subtitle {
+    font-size: 1rem;
+    color: #666666;
+    margin: 0;
+}
+
+/* Loading animation */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.6;
+    }
+}
+
+.loading-content {
+    animation: pulse 2s ease-in-out infinite;
+}
