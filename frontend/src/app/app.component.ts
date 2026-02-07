@@ -27,12 +27,10 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    
+
     this.primeng.ripple.set(true);
-    this.menuVisible = localStorage.getItem('menu') !== 'closed';  
-    setTimeout(() => {
-      this.authService.initLoginFlow();
-  });
+    this.menuVisible = localStorage.getItem('menu') === 'open';
+    // Não inicia login automaticamente - apenas se usuário clicar
   }
 
   toggleMenu() {

@@ -1,23 +1,14 @@
 <p-toast></p-toast>
-<!-- <ng-container *ngIf="!token">
-  <div class="auth-container">
-    <p-card header="Bem-vindo ao Vida Passageira">
-      <div class="auth-content">
-        <p>Escolha uma opção para continuar:</p>
-        <div class="button-group">
-          <button pButton type="button" label="Login" class="p-button-rounded p-button-success"
-            (click)="login()"></button>
-          <button pButton type="button" label="Cadastrar-se" class="p-button-rounded p-button-secondary"
-            (click)="cadastrar()"></button>
-        </div>
-      </div>
-    </p-card>
-  </div>
-</ng-container> -->
 
+<!-- Layout para usuários NÃO autenticados -->
+<ng-container *ngIf="!token">
+  <router-outlet></router-outlet>
+</ng-container>
+
+<!-- Layout para usuários autenticados -->
 <ng-container *ngIf="token">
   <div class="grid">
-    
+
     <header class="app-header flex w-full justify-content-between align-items-center px-3 py-2">
       <div class="logo-container">
         <p-button [text]="true" icon="pi pi-bars" size="small" class="mt-5" (click)="toggleMenu()">
@@ -26,11 +17,11 @@
       </div>
 
       <div class="flex align-items-center gap-2 mx-3">
-        <span *ngIf="usuario" class="username-text"> 
-          {{ usuario.username }} 
+        <span *ngIf="usuario" class="username-text">
+          {{ usuario.username }}
         </span> |
-        <p-button [text]="true" icon="pi pi-sign-out" severity="secondary" (click)="logout()"> 
-          
+        <p-button [text]="true" icon="pi pi-sign-out" severity="secondary" (click)="logout()">
+
         </p-button>
       </div>
     </header>
@@ -38,8 +29,8 @@
     <div class="grid h-full">
 
       <!-- SIDE MENU -->
-      <p-sidebar [(visible)]="menuVisible" position="left" 
-      [showCloseIcon]="false" 
+      <p-sidebar [(visible)]="menuVisible" position="left"
+      [showCloseIcon]="false"
         styleClass="sidebar-menu">
 
         <h3 class="mb-2">Menu</h3>
@@ -59,18 +50,10 @@
 
       <!-- MAIN CONTENT -->
       <div class="col transition-all" [ngClass]="{ 'ml-16': !menuVisible, 'ml-64': menuVisible }">
-
-        
-
         <router-outlet></router-outlet>
       </div>
 
     </div>
 
   </div>
-
-
-
-
-
 </ng-container>

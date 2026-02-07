@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
+import { AuthService } from '../../services/auth.service';
 
 interface Feature {
   icon: string;
@@ -21,6 +22,11 @@ interface Step {
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
+
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   features: Feature[] = [
     {
@@ -63,4 +69,15 @@ export class HomeComponent {
       description: 'Convide amigos para visualizar seu itinerario e planejem juntos a viagem perfeita.'
     }
   ];
+
+  /**
+   * Navega para a rota desejada se autenticado, caso contrário inicia login
+   */
+  navigateOrLogin(route: string) {
+    if (this.authService.isAuthenticated()) {
+      this.router.navigate([route]);
+    } else {
+      this.authService.initLoginFlow();
+    }
+  }
 }

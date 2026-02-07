@@ -16,7 +16,7 @@
           icon="pi pi-map-marker"
           severity="primary"
           size="large"
-          [routerLink]="['/viagens']">
+          (onClick)="navigateOrLogin('/viagens')">
         </p-button>
         <p-button
           label="Ver Destinos"
@@ -24,7 +24,7 @@
           severity="secondary"
           size="large"
           [outlined]="true"
-          [routerLink]="['/destinos']">
+          (onClick)="navigateOrLogin('/destinos')">
         </p-button>
       </div>
     </div>
@@ -83,7 +83,7 @@
         icon="pi pi-plus-circle"
         severity="contrast"
         size="large"
-        [routerLink]="['/destinos']">
+        (onClick)="navigateOrLogin('/destinos')">
       </p-button>
     </div>
   </section>

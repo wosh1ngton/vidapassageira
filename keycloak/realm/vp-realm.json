@@ -44,6 +44,10 @@
   "quickLoginCheckMilliSeconds": 1000,
   "maxDeltaTimeSeconds": 43200,
   "failureFactor": 30,
+  "loginTheme": "vp-theme",
+  "accountTheme": "vp-theme",
+  "adminTheme": "keycloak.v2",
+  "emailTheme": "keycloak",
   "defaultRole": {
     "id": "bbecf8ac-691d-456a-a52a-e6275b444a66",
     "name": "default-roles-vp",
