@@ -6,6 +6,7 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { PrimeNgModule } from './shared/prime.module';
 import { MessageService } from 'primeng/api';
 import { AuthService } from './services/auth.service';
+import { AppInfoService } from './services/app-info.service';
 
 @Component({
   selector: 'app-root',
@@ -21,11 +22,12 @@ export class AppComponent implements OnInit {
   menuVisible = false;
   currentYear = new Date().getFullYear();
   mostrarBannerBeta = true;
+  appVersion = '';
 
   constructor(
     private primeng: PrimeNG,
     private authService: AuthService,
-
+    private appInfoService: AppInfoService
   ) {}
 
   ngOnInit() {
@@ -40,6 +42,16 @@ export class AppComponent implements OnInit {
     if (bannerFechado === 'true') {
       this.mostrarBannerBeta = false;
     }
+
+    // Buscar versão da aplicação
+    this.appInfoService.getAppInfo().subscribe({
+      next: (info) => {
+        this.appVersion = info.version;
+      },
+      error: () => {
+        this.appVersion = '1.0.0'; // Fallback se API falhar
+      }
+    });
   }
 
   toggleMenu() {

@@ -58,6 +58,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
             .requestMatchers("/api/planejamento-ia/**").permitAll()
             .requestMatchers("/api/auth/**").permitAll()
+            .requestMatchers("/api/app/**").permitAll()  // Info da aplicação (versão, etc)
             .requestMatchers("/api/public").permitAll()
             .requestMatchers("/actuator/health").permitAll()
             .requestMatchers("/actuator/info").permitAll()

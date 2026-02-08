@@ -9,7 +9,7 @@ spring:
   flyway:
     enabled: true
   application:
-    name: backend
+    name: VidaPassageira
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: ${DATABASE_URL}
@@ -45,6 +45,7 @@ deepseek:
     url: https://api.deepseek.com/v1/chat/completions
 app:
   version: '@project.version@'
+  description: Plataforma de Planejamento de Viagens
   openapi:
     dev-url: http://localhost:8070
     prod-url: https://api.vidapassageira.com
