@@ -366,3 +366,23 @@ env.dev
 .env.docker
 keycloak/realm/vp-realm.dev.json
 compose.yaml
+
+# Production environment files (NEVER commit these!)
+.env.prod
+compose.prod.yaml
+frontend/nginx/default.conf
+
+# Backup files
+*.backup
+*.bak
+*.old
+*.recovered
+*_backup.sql
+backup_*.sql
+
+# VPS-specific files
+docker_compose_resolved.yml
+nginx_config.txt
+keycloak_logs.txt
+INFRASTRUCTURE_ANALYSIS.md
+TROUBLESHOOTING_KEYCLOAK.md

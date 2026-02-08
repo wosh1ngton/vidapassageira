@@ -1,0 +1,94 @@
+name: Build and Release Images
+
+# Trigger: Apenas quando uma release/tag é criada
+on:
+  release:
+    types: [published]
+  # Opcional: permitir execução manual para testes
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Extract version from tag
+        id: version
+        run: |
+          # Se for uma release, pega a tag (ex: v1.0.0)
+          # Se for workflow_dispatch, usa 'latest'
+          if [ "${{ github.event_name }}" == "release" ]; then
+            VERSION="${{ github.event.release.tag_name }}"
+          else
+            VERSION="latest"
+          fi
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+          echo "Building version: ${VERSION}"
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # ==================================
+      # BACKEND
+      # ==================================
+      - name: Build backend image
+        run: |
+          docker build \
+            -t ghcr.io/${{ github.repository_owner }}/vp-backend:${{ steps.version.outputs.version }} \
+            -t ghcr.io/${{ github.repository_owner }}/vp-backend:latest \
+            -f backend/Dockerfile.prod \
+            backend
+
+      - name: Push backend images
+        run: |
+          docker push ghcr.io/${{ github.repository_owner }}/vp-backend:${{ steps.version.outputs.version }}
+          docker push ghcr.io/${{ github.repository_owner }}/vp-backend:latest
+
+      # ==================================
+      # FRONTEND
+      # ==================================
+      - name: Build frontend image
+        run: |
+          docker build \
+            -t ghcr.io/${{ github.repository_owner }}/vp-frontend:${{ steps.version.outputs.version }} \
+            -t ghcr.io/${{ github.repository_owner }}/vp-frontend:latest \
+            -f frontend/Dockerfile.prod \
+            frontend
+
+      - name: Push frontend images
+        run: |
+          docker push ghcr.io/${{ github.repository_owner }}/vp-frontend:${{ steps.version.outputs.version }}
+          docker push ghcr.io/${{ github.repository_owner }}/vp-frontend:latest
+
+      # ==================================
+      # SUMMARY
+      # ==================================
+      - name: Build summary
+        run: |
+          echo "### 🎉 Release Build Completed! ###" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Version:** \`${{ steps.version.outputs.version }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Images published:**" >> $GITHUB_STEP_SUMMARY
+          echo "- \`ghcr.io/${{ github.repository_owner }}/vp-backend:${{ steps.version.outputs.version }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- \`ghcr.io/${{ github.repository_owner }}/vp-backend:latest\`" >> $GITHUB_STEP_SUMMARY
+          echo "- \`ghcr.io/${{ github.repository_owner }}/vp-frontend:${{ steps.version.outputs.version }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- \`ghcr.io/${{ github.repository_owner }}/vp-frontend:latest\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Deploy command for VPS:**" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
+          echo "docker pull ghcr.io/${{ github.repository_owner }}/vp-backend:${{ steps.version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "docker pull ghcr.io/${{ github.repository_owner }}/vp-frontend:${{ steps.version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "docker-compose down && docker-compose up -d" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
