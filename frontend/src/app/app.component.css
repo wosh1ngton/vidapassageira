@@ -175,6 +175,107 @@
 }
 
 /* =============================================
+   BETA BANNER
+   ============================================= */
+
+.beta-banner {
+  background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+  border-bottom: 2px solid #ffc107;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.beta-content {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.beta-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+.beta-badge {
+  background: #ffc107;
+  color: #333333;
+  font-weight: 700;
+  font-size: 0.8rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 6px;
+  letter-spacing: 1px;
+  flex-shrink: 0;
+}
+
+.beta-text {
+  font-size: 0.95rem;
+  color: #333333;
+  line-height: 1.5;
+}
+
+.beta-text strong {
+  font-weight: 700;
+  color: #000000;
+}
+
+.beta-link {
+  color: #007bff;
+  text-decoration: underline;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.beta-link:hover {
+  color: #0056b3;
+}
+
+.beta-close {
+  background: transparent;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.beta-close i {
+  color: #333333;
+  font-size: 1.2rem;
+}
+
+.beta-close:hover {
+  background: rgba(0, 0, 0, 0.1);
+  transform: scale(1.1);
+}
+
+.beta-close:active {
+  transform: scale(0.9);
+}
+
+/* =============================================
    SIDEBAR MENU
    ============================================= */
 
@@ -376,6 +477,15 @@ body, html {
   .username-text {
     font-size: 0.9rem;
   }
+
+  /* Beta Banner Responsive */
+  .beta-content {
+    padding: 1rem 1.5rem;
+  }
+
+  .beta-text {
+    font-size: 0.9rem;
+  }
 }
 
 @media screen and (max-width: 480px) {
@@ -442,5 +552,28 @@ body, html {
   .badge-item {
     width: 100%;
     justify-content: center;
+  }
+
+  /* Beta Banner Responsive */
+  .beta-content {
+    padding: 0.75rem 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .beta-left {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .beta-text {
+    font-size: 0.85rem;
+  }
+
+  .beta-close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
   }
 }

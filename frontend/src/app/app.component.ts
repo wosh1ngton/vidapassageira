@@ -20,6 +20,7 @@ export class AppComponent implements OnInit {
   dialogCadastroUsuarioRef: DynamicDialogRef | undefined;
   menuVisible = false;
   currentYear = new Date().getFullYear();
+  mostrarBannerBeta = true;
 
   constructor(
     private primeng: PrimeNG,
@@ -33,6 +34,12 @@ export class AppComponent implements OnInit {
     this.menuVisible = false; // Menu sempre inicia fechado
     // Carrega usuário se houver token válido, mas não inicia login automaticamente
     this.authService.initialize();
+
+    // Verificar se o banner beta foi fechado anteriormente
+    const bannerFechado = localStorage.getItem('betaBannerFechado');
+    if (bannerFechado === 'true') {
+      this.mostrarBannerBeta = false;
+    }
   }
 
   toggleMenu() {
@@ -44,6 +51,11 @@ export class AppComponent implements OnInit {
     this.authService.logout();
   }
 
+  fecharBannerBeta() {
+    this.mostrarBannerBeta = false;
+    localStorage.setItem('betaBannerFechado', 'true');
+  }
+
   get token() {
     return this.authService.token;
   }
@@ -52,5 +64,5 @@ export class AppComponent implements OnInit {
     return this.authService.usuario;
     }
 
-   
+
 }

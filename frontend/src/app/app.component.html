@@ -34,6 +34,23 @@
       </div>
     </header>
 
+    <!-- BETA BANNER -->
+    <div class="beta-banner" *ngIf="mostrarBannerBeta">
+      <div class="beta-content">
+        <div class="beta-left">
+          <span class="beta-badge">BETA</span>
+          <div class="beta-text">
+            <strong>Versão Beta:</strong>
+            Esta é uma versão de teste do VidaPassageira. Você pode exportar seus dados ou excluir sua conta a qualquer momento em
+            <a routerLink="/configuracoes" class="beta-link">Configurações</a>.
+          </div>
+        </div>
+        <button class="beta-close" (click)="fecharBannerBeta()" pRipple pTooltip="Fechar">
+          <i class="pi pi-times"></i>
+        </button>
+      </div>
+    </div>
+
     <div class="grid h-full">
 
       <!-- SIDE MENU -->
@@ -52,6 +69,9 @@
           </li>
           <li class="mb-2">
             <a routerLink="destinos" class="menu-link">Destinos</a>
+          </li>
+          <li class="mb-2">
+            <a routerLink="configuracoes" class="menu-link">Configurações</a>
           </li>
         </ul>
       </p-sidebar>

@@ -33,5 +33,11 @@ export class UsuarioService {
     return this.http.get<UsuarioDTO[]>(`${this.baseUrl}/usuarios/busca-usuario?nome=${nome}`);
   }
 
-  
+  excluirConta(): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/usuarios/excluir-conta`);
+  }
+
+  exportarDados(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/usuarios/exportar-dados`);
+  }
 }

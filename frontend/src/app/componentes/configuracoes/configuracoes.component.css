@@ -1,0 +1,403 @@
+.configuracoes-container {
+  width: 100%;
+  min-height: calc(100vh - 100px);
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+/* Header */
+.page-header {
+  background: linear-gradient(135deg, #819d6a 0%, #6b8558 100%);
+  width: 100%;
+  padding: 0;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.icon-wrapper {
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.icon-wrapper i {
+  font-size: 2rem;
+  color: white;
+}
+
+.title-group {
+  flex: 1;
+}
+
+.page-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: white;
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.5px;
+}
+
+.page-subtitle {
+  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+  font-weight: 400;
+}
+
+/* Content */
+.content-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.settings-grid {
+  display: grid;
+  gap: 2rem;
+}
+
+/* Settings Card */
+.settings-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.settings-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+.card-header {
+  padding: 1.5rem 2rem;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-bottom: 2px solid #819d6a;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header-icon {
+  font-size: 1.5rem;
+  color: #819d6a;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #333333;
+  margin: 0;
+}
+
+.card-body {
+  padding: 2rem;
+}
+
+.card-description {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #666666;
+  margin: 0 0 1.5rem 0;
+}
+
+/* Info Items */
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.info-item:last-of-type {
+  border-bottom: none;
+}
+
+.info-label {
+  font-weight: 600;
+  color: #555555;
+  font-size: 0.95rem;
+}
+
+.info-value {
+  color: #333333;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.info-note {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: rgba(129, 157, 106, 0.05);
+  border-radius: 8px;
+  border-left: 3px solid #819d6a;
+  margin-top: 1rem;
+}
+
+.info-note i {
+  color: #819d6a;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.info-note span {
+  font-size: 0.9rem;
+  color: #666666;
+  line-height: 1.5;
+}
+
+/* Action Section */
+.action-section {
+  padding: 1.5rem 0;
+  border-top: 1px solid #f0f0f0;
+}
+
+.action-section:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.action-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #333333;
+  margin: 0 0 0.5rem 0;
+}
+
+.action-description {
+  font-size: 0.95rem;
+  color: #666666;
+  margin: 0 0 1rem 0;
+  line-height: 1.5;
+}
+
+::ng-deep .export-button {
+  background: linear-gradient(135deg, #819d6a 0%, #6b8558 100%) !important;
+  border: none !important;
+  padding: 0.75rem 1.5rem !important;
+  font-weight: 600 !important;
+}
+
+::ng-deep .export-button:hover:not(:disabled) {
+  box-shadow: 0 4px 12px rgba(129, 157, 106, 0.3) !important;
+  transform: translateY(-2px);
+}
+
+/* Links Section */
+.links-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #f0f0f0;
+  margin-top: 1.5rem;
+}
+
+.link-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #819d6a;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  padding: 0.5rem 0;
+}
+
+.link-item:hover {
+  color: #6b8558;
+  transform: translateX(5px);
+}
+
+.link-item i {
+  font-size: 0.9rem;
+}
+
+/* Danger Card */
+.danger-card {
+  border: 2px solid #ffebee;
+}
+
+.danger-header {
+  background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%) !important;
+  border-bottom-color: #dc3545 !important;
+}
+
+.danger-header .header-icon {
+  color: #dc3545 !important;
+}
+
+.danger-section {
+  padding: 1.5rem;
+  background: #fff5f5;
+  border-radius: 8px;
+}
+
+.danger-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #dc3545;
+  margin: 0 0 0.75rem 0;
+}
+
+.danger-description {
+  font-size: 0.95rem;
+  color: #666666;
+  line-height: 1.6;
+  margin: 0 0 1rem 0;
+}
+
+.danger-warning {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: white;
+  border: 2px solid #dc3545;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.danger-warning i {
+  color: #dc3545;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.danger-warning span {
+  font-size: 0.95rem;
+  color: #333333;
+  line-height: 1.5;
+}
+
+.danger-warning strong {
+  color: #dc3545;
+}
+
+::ng-deep .delete-button {
+  background: #dc3545 !important;
+  border: none !important;
+  padding: 0.75rem 1.5rem !important;
+  font-weight: 600 !important;
+}
+
+::ng-deep .delete-button:hover:not(:disabled) {
+  background: #c82333 !important;
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3) !important;
+  transform: translateY(-2px);
+}
+
+/* Responsive */
+@media screen and (max-width: 992px) {
+  .header-content {
+    padding: 1.5rem;
+  }
+
+  .page-title {
+    font-size: 1.75rem;
+  }
+
+  .page-subtitle {
+    font-size: 1rem;
+  }
+
+  .content-wrapper {
+    padding: 1.5rem;
+  }
+
+  .settings-grid {
+    gap: 1.5rem;
+  }
+
+  .card-body {
+    padding: 1.5rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .header-left {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .icon-wrapper {
+    width: 50px;
+    height: 50px;
+  }
+
+  .icon-wrapper i {
+    font-size: 1.5rem;
+  }
+
+  .page-title {
+    font-size: 1.5rem;
+  }
+
+  .page-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .content-wrapper {
+    padding: 1rem;
+  }
+
+  .card-header {
+    padding: 1rem 1.5rem;
+  }
+
+  .card-body {
+    padding: 1rem;
+  }
+
+  .info-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  ::ng-deep .export-button,
+  ::ng-deep .delete-button {
+    width: 100% !important;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .content-wrapper {
+    padding: 0.5rem;
+  }
+
+  .settings-card {
+    border-radius: 8px;
+  }
+
+  .card-header {
+    padding: 1rem;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .danger-section {
+    padding: 1rem;
+  }
+}

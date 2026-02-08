@@ -1,0 +1,115 @@
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
+
+<div class="configuracoes-container">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <div class="header-left">
+        <div class="icon-wrapper">
+          <i class="pi pi-cog"></i>
+        </div>
+        <div class="title-group">
+          <h1 class="page-title">Configurações da Conta</h1>
+          <p class="page-subtitle">Gerencie suas preferências e dados pessoais</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="content-wrapper">
+    <div class="settings-grid">
+
+      <!-- Card de Informações Pessoais -->
+      <div class="settings-card">
+        <div class="card-header">
+          <i class="pi pi-user header-icon"></i>
+          <h2 class="card-title">Informações Pessoais</h2>
+        </div>
+        <div class="card-body">
+          <div class="info-item" *ngIf="usuario">
+            <span class="info-label">Nome de usuário:</span>
+            <span class="info-value">{{ usuario.username }}</span>
+          </div>
+          <div class="info-item" *ngIf="usuario">
+            <span class="info-label">E-mail:</span>
+            <span class="info-value">{{ usuario.email }}</span>
+          </div>
+          <div class="info-note">
+            <i class="pi pi-info-circle"></i>
+            <span>Para alterar suas informações pessoais, entre em contato com o suporte.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card de Privacidade e Dados -->
+      <div class="settings-card">
+        <div class="card-header">
+          <i class="pi pi-shield header-icon"></i>
+          <h2 class="card-title">Privacidade e Dados (LGPD)</h2>
+        </div>
+        <div class="card-body">
+          <p class="card-description">
+            Em conformidade com a LGPD, você tem direito de acessar, corrigir e exportar seus dados pessoais.
+          </p>
+
+          <div class="action-section">
+            <h3 class="action-title">Exportar Meus Dados</h3>
+            <p class="action-description">
+              Baixe uma cópia de todos os seus dados em formato JSON.
+            </p>
+            <p-button
+              label="Baixar Meus Dados"
+              icon="pi pi-download"
+              styleClass="export-button"
+              [loading]="exportando"
+              (onClick)="exportarDados()">
+            </p-button>
+          </div>
+
+          <div class="links-section">
+            <a routerLink="/privacidade" class="link-item" target="_blank">
+              <i class="pi pi-external-link"></i>
+              <span>Política de Privacidade</span>
+            </a>
+            <a routerLink="/termos" class="link-item" target="_blank">
+              <i class="pi pi-external-link"></i>
+              <span>Termos de Uso</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card de Zona de Perigo -->
+      <div class="settings-card danger-card">
+        <div class="card-header danger-header">
+          <i class="pi pi-exclamation-triangle header-icon"></i>
+          <h2 class="card-title">Zona de Perigo</h2>
+        </div>
+        <div class="card-body">
+          <div class="danger-section">
+            <h3 class="danger-title">Excluir Minha Conta</h3>
+            <p class="danger-description">
+              Uma vez excluída, sua conta não poderá ser recuperada. Todos os seus dados,
+              incluindo viagens, itinerários e compartilhamentos, serão permanentemente removidos.
+            </p>
+            <div class="danger-warning">
+              <i class="pi pi-exclamation-circle"></i>
+              <span><strong>Atenção:</strong> Esta ação é irreversível!</span>
+            </div>
+            <p-button
+              label="Excluir Minha Conta"
+              icon="pi pi-trash"
+              severity="danger"
+              styleClass="delete-button"
+              [loading]="excluindo"
+              (onClick)="confirmarExclusaoConta()">
+            </p-button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

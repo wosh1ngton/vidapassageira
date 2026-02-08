@@ -7,6 +7,7 @@ import { RegistroComponent } from './componentes/registro/registro.component';
 import { PageNotFoundComponent } from './componentes/shared/page-not-found/page-not-found.component';
 import { TermosComponent } from './componentes/legal/termos/termos.component';
 import { PrivacidadeComponent } from './componentes/legal/privacidade/privacidade.component';
+import { ConfiguracoesComponent } from './componentes/configuracoes/configuracoes.component';
 
 export const routes: Routes = [
     {
@@ -32,6 +33,10 @@ export const routes: Routes = [
     {
         path: 'planejar/:id',
         component: PlanejarViagemComponent,
+    },
+    {
+        path: 'configuracoes',
+        component: ConfiguracoesComponent
     },
     {
         path: 'termos',
