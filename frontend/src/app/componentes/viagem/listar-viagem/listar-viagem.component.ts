@@ -125,16 +125,27 @@ export class ListarViagemComponent implements OnInit {
   deletarViagem(id: number) {
     this.viagemService.deletarViagem(id).subscribe({
       next: (val) =>{
-        this.messageService.add({ severity: 'info', summary: 'Confirmado', detail: 'Registro excluído' }); 
+        this.messageService.add({ severity: 'info', summary: 'Confirmado', detail: 'Registro excluído' });
         this.listarViagens();
-      },      
+      },
       error: (err: JSON) => this.messageService.add({
         severity: 'error', summary: 'Erro', detail: `Erro ao tentar excluir ${JSON.stringify(err["message"])}`
       })
-      
+
     });
   }
-  
 
- 
+  /**
+   * Verifica se a viagem já foi realizada (data de volta passou)
+   */
+  isViagemConcluida(viagem: ViagemResponseDTO): boolean {
+    const hoje = new Date();
+    hoje.setHours(0, 0, 0, 0); // Zera horas para comparar apenas datas
+    const dataVolta = new Date(viagem.dataVolta);
+    dataVolta.setHours(0, 0, 0, 0);
+    return dataVolta < hoje;
+  }
+
+
+
 }

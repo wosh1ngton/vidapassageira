@@ -61,11 +61,19 @@
 
         <!-- Lista de Viagens -->
         <div class="viagens-grid" *ngIf="!loading && viagens.length > 0">
-            <div class="viagem-card" *ngFor="let viagem of viagens">
+            <div class="viagem-card"
+                 [ngClass]="{'viagem-concluida': isViagemConcluida(viagem)}"
+                 *ngFor="let viagem of viagens">
                 <!-- Shared Badge -->
                 <div class="shared-badge" *ngIf="viagem.compartilhada">
                     <i class="pi pi-users"></i>
                     <span>Compartilhada</span>
+                </div>
+
+                <!-- Completed Badge -->
+                <div class="completed-badge" *ngIf="isViagemConcluida(viagem)">
+                    <i class="pi pi-check-circle"></i>
+                    <span>Concluída</span>
                 </div>
 
                 <!-- Image Section -->

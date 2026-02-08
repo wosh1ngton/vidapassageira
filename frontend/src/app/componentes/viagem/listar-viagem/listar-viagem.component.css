@@ -142,6 +142,69 @@
     font-size: 0.9rem;
 }
 
+/* Completed Badge - Viagens Passadas */
+.completed-badge {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.completed-badge i {
+    font-size: 0.9rem;
+}
+
+/* Viagem Concluída - Tom de Cinza e Opacidade */
+.viagem-concluida {
+    opacity: 0.7;
+    filter: grayscale(30%);
+    border: 2px solid #dee2e6;
+}
+
+.viagem-concluida:hover {
+    opacity: 0.85;
+    filter: grayscale(20%);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.viagem-concluida .card-title,
+.viagem-concluida .card-location,
+.viagem-concluida .date-value {
+    color: #6c757d;
+}
+
+.viagem-concluida .card-image {
+    filter: grayscale(40%);
+}
+
+.viagem-concluida:hover .card-image {
+    filter: grayscale(20%);
+}
+
+.viagem-concluida .date-item i,
+.viagem-concluida .card-location i {
+    color: #6c757d;
+}
+
+.viagem-concluida .card-dates {
+    background: linear-gradient(135deg, rgba(108, 117, 125, 0.05) 0%, rgba(108, 117, 125, 0.02) 100%);
+    border: 1px solid rgba(108, 117, 125, 0.1);
+}
+
+.viagem-concluida .plan-button {
+    background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%) !important;
+}
+
 /* Image Section */
 .card-image-wrapper {
     position: relative;
@@ -432,4 +495,10 @@
     .card-actions { flex-wrap: wrap; }
     .plan-button { width: 100%; margin-left: 0; }
     .shared-badge { top: 0.75rem; right: 0.75rem; padding: 0.4rem 0.75rem; font-size: 0.75rem; }
+    .completed-badge { top: 0.75rem; left: 0.75rem; padding: 0.4rem 0.75rem; font-size: 0.75rem; }
+
+    /* Ajustar posicionamento quando ambos badges existem */
+    .viagem-card .shared-badge + .completed-badge {
+        top: 3.5rem;
+    }
 }
