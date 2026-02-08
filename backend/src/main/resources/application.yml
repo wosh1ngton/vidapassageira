@@ -1,6 +1,11 @@
 server:
   port: ${SERVER_PORT}
-spring:  
+  # Limites de payload para prevenir ataques DOS
+  max-http-request-header-size: 20KB
+  tomcat:
+    max-swallow-size: 2MB
+    max-http-form-post-size: 10MB
+spring:
   flyway:
     enabled: true
   application:
@@ -17,7 +22,12 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
     show-sql: false
-  
+  # Limites para uploads (multipart)
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 10MB
+
 logging:
   level:
     org.springframework.web.cors: DEBUG

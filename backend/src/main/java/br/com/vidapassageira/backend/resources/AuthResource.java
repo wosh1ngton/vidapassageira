@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.vidapassageira.backend.models.UsuarioAutenticacao;
+import jakarta.validation.Valid;
 import br.com.vidapassageira.backend.services.KeycloakUserService;
 import br.com.vidapassageira.backend.services.UsuarioService;
 
@@ -24,7 +25,7 @@ public class AuthResource {
     
 
     @PostMapping("/auth/register")
-    public ResponseEntity<Void> registrar(@RequestBody UsuarioAutenticacao usuario) {
+    public ResponseEntity<Void> registrar(@Valid @RequestBody UsuarioAutenticacao usuario) {
         // Registro público - sem validação de token
         String keycloakId  = this.keycloakUserService.createUser(usuario.getUsername(), usuario.getEmail(), usuario.getPassword());
         this.usuarioService.criarUsuario(

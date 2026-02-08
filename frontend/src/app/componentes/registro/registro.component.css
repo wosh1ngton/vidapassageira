@@ -45,10 +45,7 @@
   height: auto;
   display: block;
   margin: 0 auto;
-  background: white;
-  padding: 0.75rem 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  filter: brightness(0) invert(1);
 }
 
 .registro-title {
@@ -188,31 +185,23 @@
   flex-shrink: 0;
 }
 
-/* Customização do PrimeNG Checkbox */
-::ng-deep .consent-item .p-checkbox {
-  margin-top: 0.15rem;
-}
-
-::ng-deep .consent-item .p-checkbox .p-checkbox-box {
+/* Customização dos Checkboxes Nativos */
+.consent-checkbox {
   width: 20px;
   height: 20px;
-  border: 2px solid #d0d0d0;
-  border-radius: 4px;
-  transition: all 0.3s ease;
+  margin-top: 0.15rem;
+  cursor: pointer;
+  accent-color: #819d6a;
+  flex-shrink: 0;
 }
 
-::ng-deep .consent-item .p-checkbox .p-checkbox-box:hover {
-  border-color: #819d6a;
+.consent-checkbox:hover {
+  opacity: 0.8;
 }
 
-::ng-deep .consent-item .p-checkbox .p-checkbox-box.p-highlight {
-  background: #819d6a;
-  border-color: #819d6a;
-}
-
-::ng-deep .consent-item .p-checkbox .p-checkbox-box.p-highlight:hover {
-  background: #6b8558;
-  border-color: #6b8558;
+.consent-checkbox:focus {
+  outline: 2px solid #819d6a;
+  outline-offset: 2px;
 }
 
 .registro-footer {

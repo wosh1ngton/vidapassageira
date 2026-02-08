@@ -7,11 +7,19 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import br.com.vidapassageira.backend.filters.RateLimitFilter;
 
 @EnableWebSecurity
 @Configuration
-
 public class SecurityConfig {
+
+    private final RateLimitFilter rateLimitFilter;
+
+    public SecurityConfig(RateLimitFilter rateLimitFilter) {
+        this.rateLimitFilter = rateLimitFilter;
+    }
 
     // @Bean
     // @Order(1)
@@ -45,6 +53,8 @@ public class SecurityConfig {
         http
             .cors(cors -> Customizer.withDefaults())
             .csrf(csrf -> csrf.disable())
+            // Adicionar rate limiting filter antes do filtro de autenticação
+            .addFilterBefore(rateLimitFilter, UsernamePasswordAuthenticationFilter.class)
             .authorizeHttpRequests(auth -> auth
             .requestMatchers("/api/planejamento-ia/**").permitAll()
             .requestMatchers("/api/auth/**").permitAll()

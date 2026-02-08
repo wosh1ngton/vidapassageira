@@ -1,20 +1,22 @@
 <div class="markdown-editor">
-    <ckeditor
-        [editor]="Editor"
-        [config]="editorConfig"
-        [(ngModel)]="content"
-        (ready)="onEditorReady($event)"
-        (change)="onContentChange()"
-        (blur)="onBlur()"
-        class="editor-box">
-    </ckeditor>
+    <div class="editor-wrapper">
+        <ckeditor
+            [editor]="Editor"
+            [config]="editorConfig"
+            [(ngModel)]="content"
+            (ready)="onEditorReady($event)"
+            (change)="onContentChange()"
+            (blur)="onBlur()">
+        </ckeditor>
+    </div>
 
     <div class="editor-actions" *ngIf="showActions">
-        <button type="button" (click)="onSave()" class="btn-save">
-            Salvar
-        </button>
         <button type="button" (click)="onCancel()" class="btn-cancel">
             Cancelar
+        </button>
+        <button type="button" (click)="onSave()" class="btn-save">
+            <i class="pi pi-check"></i>
+            Salvar
         </button>
     </div>
 </div>

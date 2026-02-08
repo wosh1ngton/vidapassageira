@@ -13,6 +13,7 @@ import TurndownService from 'turndown';
 @Component({
     selector: 'app-editor',
     templateUrl: './editor.component.html',
+    styleUrls: ['./editor.component.css'],
     imports: [CommonModule, CKEditorModule, FormsModule ],
     standalone: true
 })

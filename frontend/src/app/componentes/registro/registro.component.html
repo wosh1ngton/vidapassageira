@@ -86,12 +86,14 @@
             </h4>
 
             <div class="consent-item required">
-              <p-checkbox
+              <input
+                type="checkbox"
                 [(ngModel)]="usuario.termsAccepted"
-                inputId="termsAccepted"
+                id="termsAccepted"
                 name="termsAccepted"
+                required
+                class="consent-checkbox"
                 #termsCheckbox="ngModel">
-              </p-checkbox>
               <label for="termsAccepted" class="consent-label">
                 Li e aceito os <a href="/termos" target="_blank" class="consent-link">Termos de Uso</a>
                 <span class="required-indicator">*</span>
@@ -99,12 +101,14 @@
             </div>
 
             <div class="consent-item required">
-              <p-checkbox
+              <input
+                type="checkbox"
                 [(ngModel)]="usuario.privacyAccepted"
-                inputId="privacyAccepted"
+                id="privacyAccepted"
                 name="privacyAccepted"
+                required
+                class="consent-checkbox"
                 #privacyCheckbox="ngModel">
-              </p-checkbox>
               <label for="privacyAccepted" class="consent-label">
                 Li e aceito a <a href="/privacidade" target="_blank" class="consent-link">Política de Privacidade</a>
                 <span class="required-indicator">*</span>
