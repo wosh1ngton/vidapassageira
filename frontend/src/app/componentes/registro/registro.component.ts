@@ -58,6 +58,8 @@ export class RegistroComponent {
 
         // Redireciona para login após 2 segundos
         setTimeout(() => {
+          console.log('[DEBUG] window.location.origin:', window.location.origin);
+          console.log('[DEBUG] window.location.href:', window.location.href);
           this.authService.initLoginFlow();
         }, 2000);
       },
