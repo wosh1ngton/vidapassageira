@@ -386,3 +386,5 @@ nginx_config.txt
 keycloak_logs.txt
 INFRASTRUCTURE_ANALYSIS.md
 TROUBLESHOOTING_KEYCLOAK.md
+frontend/nginx/default.conf
+frontend/nginx/default.conf.prod.complete
