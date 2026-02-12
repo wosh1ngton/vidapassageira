@@ -45,7 +45,7 @@ nano .env.prod
 **Valores importantes a configurar:**
 - `MYSQL_ROOT_PASSWORD` - Senha forte para MySQL
 - `KEYCLOAK_ADMIN_PASSWORD` - Senha do admin do Keycloak
-- `KC_HOSTNAME` - Seu domínio (ex: sharedbill.com.br)
+- `KC_HOSTNAME` - Seu domínio (ex: vidapassageira.com.br)
 - `DEEPSEEK_API_KEY` - Sua chave da API DeepSeek
 - `API_TOKENCADASTROUSUARIO` - Token seguro para cadastro
 
@@ -67,11 +67,11 @@ sudo apt install certbot
 
 # Gerar certificado (com Nginx parado)
 docker-compose -f compose.prod.yaml stop frontend
-sudo certbot certonly --standalone -d sharedbill.com.br -d www.sharedbill.com.br
+sudo certbot certonly --standalone -d vidapassageira.com.br -d www.vidapassageira.com.br
 
 # Certificados serão salvos em:
-# /etc/letsencrypt/live/sharedbill.com.br/fullchain.pem
-# /etc/letsencrypt/live/sharedbill.com.br/privkey.pem
+# /etc/letsencrypt/live/vidapassageira.com.br/fullchain.pem
+# /etc/letsencrypt/live/vidapassageira.com.br/privkey.pem
 ```
 
 **Renovação Automática:**

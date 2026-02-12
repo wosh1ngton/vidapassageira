@@ -1,7 +1,7 @@
-# Correção: Redirect URI do Keycloak para Produção
+# Configurações do Keycloak para Produção
 
 ## Problema
-O link de registro está direcionando para `localhost` ao invés do domínio de produção `sharedbill.com.br`.
+O link de registro está direcionando para `localhost` ao invés do domínio de produção `vidapassageira.com.br`.
 
 ## Causa
 O **client `vp-frontend` no Keycloak** está configurado com apenas `localhost` como Valid Redirect URI.
@@ -10,7 +10,7 @@ O **client `vp-frontend` no Keycloak** está configurado com apenas `localhost` 
 
 ### Passo 1: Acessar Admin Console do Keycloak
 
-1. Acesse: `https://sharedbill.com.br/admin`
+1. Acesse: `https://vidapassageira.com.br/admin`
 2. Faça login com credenciais de administrador
 3. Selecione o realm **VP**
 
@@ -23,8 +23,8 @@ O **client `vp-frontend` no Keycloak** está configurado com apenas `localhost` 
 5. Adicione as seguintes URIs (uma por linha):
 
 ```
-https://sharedbill.com.br/*
-https://www.sharedbill.com.br/*
+https://vidapassageira.com.br/*
+https://www.vidapassageira.com.br/*
 http://localhost:4600/*
 ```
 
@@ -32,8 +32,8 @@ http://localhost:4600/*
 7. Adicione as mesmas URIs:
 
 ```
-https://sharedbill.com.br/*
-https://www.sharedbill.com.br/*
+https://vidapassageira.com.br/*
+https://www.vidapassageira.com.br/*
 http://localhost:4600/*
 ```
 
@@ -41,8 +41,8 @@ http://localhost:4600/*
 9. Adicione:
 
 ```
-https://sharedbill.com.br
-https://www.sharedbill.com.br
+https://vidapassageira.com.br
+https://www.vidapassageira.com.br
 http://localhost:4600
 ```
 
@@ -64,13 +64,13 @@ Certifique-se de que as seguintes opções estão configuradas:
 - **Implicit flow**: ❌ Disabled
 
 #### Login settings:
-- **Root URL**: `https://sharedbill.com.br`
-- **Home URL**: `https://sharedbill.com.br`
+- **Root URL**: `https://vidapassageira.com.br`
+- **Home URL**: `https://vidapassageira.com.br`
 
 ### Passo 4: Testar
 
 1. Limpe o cache do navegador (Ctrl+Shift+Delete)
-2. Acesse `https://sharedbill.com.br`
+2. Acesse `https://vidapassageira.com.br`
 3. Clique em "Criar conta"
 4. Complete o registro
 5. Após salvar, deve redirecionar para a página de login do Keycloak no domínio correto
@@ -95,9 +95,9 @@ docker exec -it keycloak bash
 # Atualizar o client
 /opt/keycloak/bin/kcadm.sh update clients/<CLIENT_UUID> \
   -r VP \
-  -s 'redirectUris=["https://sharedbill.com.br/*","https://www.sharedbill.com.br/*","http://localhost:4600/*"]' \
-  -s 'webOrigins=["https://sharedbill.com.br","https://www.sharedbill.com.br","http://localhost:4600"]' \
-  -s 'postLogoutRedirectUris=["https://sharedbill.com.br/*","https://www.sharedbill.com.br/*","http://localhost:4600/*"]'
+  -s 'redirectUris=["https://vidapassageira.com.br/*","https://www.vidapassageira.com.br/*","http://localhost:4600/*"]' \
+  -s 'webOrigins=["https://vidapassageira.com.br","https://www.vidapassageira.com.br","http://localhost:4600"]' \
+  -s 'postLogoutRedirectUris=["https://vidapassageira.com.br/*","https://www.vidapassageira.com.br/*","http://localhost:4600/*"]'
 ```
 
 **Nota**: Substitua `<CLIENT_UUID>` pelo ID do client. Para descobrir:
@@ -112,13 +112,90 @@ docker exec -it keycloak bash
 
 Após aplicar as mudanças, verifique:
 
-1. ✅ O registro redireciona para `https://sharedbill.com.br` (não localhost)
+1. ✅ O registro redireciona para `https://vidapassageira.com.br` (não localhost)
 2. ✅ O login funciona corretamente
 3. ✅ O logout funciona corretamente
+
+---
+
+---
+
+## Configurar SMTP para Recuperacao de Senha
+
+Para que a funcionalidade "Esqueci minha senha" funcione, o Keycloak precisa enviar emails. Configure o SMTP via Admin Console:
+
+### Passo 1: Acessar Configuracao de Email
+
+1. Acesse: `https://vidapassageira.com.br/admin`
+2. Selecione o realm **VP**
+3. No menu lateral, clique em **Realm settings**
+4. Clique na aba **Email**
+
+### Passo 2: Configurar SMTP
+
+Preencha os campos:
+
+| Campo | Valor |
+|-------|-------|
+| **From** | `noreply@seudominio.com` |
+| **From display name** | `VidaPassageira` |
+| **Reply to** | `suporte@seudominio.com` (opcional) |
+| **Host** | Endereco do servidor SMTP |
+| **Port** | `587` (TLS) ou `465` (SSL) |
+| **Enable SSL** | Marcar se porta 465 |
+| **Enable StartTLS** | Marcar se porta 587 |
+| **Enable authentication** | Marcar |
+| **Username** | Seu usuario SMTP |
+| **Password** | Sua senha SMTP |
+
+### Passo 3: Testar
+
+1. Clique em **Test connection** para verificar se o email funciona
+2. Verifique a caixa de entrada do email configurado em "From"
+
+### Passo 4: Habilitar Reset de Senha
+
+1. No menu lateral, clique em **Realm settings**
+2. Clique na aba **Login**
+3. Habilite **Forgot password** (toggle ON)
+4. Clique em **Save**
+
+### Exemplos de Configuracao SMTP
+
+#### Provedor Generico
+```
+Host: smtp.seudominio.com
+Port: 587
+StartTLS: true
+Auth: true
+Username: noreply@seudominio.com
+Password: sua-senha
+```
+
+#### Gmail (App Password)
+```
+Host: smtp.gmail.com
+Port: 587
+StartTLS: true
+Auth: true
+Username: seuemail@gmail.com
+Password: app-password-16-chars
+```
+
+#### Amazon SES
+```
+Host: email-smtp.us-east-1.amazonaws.com
+Port: 587
+StartTLS: true
+Auth: true
+Username: AKIAIOSFODNN7EXAMPLE
+Password: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+```
 
 ---
 
 ## Referências
 
 - [Keycloak Client Configuration](https://www.keycloak.org/docs/latest/server_admin/#client-configuration)
+- [Keycloak Email Configuration](https://www.keycloak.org/docs/latest/server_admin/#_email)
 - [OAuth 2.0 Redirect URI](https://datatracker.ietf.org/doc/html/rfc6749#section-3.1.2)

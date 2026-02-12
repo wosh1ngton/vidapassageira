@@ -33,7 +33,7 @@
   "verifyEmail": false,
   "loginWithEmailAllowed": true,
   "duplicateEmailsAllowed": false,
-  "resetPasswordAllowed": false,
+  "resetPasswordAllowed": true,
   "editUsernameAllowed": false,
   "bruteForceProtected": false,
   "permanentLockout": false,
@@ -509,20 +509,20 @@
       "clientId": "vp-frontend",
       "name": "",
       "description": "",
-      "rootUrl": "https://sharedbill.com.br",
-      "adminUrl": "https://sharedbill.com.br",
+      "rootUrl": "https://vidapassageira.com.br",
+      "adminUrl": "https://vidapassageira.com.br",
       "baseUrl": "",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "https://sharedbill.com.br",
-        "https://sharedbill.com.br/*",
-        "https://sharedbill.com.br/silent-refresh.html"        
+        "https://vidapassageira.com.br",
+        "https://vidapassageira.com.br/*",
+        "https://vidapassageira.com.br/silent-refresh.html"        
       ],
       "webOrigins": [
-        "https://sharedbill.com.br"
+        "https://vidapassageira.com.br"
       ],
       "notBefore": 0,
       "bearerOnly": false,
