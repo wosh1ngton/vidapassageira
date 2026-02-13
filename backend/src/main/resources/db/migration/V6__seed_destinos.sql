@@ -20,7 +20,6 @@ INSERT INTO destino (NM_DESTINO, DS_LOCALIZACAO, DS_DESTINO) VALUES
 ('Curitiba', 'Curitiba, PR - Brasil', 'Capital ecológica do Brasil, com parques urbanos, Jardim Botânico icônico, e excelente qualidade de vida. Porta de entrada para o passeio de trem pela Serra do Mar.'),
 ('Natal', 'Natal, RN - Brasil', 'Cidade do Sol com dunas, praias de águas mornas e passeios de buggy. Genipabu, Pipa e Maracajaú são paradas obrigatórias.'),
 ('Maceió', 'Maceió, AL - Brasil', 'Capital alagoana com piscinas naturais de águas cristalinas e tons de verde esmeralda. Praia do Francês e Maragogi são destinos imperdíveis.'),
-('Bonito', 'Bonito, MS - Brasil', 'Capital do ecoturismo brasileiro com rios de águas cristalinas, grutas, flutuação e mergulho. Natureza preservada no coração do Pantanal.'),
 ('Fernando de Noronha', 'Fernando de Noronha, PE - Brasil', 'Arquipélago paradisíaco com águas transparentes, vida marinha abundante e praias consideradas entre as mais bonitas do mundo.'),
 ('Ouro Preto', 'Ouro Preto, MG - Brasil', 'Cidade histórica do ciclo do ouro com igrejas barrocas, casarões coloniais e ladeiras de pedra. Patrimônio Mundial da UNESCO.'),
 ('Chapada Diamantina', 'Lençóis, BA - Brasil', 'Parque Nacional com cachoeiras, grutas, morros e trilhas espetaculares. Destino ideal para aventureiros e amantes do trekking.'),
