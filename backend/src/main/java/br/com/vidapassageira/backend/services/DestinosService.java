@@ -20,11 +20,14 @@ public class DestinosService {
     private DestinoRepository destinoRepository;
 
     public DestinoReponseDTO cadastrar(String nome, String descricao, String localizacao, byte[] imagem) {
-        
+        if (destinoRepository.existsByNomeIgnoreCase(nome)) {
+            throw new IllegalArgumentException("Já existe um destino cadastrado com o nome '" + nome + "'.");
+        }
+
         DestinoCreateDTO dto = new DestinoCreateDTO(nome, descricao, localizacao);
 
         Destino destino = DestinoMapper.INSTANCE.toEntity(dto);
-        
+
         if (imagem != null) {
             destino.setImagem(imagem);
         }
@@ -73,5 +76,18 @@ public class DestinosService {
             throw new EntityNotFoundException("Destino com ID " + id + " não encontrado.");
         }
         return DestinoMapper.INSTANCE.toResponseDto(destinoRepository.getReferenceById(id));
+    }
+
+    public List<DestinoReponseDTO> buscar(String termo) {
+        List<Destino> destinos = destinoRepository.findByNomeContainingIgnoreCaseOrLocalizacaoContainingIgnoreCase(termo, termo);
+
+        return destinos.stream().map(destino -> {
+            DestinoReponseDTO dto = DestinoMapper.INSTANCE.toResponseDto(destino);
+            if (destino.getImagem() != null) {
+                String base64 = Base64.getEncoder().encodeToString(destino.getImagem());
+                dto.setImagemBase64("data:image/jpeg;base64," + base64);
+            }
+            return dto;
+        }).toList();
     }
 }

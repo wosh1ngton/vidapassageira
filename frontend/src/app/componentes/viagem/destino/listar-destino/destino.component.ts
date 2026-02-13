@@ -1,20 +1,23 @@
-import { Component, EventEmitter, model, OnInit } from '@angular/core';
+import { Component, EventEmitter, model, OnInit, OnDestroy } from '@angular/core';
 import { FormDestinoComponent } from '../form-destino/form-destino.component';
 import { PrimeNgModule } from '../../../../shared/prime.module';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { DestinosService } from '../../../../services/destinos.service';
 import { DestinoCreateDTO, DestinoResponseDTO } from '../../../../model/destino';
 import { FormViagemComponent } from "../../form-viagem/form-viagem.component";
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-destino',
-  imports: [FormDestinoComponent, PrimeNgModule, CommonModule],  
+  imports: [FormDestinoComponent, PrimeNgModule, CommonModule, FormsModule],
   templateUrl: './destino.component.html',
-  styleUrl: './destino.component.css',  
+  styleUrl: './destino.component.css',
 })
-export class DestinoComponent implements OnInit {
+export class DestinoComponent implements OnInit, OnDestroy {
 
   constructor(
     private destinoService: DestinosService,
@@ -26,14 +29,42 @@ export class DestinoComponent implements OnInit {
   destinoViagem: DestinoResponseDTO | undefined;
   ref: DynamicDialogRef | undefined;
 
+  termoBusca: string = '';
+  private buscaSubject = new Subject<string>();
+  private buscaSubscription?: Subscription;
+
   ngOnInit(): void {
       this.listarDestinos();
+      this.buscaSubscription = this.buscaSubject.pipe(
+        debounceTime(300),
+        distinctUntilChanged()
+      ).subscribe(termo => {
+        if (termo.trim().length >= 2) {
+          this.buscarDestinos(termo);
+        } else {
+          this.listarDestinos();
+        }
+      });
   }
+
+  ngOnDestroy(): void {
+    this.buscaSubscription?.unsubscribe();
+  }
+
   modalDialog = model(false);
   destinoSelecionado?: DestinoResponseDTO;
 
   destinos: any = [];
   loading: boolean = true;
+
+  onBuscaChange(termo: string) {
+    this.buscaSubject.next(termo);
+  }
+
+  limparBusca() {
+    this.termoBusca = '';
+    this.listarDestinos();
+  }
 
   listarDestinos() {
     this.loading = true;
@@ -50,6 +81,20 @@ export class DestinoComponent implements OnInit {
           summary: 'Erro',
           detail: 'Erro ao carregar destinos'
         });
+      }
+    });
+  }
+
+  buscarDestinos(termo: string) {
+    this.loading = true;
+    this.destinoService.buscar(termo).subscribe({
+      next: (destinos) => {
+        this.destinos = destinos;
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Erro ao buscar destinos:', error);
+        this.loading = false;
       }
     });
   }

@@ -18,7 +18,13 @@ export class DestinosService {
   }
 
   getAll() {
-    return this.http.get(`${this.baseUrl}/destinos`);
+    return this.http.get<DestinoResponseDTO[]>(`${this.baseUrl}/destinos`);
+  }
+
+  buscar(termo: string) {
+    return this.http.get<DestinoResponseDTO[]>(`${this.baseUrl}/destinos/busca`, {
+      params: { termo }
+    });
   }
 
   save(formData: FormData): Observable<DestinoResponseDTO> {

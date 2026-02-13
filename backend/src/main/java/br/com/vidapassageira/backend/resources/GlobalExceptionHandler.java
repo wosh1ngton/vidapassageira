@@ -32,6 +32,12 @@ public class GlobalExceptionHandler {
                         "Erro interno no servidor"));
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorResponse> handleIllegalArgument(IllegalArgumentException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(new ErrorResponse(409, ex.getMessage()));
+    }
+
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleEntityNotFound(EntityNotFoundException ex) {
         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_FOUND.value(), ex.getMessage());
@@ -73,6 +79,12 @@ public class GlobalExceptionHandler {
         log.warn("Database constraint violation during registration: {}", ex.getMessage());
 
         String message = ex.getMessage() != null ? ex.getMessage().toLowerCase() : "";
+
+        // Detectar violação de constraint único - destino duplicado
+        if (message.contains("uk_destino_nome")) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(new ErrorResponse(409, "Já existe um destino cadastrado com este nome."));
+        }
 
         // Detectar violação de constraint único (email ou username duplicado)
         if (message.contains("uk_usuario_email") || message.contains("uk_usuario_username") ||

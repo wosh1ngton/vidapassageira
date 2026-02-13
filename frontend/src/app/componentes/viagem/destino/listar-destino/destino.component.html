@@ -30,6 +30,25 @@
 
     <!-- Content Section -->
     <div class="content-wrapper">
+        <!-- Barra de Busca -->
+        <div class="search-bar">
+            <span class="p-input-icon-left search-input-wrapper">
+                <i class="pi pi-search"></i>
+                <input pInputText
+                       type="text"
+                       [(ngModel)]="termoBusca"
+                       (ngModelChange)="onBuscaChange($event)"
+                       placeholder="Buscar destino por nome ou localização..."
+                       class="search-input" />
+            </span>
+            <button *ngIf="termoBusca"
+                    pButton
+                    icon="pi pi-times"
+                    class="p-button-text p-button-sm clear-search-button"
+                    pTooltip="Limpar busca"
+                    (click)="limparBusca()"></button>
+        </div>
+
         <!-- Skeleton Loading -->
         <div class="destinos-grid" *ngIf="loading">
             <div class="destino-card-skeleton" *ngFor="let item of [1,2,3,4,5,6]">
@@ -48,8 +67,25 @@
             </div>
         </div>
 
-        <!-- Empty State -->
-        <div *ngIf="!loading && destinos.length === 0" class="empty-state">
+        <!-- Empty State - Busca sem resultados -->
+        <div *ngIf="!loading && destinos.length === 0 && termoBusca" class="empty-state">
+            <div class="empty-illustration">
+                <i class="pi pi-search"></i>
+            </div>
+            <h3 class="empty-title">Nenhum destino encontrado</h3>
+            <p class="empty-message">
+                Não encontramos destinos para "{{ termoBusca }}".<br>
+                Tente buscar com outro termo ou cadastre um novo destino.
+            </p>
+            <button pButton
+                    label="Limpar Busca"
+                    icon="pi pi-times"
+                    class="empty-button"
+                    (click)="limparBusca()"></button>
+        </div>
+
+        <!-- Empty State - Sem destinos -->
+        <div *ngIf="!loading && destinos.length === 0 && !termoBusca" class="empty-state">
             <div class="empty-illustration">
                 <i class="pi pi-map-marker"></i>
             </div>

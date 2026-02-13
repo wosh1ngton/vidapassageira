@@ -29,6 +29,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import java.io.IOException;
 import java.util.List;
 
+import org.springframework.web.bind.annotation.RequestParam;
+
 @RestController
 @RequestMapping("/api/destinos")
 @Tag(name = "Destinos", description = "Endpoints para gerenciamento de destinos de viagem")
@@ -49,6 +51,20 @@ public class DestinosResource {
     @GetMapping
     public ResponseEntity<List<DestinoReponseDTO>> listar() {
         return ResponseEntity.ok(destinosService.listar());
+    }
+
+    @Operation(
+        summary = "Buscar destinos",
+        description = "Busca destinos por nome ou localização"
+    )
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Resultados da busca retornados com sucesso"),
+        @ApiResponse(responseCode = "401", description = "Não autenticado")
+    })
+    @GetMapping("/busca")
+    public ResponseEntity<List<DestinoReponseDTO>> buscar(
+            @Parameter(description = "Termo de busca") @RequestParam String termo) {
+        return ResponseEntity.ok(destinosService.buscar(termo));
     }
 
     @Operation(
