@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>br.com.vidapassageira</groupId>
 	<artifactId>backend</artifactId>
-	<version>1.1.2</version>
+	<version>1.1.3</version>
 	<packaging>jar</packaging>
 	<name>backend</name>
 	<description>Vida Passageira API</description>
