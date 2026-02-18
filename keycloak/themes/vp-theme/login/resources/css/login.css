@@ -237,6 +237,37 @@ body.vp-login {
     border: 1px solid #bee5eb;
 }
 
+/* Info Page */
+.info-content {
+    text-align: center;
+    padding: 1rem 0;
+}
+
+.info-icon {
+    margin-bottom: 1.5rem;
+}
+
+.info-message {
+    color: #666666;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.info-button {
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+/* Verify Email */
+.verify-hint {
+    color: #999999;
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+}
+
 /* Footer */
 .login-footer {
     padding: 1.5rem 2rem;
