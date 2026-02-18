@@ -65,7 +65,11 @@
 
         <div class="register-link-container">
             <p class="register-text">Ainda não tem uma conta?</p>
-            <a href="${client.rootUrl!'http://localhost:4600'}/registro" class="register-link">
+            <#assign appUrl = (client.rootUrl)!''>
+            <#if !(appUrl?has_content)>
+                <#assign appUrl = url.loginUrl?keep_before('/realms/')>
+            </#if>
+            <a href="${appUrl}/registro" class="register-link">
                 Criar conta grátis
             </a>
         </div>
