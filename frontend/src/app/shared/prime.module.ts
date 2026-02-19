@@ -20,12 +20,15 @@ import { DatePickerModule } from 'primeng/datepicker';
 import { TimelineModule } from 'primeng/timeline';
 import { SidebarModule } from 'primeng/sidebar';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { CheckboxModule } from 'primeng/checkbox';
+import { TagModule } from 'primeng/tag';
+import { ProgressBarModule } from 'primeng/progressbar';
 
 @NgModule({
     imports: [],
     declarations: [],
     exports: [
-        ButtonModule, 
+        ButtonModule,
         DataViewModule,
         InputTextModule,
         TextareaModule,
@@ -45,7 +48,10 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
         DatePickerModule,
         TimelineModule,
         SidebarModule,
-        AutoCompleteModule
+        AutoCompleteModule,
+        CheckboxModule,
+        TagModule,
+        ProgressBarModule
     ],
 })
 export class PrimeNgModule {

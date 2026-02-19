@@ -3,7 +3,7 @@ export interface AtividadeItinerario {
     orcamento: string;
     duracao: string;
     categoria: string;
-    dia: Date;
+    dia: Date | null;
     descricao: string;
     melhorHorario: string;
 }

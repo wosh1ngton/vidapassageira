@@ -8,6 +8,7 @@ import { PageNotFoundComponent } from './componentes/shared/page-not-found/page-
 import { TermosComponent } from './componentes/legal/termos/termos.component';
 import { PrivacidadeComponent } from './componentes/legal/privacidade/privacidade.component';
 import { ConfiguracoesComponent } from './componentes/configuracoes/configuracoes.component';
+import { AgendaComponent } from './componentes/agenda/agenda.component';
 
 export const routes: Routes = [
     {
@@ -33,6 +34,10 @@ export const routes: Routes = [
     {
         path: 'planejar/:id',
         component: PlanejarViagemComponent,
+    },
+    {
+        path: 'agenda',
+        component: AgendaComponent
     },
     {
         path: 'configuracoes',

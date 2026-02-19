@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ViagemCreateDTO, ViagemResponseDTO } from '../model/viagem';
+import { ViagemAgendaCreateDTO, ViagemCreateDTO, ViagemResponseDTO } from '../model/viagem';
 import { environment } from '../../environments/environment';
 import { AtividadeItinerario, AtividadeItinerarioCreateDTO, AtividadeItinerarioEditarDTO, ItinerarioResponseDto } from '../model/atividade-itinerario';
 
@@ -64,5 +64,9 @@ export class ViagemService {
 
    deletarViagem(id: number) {
     return this.http.delete(`${this.baseUrl}/viagens/${id}`);
+  }
+
+  criarDaAgenda(dto: ViagemAgendaCreateDTO): Observable<ViagemResponseDTO> {
+    return this.http.post<ViagemResponseDTO>(`${this.baseUrl}/viagens/criar-da-agenda`, dto);
   }
 }

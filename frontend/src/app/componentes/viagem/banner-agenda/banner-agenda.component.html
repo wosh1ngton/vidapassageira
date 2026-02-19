@@ -1,0 +1,22 @@
+<div class="agenda-banner" *ngIf="mostrarBanner && proximoPeriodo">
+    <div class="banner-content">
+        <div class="banner-icon">
+            <i class="pi pi-calendar-clock"></i>
+        </div>
+        <div class="banner-text">
+            <strong>{{ proximoPeriodo.tituloEvento }}</strong> — Você tem
+            <span class="banner-highlight">{{ proximoPeriodo.diasLivres }} dias livres</span>
+            de {{ formatarData(proximoPeriodo.inicioFolga) }} a {{ formatarData(proximoPeriodo.fimFolga) }}.
+            Que tal planejar uma viagem?
+        </div>
+        <div class="banner-actions">
+            <a routerLink="/agenda" class="banner-link">
+                <i class="pi pi-sparkles"></i>
+                Ver sugestões
+            </a>
+            <button class="banner-close" (click)="fecharBanner()">
+                <i class="pi pi-times"></i>
+            </button>
+        </div>
+    </div>
+</div>

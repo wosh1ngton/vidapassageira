@@ -1,0 +1,272 @@
+<div class="agenda-container">
+    <p-toast></p-toast>
+
+    <!-- Header -->
+    <div class="page-header">
+        <div class="header-content">
+            <div class="header-left">
+                <div class="icon-wrapper">
+                    <i class="pi pi-calendar"></i>
+                </div>
+                <div class="title-group">
+                    <h1 class="page-title">Agenda</h1>
+                    <p class="page-subtitle">Conecte seu Google Calendar e receba sugestões de viagem</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Content -->
+    <div class="content-wrapper">
+
+        <!-- Loading inicial -->
+        <div class="loading-container" *ngIf="loading">
+            <p-progressBar mode="indeterminate" [style]="{ height: '4px' }"></p-progressBar>
+            <p class="loading-text">Verificando conexão...</p>
+        </div>
+
+        <!-- Seção: Conexão Google Calendar -->
+        <div class="section-card" *ngIf="!loading">
+            <div class="card-header">
+                <i class="pi pi-google header-icon"></i>
+                <h2 class="card-title">Google Calendar</h2>
+                <span class="connection-badge connected" *ngIf="googleConectado">
+                    <i class="pi pi-check-circle"></i> Conectado
+                </span>
+                <span class="connection-badge disconnected" *ngIf="!googleConectado">
+                    <i class="pi pi-times-circle"></i> Desconectado
+                </span>
+            </div>
+            <div class="card-body">
+                <!-- Não conectado -->
+                <div class="connect-section" *ngIf="!googleConectado">
+                    <div class="connect-info">
+                        <i class="pi pi-info-circle"></i>
+                        <p>
+                            Conecte sua conta Google para visualizar seus eventos e receber sugestões
+                            de viagem personalizadas com base nos seus períodos de férias e folgas.
+                        </p>
+                    </div>
+                    <p-button
+                        label="Conectar Google Calendar"
+                        icon="pi pi-external-link"
+                        styleClass="connect-button"
+                        (onClick)="conectarGoogle()">
+                    </p-button>
+                </div>
+
+                <!-- Conectado -->
+                <div class="connected-section" *ngIf="googleConectado">
+                    <div class="connected-info">
+                        <i class="pi pi-envelope"></i>
+                        <span>{{ googleEmail }}</span>
+                    </div>
+                    <p-button
+                        label="Desconectar"
+                        icon="pi pi-sign-out"
+                        severity="danger"
+                        [outlined]="true"
+                        size="small"
+                        (onClick)="desconectarGoogle()">
+                    </p-button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção: Seleção de Calendários -->
+        <div class="section-card" *ngIf="googleConectado">
+            <div class="card-header">
+                <i class="pi pi-list header-icon"></i>
+                <h2 class="card-title">Seus Calendários</h2>
+            </div>
+            <div class="card-body">
+                <p class="section-description">
+                    Selecione os calendários que deseja sincronizar (ex: "Férias e viagens", "Feriados").
+                </p>
+
+                <div class="loading-inline" *ngIf="loadingCalendarios">
+                    <p-progressBar mode="indeterminate" [style]="{ height: '3px' }"></p-progressBar>
+                </div>
+
+                <div class="calendarios-list" *ngIf="!loadingCalendarios">
+                    <div class="calendario-item" *ngFor="let cal of calendarios">
+                        <p-checkbox
+                            [(ngModel)]="cal.selecionado"
+                            [binary]="true"
+                            [inputId]="cal.calendarId">
+                        </p-checkbox>
+                        <label [for]="cal.calendarId" class="calendario-label">
+                            <span class="calendario-cor" [style.backgroundColor]="cal.cor"></span>
+                            <span class="calendario-nome">{{ cal.nome }}</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="calendarios-actions" *ngIf="!loadingCalendarios && calendarios.length > 0">
+                    <p-button
+                        label="Salvar seleção"
+                        icon="pi pi-check"
+                        styleClass="save-button"
+                        [loading]="salvandoSelecao"
+                        (onClick)="salvarSelecao()">
+                    </p-button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção: Eventos do Calendário -->
+        <div class="section-card" *ngIf="googleConectado && temCalendariosSelecionados">
+            <div class="card-header">
+                <i class="pi pi-calendar-clock header-icon"></i>
+                <h2 class="card-title">Eventos</h2>
+                <div class="mes-navigation">
+                    <button class="nav-btn" (click)="mesAnterior()">
+                        <i class="pi pi-chevron-left"></i>
+                    </button>
+                    <span class="mes-label">{{ nomeMes }}</span>
+                    <button class="nav-btn" (click)="proximoMes()">
+                        <i class="pi pi-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="loading-inline" *ngIf="loadingEventos">
+                    <p-progressBar mode="indeterminate" [style]="{ height: '3px' }"></p-progressBar>
+                </div>
+
+                <div class="empty-eventos" *ngIf="!loadingEventos && eventosAgrupados.length === 0">
+                    <i class="pi pi-calendar-times"></i>
+                    <p>Nenhum evento encontrado neste mês.</p>
+                </div>
+
+                <div class="eventos-timeline" *ngIf="!loadingEventos && eventosAgrupados.length > 0">
+                    <div class="dia-grupo" *ngFor="let grupo of eventosAgrupados">
+                        <div class="dia-header">
+                            <span class="dia-label">{{ formatarData(grupo.data) }}</span>
+                        </div>
+                        <div class="evento-card" *ngFor="let evento of grupo.eventos"
+                             [style.borderLeftColor]="evento.cor">
+                            <div class="evento-header">
+                                <span class="evento-titulo">{{ evento.titulo }}</span>
+                                <span class="evento-hora" *ngIf="!evento.diaInteiro">
+                                    {{ formatarHora(evento.inicio) }} - {{ formatarHora(evento.fim) }}
+                                </span>
+                                <span class="evento-hora dia-inteiro" *ngIf="evento.diaInteiro">
+                                    Dia inteiro
+                                </span>
+                            </div>
+                            <div class="evento-detalhes" *ngIf="evento.localizacao">
+                                <i class="pi pi-map-marker"></i>
+                                <span>{{ evento.localizacao }}</span>
+                            </div>
+                            <div class="evento-calendar-tag">
+                                <span class="tag-cor" [style.backgroundColor]="evento.cor"></span>
+                                <span>{{ evento.calendarNome }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção: Sugestões IA de Viagem -->
+        <div class="section-card sugestoes-card" *ngIf="googleConectado && temCalendariosSelecionados">
+            <div class="card-header">
+                <i class="pi pi-sparkles header-icon"></i>
+                <h2 class="card-title">Sugestões de Viagem</h2>
+            </div>
+            <div class="card-body">
+                <p class="section-description">
+                    Com base nos seus calendários, identificamos períodos livres para viajar.
+                    Clique para receber sugestões personalizadas da IA.
+                </p>
+
+                <div class="loading-inline" *ngIf="loadingPeriodos">
+                    <p-progressBar mode="indeterminate" [style]="{ height: '3px' }"></p-progressBar>
+                </div>
+
+                <div class="empty-periodos" *ngIf="!loadingPeriodos && periodosLivres.length === 0">
+                    <i class="pi pi-sun"></i>
+                    <p>Nenhum período de férias/folga identificado nos próximos 6 meses.</p>
+                </div>
+
+                <div class="periodos-grid" *ngIf="!loadingPeriodos && periodosLivres.length > 0">
+                    <div class="periodo-card" *ngFor="let periodo of periodosLivres; let i = index"
+                         [class.periodo-ativo]="sugestaoAtiva === i">
+                        <div class="periodo-info">
+                            <div class="periodo-titulo">
+                                <i class="pi pi-calendar"></i>
+                                <span>{{ periodo.tituloEvento }}</span>
+                            </div>
+                            <div class="periodo-datas">
+                                {{ formatarPeriodo(periodo.inicioFolga, periodo.fimFolga) }}
+                            </div>
+                            <div class="periodo-dias">
+                                <span class="dias-badge">{{ periodo.diasLivres }} dias</span>
+                            </div>
+                        </div>
+
+                        <p-button *ngIf="sugestaoAtiva !== i"
+                            label="Gerar sugestões"
+                            icon="pi pi-sparkles"
+                            styleClass="sugestao-button"
+                            [disabled]="sugestaoEmStreaming"
+                            (onClick)="gerarSugestao(i, periodo)">
+                        </p-button>
+
+                        <!-- Sugestão IA em streaming -->
+                        <div class="sugestao-resultado" *ngIf="sugestaoAtiva === i">
+                            <div class="sugestao-header">
+                                <span class="sugestao-label">
+                                    <i class="pi pi-sparkles"></i>
+                                    Sugestões da IA
+                                </span>
+                                <button class="fechar-sugestao" (click)="fecharSugestao()">
+                                    <i class="pi pi-times"></i>
+                                </button>
+                            </div>
+                            <div class="sugestao-texto" [innerHTML]="sugestaoTexto"></div>
+                            <div class="streaming-indicator" *ngIf="sugestaoEmStreaming">
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                            </div>
+
+                            <!-- Selecionar destino para salvar como viagem -->
+                            <div class="destinos-sugeridos" *ngIf="!sugestaoEmStreaming && destinosSugeridos.length > 0">
+                                <div class="destinos-sugeridos-header">
+                                    <i class="pi pi-map-marker"></i>
+                                    <span>Escolha um destino para salvar como viagem:</span>
+                                </div>
+                                <div class="destinos-sugeridos-grid">
+                                    <div class="destino-sugerido-card"
+                                         *ngFor="let destino of destinosSugeridos"
+                                         [class.selecionado]="destinoSelecionado === destino"
+                                         (click)="selecionarDestino(destino)">
+                                        <i class="pi pi-map-marker"></i>
+                                        <div class="destino-sugerido-info">
+                                            <span class="destino-sugerido-nome">{{ destino.nome }}</span>
+                                            <span class="destino-sugerido-local">{{ destino.localizacao }}</span>
+                                        </div>
+                                        <i class="pi pi-check destino-check" *ngIf="destinoSelecionado === destino"></i>
+                                    </div>
+                                </div>
+                                <div class="salvar-viagem-section">
+                                    <p-button
+                                        label="Salvar viagem"
+                                        icon="pi pi-save"
+                                        styleClass="salvar-viagem-button"
+                                        [disabled]="!destinoSelecionado"
+                                        [loading]="salvandoViagem"
+                                        (onClick)="salvarViagemDaAgenda()">
+                                    </p-button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

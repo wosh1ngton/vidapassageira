@@ -10,15 +10,18 @@ import org.springframework.web.reactive.resource.NoResourceFoundException;
 
 import br.com.vidapassageira.backend.dtos.itinerario.ItinerarioCreateDto;
 import br.com.vidapassageira.backend.dtos.itinerario.ItinerarioResponseDto;
+import br.com.vidapassageira.backend.dtos.viagem.ViagemAgendaCreateDTO;
 import br.com.vidapassageira.backend.dtos.viagem.ViagemCreateDTO;
 import br.com.vidapassageira.backend.dtos.viagem.ViagemResponseDTO;
 import br.com.vidapassageira.backend.exceptions.EntityNotFoundException;
 import br.com.vidapassageira.backend.mappers.ItinerarioViagemMapper;
 import br.com.vidapassageira.backend.mappers.ViagemMapper;
+import br.com.vidapassageira.backend.models.Destino;
 import br.com.vidapassageira.backend.models.ItinerarioViagem;
 import br.com.vidapassageira.backend.models.Usuario;
 import br.com.vidapassageira.backend.models.Viagem;
 import br.com.vidapassageira.backend.models.ViagemCompartilhamento;
+import br.com.vidapassageira.backend.repositories.DestinoRepository;
 import br.com.vidapassageira.backend.repositories.ItinerarioViagemRepository;
 import br.com.vidapassageira.backend.repositories.UsuarioRepository;
 import br.com.vidapassageira.backend.repositories.ViagemCompartilhamentoRepository;
@@ -30,15 +33,17 @@ public class ViagensService {
     @Autowired
     private ViagemRepository viagemRepository;
 
-    @Autowired 
+    @Autowired
     private UsuarioRepository usuarioRepository;
 
     @Autowired
     private ViagemCompartilhamentoRepository viagemCompartilhamentoRepository;
 
-
     @Autowired
     private ItinerarioViagemRepository itinerarioViagemRepository;
+
+    @Autowired
+    private DestinoRepository destinoRepository;
 
     public ViagemCreateDTO cadastrar(ViagemCreateDTO viagemCreateDTO) {
         
@@ -161,5 +166,26 @@ public class ViagensService {
             throw new EntityNotFoundException("Itinerário com ID " + id + " não encontrado.");
         }
         return itinerarioViagemRepository.marcarComoConcluido(id);
+    }
+
+    public ViagemResponseDTO criarDaAgenda(ViagemAgendaCreateDTO dto, String keycloakId) {
+        Usuario usuario = usuarioRepository.findByKeyCloakId(keycloakId);
+
+        Destino destino = destinoRepository.findFirstByNomeIgnoreCase(dto.getNomeDestino())
+                .orElseGet(() -> {
+                    Destino novo = new Destino();
+                    novo.setNome(dto.getNomeDestino());
+                    novo.setLocalizacao(dto.getLocalizacao() != null ? dto.getLocalizacao() : "");
+                    return destinoRepository.save(novo);
+                });
+
+        Viagem viagem = new Viagem();
+        viagem.setDestino(destino);
+        viagem.setDataIda(dto.getDataIda());
+        viagem.setDataVolta(dto.getDataVolta());
+        viagem.setUsuario(usuario);
+
+        viagemRepository.save(viagem);
+        return ViagemMapper.INSTANCE.toResponseDTO(viagem);
     }
 }

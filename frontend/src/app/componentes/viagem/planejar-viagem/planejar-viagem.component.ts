@@ -286,7 +286,9 @@ export class PlanejarViagemComponent implements OnInit {
     const blocos = this.rawResultado.split(/\n\n+/);
     blocos.forEach((bloco) => {
       const item = this.parsearItemItinerario(bloco);
-      this.atividades.push(item);
+      if (item.nome) {
+        this.atividades.push(item);
+      }
     });
     this.resultado = '';
     this.cdRef.detectChanges();
@@ -307,9 +309,9 @@ export class PlanejarViagemComponent implements OnInit {
     linhas.forEach((linha) => {
       if (linha.includes(':')) {
         const [key, ...valueParts] = linha.split(':');
-        const value = valueParts.join(':').trim();
+        const value = valueParts.join(':').replace(/\*/g, '').trim();
 
-        switch (key.trim().replace('*', '')) {
+        switch (key.trim().replace(/\*/g, '')) {
           case 'Passeio':
             item.nome = value;
             break;
@@ -338,6 +340,7 @@ export class PlanejarViagemComponent implements OnInit {
   }
 
   salvarItemItinerario(item: AtividadeItinerario): void {
+    const diaFallback = item.dia ?? (this.viagem ? new Date(this.viagem.dataIda + 'T00:00:00') : new Date());
     const itemItinerarioDto: AtividadeItinerarioEditarDTO = {
       id: 0,
       nome: item.nome,
@@ -345,7 +348,7 @@ export class PlanejarViagemComponent implements OnInit {
       duracao: item.duracao,
       descricao: item.descricao,
       categoria: item.categoria,
-      dia: item.dia.toISOString(),
+      dia: diaFallback.toISOString(),
       melhorHorario: item.melhorHorario,
       idViagem: this.viagemId,
     };
@@ -381,6 +384,7 @@ export class PlanejarViagemComponent implements OnInit {
     let erros = 0;
 
     this.atividades.forEach((item) => {
+      const diaFallback = item.dia ?? (this.viagem ? new Date(this.viagem.dataIda + 'T00:00:00') : new Date());
       const itemItinerarioDto: AtividadeItinerarioEditarDTO = {
         id: 0,
         nome: item.nome,
@@ -388,7 +392,7 @@ export class PlanejarViagemComponent implements OnInit {
         duracao: item.duracao,
         descricao: item.descricao,
         categoria: item.categoria,
-        dia: item.dia.toISOString(),
+        dia: diaFallback.toISOString(),
         melhorHorario: item.melhorHorario,
         idViagem: this.viagemId,
       };

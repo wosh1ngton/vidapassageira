@@ -16,6 +16,7 @@ import org.springframework.web.client.HttpClientErrorException;
 
 import br.com.vidapassageira.backend.dtos.exceptions.ErrorResponse;
 import br.com.vidapassageira.backend.exceptions.EntityNotFoundException;
+import br.com.vidapassageira.backend.exceptions.GoogleCalendarException;
 import br.com.vidapassageira.backend.exceptions.SugestaoDuplicadaException;
 
 @RestControllerAdvice
@@ -36,6 +37,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleIllegalArgument(IllegalArgumentException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body(new ErrorResponse(409, ex.getMessage()));
+    }
+
+    @ExceptionHandler(GoogleCalendarException.class)
+    public ResponseEntity<ErrorResponse> handleGoogleCalendar(GoogleCalendarException ex) {
+        log.warn("Google Calendar error: {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse(400, ex.getMessage()));
     }
 
     @ExceptionHandler(EntityNotFoundException.class)

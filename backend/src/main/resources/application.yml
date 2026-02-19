@@ -43,6 +43,13 @@ deepseek:
   api:
     key: ${DEEPSEEK_API_KEY}
     url: https://api.deepseek.com/v1/chat/completions
+google:
+  calendar:
+    client-id: ${GOOGLE_CALENDAR_CLIENT_ID:}
+    client-secret: ${GOOGLE_CALENDAR_CLIENT_SECRET:}
+    redirect-uri: ${GOOGLE_CALENDAR_REDIRECT_URI:http://localhost:8070/api/google-calendar/callback}
+    frontend-redirect-uri: ${GOOGLE_CALENDAR_FRONTEND_REDIRECT:http://localhost:4600/agenda}
+    scopes: https://www.googleapis.com/auth/calendar.readonly,https://www.googleapis.com/auth/userinfo.email
 app:
   version: '@project.version@'
   description: Plataforma de Planejamento de Viagens
