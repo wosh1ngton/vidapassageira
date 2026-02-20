@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { RouterModule, ActivatedRoute } from '@angular/router';
+import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { PrimeNgModule } from '../../shared/prime.module';
 import { MessageService } from 'primeng/api';
@@ -8,12 +8,15 @@ import { Subscription } from 'rxjs';
 import { GoogleCalendarService } from '../../services/google-calendar.service';
 import { AgendaIAService } from '../../services/agenda-ia.service';
 import { ViagemService } from '../../services/viagem.service';
+import { DestinosService } from '../../services/destinos.service';
 import {
   GoogleCalendarListDTO,
   GoogleCalendarEventDTO,
   SugestaoViagemAgendaDTO,
 } from '../../model/google-calendar';
 import { DestinoSugerido } from '../../model/viagem';
+import { DestinoResponseDTO } from '../../model/destino';
+import { OAuthService } from 'angular-oauth2-oidc';
 
 @Component({
   selector: 'app-agenda',
@@ -48,6 +51,14 @@ export class AgendaComponent implements OnInit, OnDestroy {
   destinoSelecionado: DestinoSugerido | null = null;
   salvandoViagem = false;
 
+  // Criar viagem manual
+  criarViagemAtiva: number | null = null;
+  destinosFiltrados: DestinoResponseDTO[] = [];
+  destinoEscolhido: DestinoResponseDTO | null = null;
+  novaViagemDataIda: Date | null = null;
+  novaViagemDataVolta: Date | null = null;
+  criandoViagem = false;
+
   // Navegacao por mes
   mesAtual = new Date();
 
@@ -55,8 +66,11 @@ export class AgendaComponent implements OnInit, OnDestroy {
     private googleCalendarService: GoogleCalendarService,
     private agendaIAService: AgendaIAService,
     private viagemService: ViagemService,
+    private destinosService: DestinosService,
+    private oauthService: OAuthService,
     private messageService: MessageService,
     private route: ActivatedRoute,
+    private router: Router,
     private datePipe: DatePipe
   ) {}
 
@@ -395,5 +409,68 @@ export class AgendaComponent implements OnInit, OnDestroy {
     const di = this.datePipe.transform(i, 'dd/MM/yyyy', '', 'pt-BR') || '';
     const df = this.datePipe.transform(f, 'dd/MM/yyyy', '', 'pt-BR') || '';
     return `${di} a ${df}`;
+  }
+
+  abrirCriarViagem(index: number, periodo: SugestaoViagemAgendaDTO): void {
+    this.criarViagemAtiva = index;
+    this.destinoEscolhido = null;
+    this.destinosFiltrados = [];
+    this.novaViagemDataIda = new Date(periodo.inicioFolga + 'T00:00:00');
+    this.novaViagemDataVolta = new Date(periodo.fimFolga + 'T00:00:00');
+  }
+
+  cancelarCriarViagem(): void {
+    this.criarViagemAtiva = null;
+    this.destinoEscolhido = null;
+    this.novaViagemDataIda = null;
+    this.novaViagemDataVolta = null;
+  }
+
+  pesquisarDestinos(event: any): void {
+    const termo = event.query;
+    if (termo.length < 2) return;
+    this.destinosService.buscar(termo).subscribe({
+      next: (destinos) => {
+        this.destinosFiltrados = destinos;
+      },
+      error: () => {
+        this.destinosFiltrados = [];
+      },
+    });
+  }
+
+  salvarNovaViagem(): void {
+    if (!this.destinoEscolhido || !this.novaViagemDataIda || !this.novaViagemDataVolta) return;
+
+    this.criandoViagem = true;
+    const claims: any = this.oauthService.getIdentityClaims();
+    const viagem: any = {
+      dataIda: this.novaViagemDataIda,
+      dataVolta: this.novaViagemDataVolta,
+      idDestino: this.destinoEscolhido.id,
+      id: 0,
+      sub: claims?.sub || '',
+    };
+
+    this.viagemService.save(viagem).subscribe({
+      next: () => {
+        this.criandoViagem = false;
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Viagem criada!',
+          detail: `Viagem para ${this.destinoEscolhido!.nome} criada com sucesso.`,
+        });
+        this.cancelarCriarViagem();
+        this.router.navigateByUrl('/viagens');
+      },
+      error: () => {
+        this.criandoViagem = false;
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erro',
+          detail: 'Erro ao criar viagem.',
+        });
+      },
+    });
   }
 }

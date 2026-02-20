@@ -57,7 +57,12 @@ export class AppComponent implements OnInit {
   toggleMenu() {
     this.menuVisible = !this.menuVisible;
     localStorage.setItem('menu', this.menuVisible ? 'open' : 'closed');
-  }  
+  }
+
+  fecharMenu() {
+    this.menuVisible = false;
+    localStorage.setItem('menu', 'closed');
+  }
 
   logout() {
     this.authService.logout();

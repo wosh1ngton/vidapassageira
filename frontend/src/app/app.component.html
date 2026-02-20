@@ -55,28 +55,55 @@
 
       <!-- SIDE MENU -->
       <p-sidebar [(visible)]="menuVisible" position="left"
-      [showCloseIcon]="false"
-        styleClass="sidebar-menu">
+        [showCloseIcon]="false"
+        styleClass="sidebar-custom">
 
-        <h3 class="mb-2">Menu</h3>
+        <div class="sidebar-header">
+          <div class="sidebar-logo">
+            <img src="assets/imagens/logo.png" alt="VidaPassageira" class="sidebar-logo-img">
+          </div>
+          <button class="sidebar-close-btn" (click)="toggleMenu()" pRipple>
+            <i class="pi pi-times"></i>
+          </button>
+        </div>
 
-        <ul class="list-none p-0 m-0">
-          <li class="mb-2">
-            <a routerLink="/" class="menu-link">Home</a>
-          </li>
-          <li class="mb-2">
-            <a routerLink="viagens" class="menu-link">Viagens</a>
-          </li>
-          <li class="mb-2">
-            <a routerLink="destinos" class="menu-link">Destinos</a>
-          </li>
-          <li class="mb-2">
-            <a routerLink="agenda" class="menu-link">Agenda</a>
-          </li>
-          <li class="mb-2">
-            <a routerLink="configuracoes" class="menu-link">Configurações</a>
-          </li>
-        </ul>
+        <nav class="sidebar-nav">
+          <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidebar-nav-item" (click)="fecharMenu()">
+            <div class="nav-icon"><i class="pi pi-home"></i></div>
+            <span class="nav-label">Home</span>
+          </a>
+          <a routerLink="viagens" routerLinkActive="active" class="sidebar-nav-item" (click)="fecharMenu()">
+            <div class="nav-icon"><i class="pi pi-map"></i></div>
+            <span class="nav-label">Viagens</span>
+          </a>
+          <a routerLink="destinos" routerLinkActive="active" class="sidebar-nav-item" (click)="fecharMenu()">
+            <div class="nav-icon"><i class="pi pi-compass"></i></div>
+            <span class="nav-label">Destinos</span>
+          </a>
+          <a routerLink="agenda" routerLinkActive="active" class="sidebar-nav-item" (click)="fecharMenu()">
+            <div class="nav-icon"><i class="pi pi-calendar"></i></div>
+            <span class="nav-label">Agenda</span>
+          </a>
+
+          <div class="sidebar-divider"></div>
+
+          <a routerLink="configuracoes" routerLinkActive="active" class="sidebar-nav-item" (click)="fecharMenu()">
+            <div class="nav-icon"><i class="pi pi-cog"></i></div>
+            <span class="nav-label">Configurações</span>
+          </a>
+        </nav>
+
+        <div class="sidebar-footer">
+          <div class="sidebar-user" *ngIf="usuario">
+            <div class="sidebar-user-avatar">
+              <i class="pi pi-user"></i>
+            </div>
+            <div class="sidebar-user-info">
+              <span class="sidebar-user-name">{{ usuario.username }}</span>
+            </div>
+          </div>
+        </div>
+
       </p-sidebar>
 
       <!-- MAIN CONTENT -->

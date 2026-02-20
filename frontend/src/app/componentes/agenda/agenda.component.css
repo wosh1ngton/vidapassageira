@@ -472,6 +472,12 @@
   font-weight: 600;
 }
 
+.periodo-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
 ::ng-deep .sugestao-button {
   background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
   border: none !important;
@@ -481,6 +487,136 @@
 ::ng-deep .sugestao-button:hover:not(:disabled) {
   box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3) !important;
   transform: translateY(-2px);
+}
+
+::ng-deep .criar-viagem-button .p-button {
+  border-color: #819d6a !important;
+  color: #819d6a !important;
+  font-weight: 600 !important;
+}
+
+::ng-deep .criar-viagem-button .p-button:hover {
+  background: rgba(129, 157, 106, 0.08) !important;
+}
+
+/* Formulário Criar Viagem Inline */
+.criar-viagem-form {
+  margin-top: 1rem;
+  border: 1px solid #d4e4c8;
+  border-radius: 10px;
+  background: #f9fbf7;
+  overflow: hidden;
+}
+
+.criar-viagem-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: linear-gradient(135deg, rgba(129, 157, 106, 0.12) 0%, rgba(129, 157, 106, 0.06) 100%);
+  border-bottom: 1px solid #d4e4c8;
+}
+
+.criar-viagem-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: #4a6741;
+  font-size: 0.95rem;
+}
+
+.fechar-criar-viagem {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #4a6741;
+  font-size: 1rem;
+  padding: 0.25rem;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.fechar-criar-viagem:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: #333;
+}
+
+.criar-viagem-body {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-field-agenda {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.field-label-agenda {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #555;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.field-label-agenda i {
+  color: #819d6a;
+  font-size: 0.95rem;
+}
+
+.datas-grid-agenda {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.criar-viagem-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #e8ede3;
+}
+
+::ng-deep .confirmar-criar-viagem-button {
+  background: linear-gradient(135deg, #819d6a 0%, #6b8558 100%) !important;
+  border: none !important;
+  font-weight: 600 !important;
+}
+
+::ng-deep .confirmar-criar-viagem-button:hover:not(:disabled) {
+  box-shadow: 0 4px 12px rgba(129, 157, 106, 0.3) !important;
+  transform: translateY(-2px);
+}
+
+.destino-autocomplete-item {
+  display: flex;
+  flex-direction: column;
+  padding: 0.25rem 0;
+}
+
+.destino-ac-nome {
+  font-weight: 600;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.destino-ac-local {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+::ng-deep .criar-viagem-form .p-autocomplete-input {
+  width: 100% !important;
+}
+
+::ng-deep .criar-viagem-form .p-autocomplete {
+  width: 100% !important;
 }
 
 /* Sugestão Resultado */
@@ -722,6 +858,14 @@
     align-items: flex-start;
     gap: 0.25rem;
   }
+
+  .datas-grid-agenda {
+    grid-template-columns: 1fr;
+  }
+
+  .periodo-actions {
+    flex-direction: column;
+  }
 }
 
 @media screen and (max-width: 480px) {
@@ -745,5 +889,9 @@
 
   .salvar-viagem-section {
     justify-content: center;
+  }
+
+  .criar-viagem-actions {
+    flex-direction: column;
   }
 }
