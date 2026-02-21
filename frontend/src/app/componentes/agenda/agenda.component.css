@@ -40,9 +40,7 @@
   color: white;
 }
 
-.title-group {
-  flex: 1;
-}
+.title-group { flex: 1; }
 
 .page-title {
   font-size: 2rem;
@@ -56,7 +54,6 @@
   font-size: 1.05rem;
   color: rgba(255, 255, 255, 0.9);
   margin: 0;
-  font-weight: 400;
 }
 
 /* Content */
@@ -70,19 +67,9 @@
 }
 
 /* Loading */
-.loading-container {
-  text-align: center;
-  padding: 2rem;
-}
-
-.loading-text {
-  color: #666;
-  margin-top: 1rem;
-}
-
-.loading-inline {
-  margin-bottom: 1rem;
-}
+.loading-container { text-align: center; padding: 2rem; }
+.loading-text { color: #666; margin-top: 1rem; }
+.loading-inline { margin-bottom: 1rem; }
 
 /* Section Cards */
 .section-card {
@@ -93,9 +80,7 @@
   transition: all 0.3s ease;
 }
 
-.section-card:hover {
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-}
+.section-card:hover { box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12); }
 
 .card-header {
   padding: 1.5rem 2rem;
@@ -106,10 +91,7 @@
   gap: 1rem;
 }
 
-.header-icon {
-  font-size: 1.5rem;
-  color: #819d6a;
-}
+.header-icon { font-size: 1.5rem; color: #819d6a; }
 
 .card-title {
   font-size: 1.25rem;
@@ -118,9 +100,7 @@
   margin: 0;
 }
 
-.card-body {
-  padding: 2rem;
-}
+.card-body { padding: 2rem; }
 
 .section-description {
   font-size: 0.95rem;
@@ -141,20 +121,11 @@
   gap: 0.4rem;
 }
 
-.connection-badge.connected {
-  background: #e8f5e9;
-  color: #2e7d32;
-}
-
-.connection-badge.disconnected {
-  background: #fce4ec;
-  color: #c62828;
-}
+.connection-badge.connected { background: #e8f5e9; color: #2e7d32; }
+.connection-badge.disconnected { background: #fce4ec; color: #c62828; }
 
 /* Connect Section */
-.connect-section {
-  text-align: center;
-}
+.connect-section { text-align: center; }
 
 .connect-info {
   display: flex;
@@ -168,19 +139,8 @@
   text-align: left;
 }
 
-.connect-info i {
-  color: #819d6a;
-  font-size: 1.25rem;
-  margin-top: 2px;
-  flex-shrink: 0;
-}
-
-.connect-info p {
-  color: #555;
-  font-size: 0.95rem;
-  line-height: 1.6;
-  margin: 0;
-}
+.connect-info i { color: #819d6a; font-size: 1.25rem; margin-top: 2px; flex-shrink: 0; }
+.connect-info p { color: #555; font-size: 0.95rem; line-height: 1.6; margin: 0; }
 
 ::ng-deep .connect-button {
   background: linear-gradient(135deg, #4285f4 0%, #3367d6 100%) !important;
@@ -203,25 +163,11 @@
   gap: 1rem;
 }
 
-.connected-info {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: #333;
-  font-weight: 500;
-}
-
-.connected-info i {
-  color: #819d6a;
-}
+.connected-info { display: flex; align-items: center; gap: 0.5rem; color: #333; font-weight: 500; }
+.connected-info i { color: #819d6a; }
 
 /* Calendários */
-.calendarios-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
-}
+.calendarios-list { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem; }
 
 .calendario-item {
   display: flex;
@@ -232,34 +178,11 @@
   transition: background 0.2s;
 }
 
-.calendario-item:hover {
-  background: #f8f9fa;
-}
-
-.calendario-label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  cursor: pointer;
-  flex: 1;
-}
-
-.calendario-cor {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.calendario-nome {
-  font-size: 0.95rem;
-  color: #333;
-}
-
-.calendarios-actions {
-  padding-top: 1rem;
-  border-top: 1px solid #f0f0f0;
-}
+.calendario-item:hover { background: #f8f9fa; }
+.calendario-label { display: flex; align-items: center; gap: 0.5rem; cursor: pointer; flex: 1; }
+.calendario-cor { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
+.calendario-nome { font-size: 0.95rem; color: #333; }
+.calendarios-actions { padding-top: 1rem; border-top: 1px solid #f0f0f0; }
 
 ::ng-deep .save-button {
   background: linear-gradient(135deg, #819d6a 0%, #6b8558 100%) !important;
@@ -268,12 +191,7 @@
 }
 
 /* Eventos */
-.mes-navigation {
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
+.mes-navigation { margin-left: auto; display: flex; align-items: center; gap: 0.75rem; }
 
 .nav-btn {
   background: white;
@@ -288,11 +206,7 @@
   transition: all 0.2s;
 }
 
-.nav-btn:hover {
-  background: #819d6a;
-  color: white;
-  border-color: #819d6a;
-}
+.nav-btn:hover { background: #819d6a; color: white; border-color: #819d6a; }
 
 .mes-label {
   font-weight: 600;
@@ -303,44 +217,13 @@
   text-transform: capitalize;
 }
 
-.empty-eventos,
-.empty-periodos {
-  text-align: center;
-  padding: 2rem;
-  color: #999;
-}
+.empty-eventos, .empty-periodos { text-align: center; padding: 2rem; color: #999; }
+.empty-eventos i, .empty-periodos i { font-size: 3rem; margin-bottom: 1rem; display: block; }
+.eventos-timeline { display: flex; flex-direction: column; gap: 1.5rem; }
+.dia-grupo { display: flex; flex-direction: column; gap: 0.5rem; }
 
-.empty-eventos i,
-.empty-periodos i {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-  display: block;
-}
-
-.eventos-timeline {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.dia-grupo {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.dia-header {
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid #e0e0e0;
-  margin-bottom: 0.25rem;
-}
-
-.dia-label {
-  font-weight: 700;
-  color: #333;
-  font-size: 0.95rem;
-  text-transform: capitalize;
-}
+.dia-header { padding-bottom: 0.5rem; border-bottom: 1px solid #e0e0e0; margin-bottom: 0.25rem; }
+.dia-label { font-weight: 700; color: #333; font-size: 0.95rem; text-transform: capitalize; }
 
 .evento-card {
   padding: 1rem;
@@ -350,9 +233,7 @@
   transition: all 0.2s;
 }
 
-.evento-card:hover {
-  background: #f0f4ed;
-}
+.evento-card:hover { background: #f0f4ed; }
 
 .evento-header {
   display: flex;
@@ -361,21 +242,9 @@
   margin-bottom: 0.35rem;
 }
 
-.evento-titulo {
-  font-weight: 600;
-  color: #333;
-  font-size: 0.95rem;
-}
-
-.evento-hora {
-  font-size: 0.85rem;
-  color: #666;
-  font-weight: 500;
-}
-
-.evento-hora.dia-inteiro {
-  color: #819d6a;
-}
+.evento-titulo { font-weight: 600; color: #333; font-size: 0.95rem; }
+.evento-hora { font-size: 0.85rem; color: #666; font-weight: 500; }
+.evento-hora.dia-inteiro { color: #819d6a; }
 
 .evento-detalhes {
   display: flex;
@@ -386,38 +255,14 @@
   margin-bottom: 0.35rem;
 }
 
-.evento-detalhes i {
-  font-size: 0.8rem;
-}
-
-.evento-calendar-tag {
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-  font-size: 0.8rem;
-  color: #aaa;
-}
-
-.tag-cor {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-}
+.evento-detalhes i { font-size: 0.8rem; }
+.evento-calendar-tag { display: flex; align-items: center; gap: 0.35rem; font-size: 0.8rem; color: #aaa; }
+.tag-cor { width: 10px; height: 10px; border-radius: 50%; }
 
 /* Sugestões IA */
-.sugestoes-card .card-header {
-  border-bottom-color: #f59e0b;
-}
-
-.sugestoes-card .header-icon {
-  color: #f59e0b;
-}
-
-.periodos-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
+.sugestoes-card .card-header { border-bottom-color: #f59e0b; }
+.sugestoes-card .header-icon { color: #f59e0b; }
+.periodos-grid { display: flex; flex-direction: column; gap: 1.5rem; }
 
 .periodo-card {
   padding: 1.5rem;
@@ -427,41 +272,13 @@
   transition: all 0.3s;
 }
 
-.periodo-card:hover {
-  border-color: #819d6a;
-  box-shadow: 0 2px 12px rgba(129, 157, 106, 0.15);
-}
+.periodo-card:hover { border-color: #819d6a; box-shadow: 0 2px 12px rgba(129, 157, 106, 0.15); }
+.periodo-card.periodo-ativo { border-color: #f59e0b; box-shadow: 0 4px 16px rgba(245, 158, 11, 0.15); }
 
-.periodo-card.periodo-ativo {
-  border-color: #f59e0b;
-  box-shadow: 0 4px 16px rgba(245, 158, 11, 0.15);
-}
-
-.periodo-info {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  margin-bottom: 1rem;
-  flex-wrap: wrap;
-}
-
-.periodo-titulo {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-weight: 700;
-  color: #333;
-  font-size: 1.05rem;
-}
-
-.periodo-titulo i {
-  color: #819d6a;
-}
-
-.periodo-datas {
-  font-size: 0.95rem;
-  color: #666;
-}
+.periodo-info { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+.periodo-titulo { display: flex; align-items: center; gap: 0.5rem; font-weight: 700; color: #333; font-size: 1.05rem; }
+.periodo-titulo i { color: #819d6a; }
+.periodo-datas { font-size: 0.95rem; color: #666; }
 
 .dias-badge {
   background: linear-gradient(135deg, #819d6a 0%, #6b8558 100%);
@@ -472,11 +289,7 @@
   font-weight: 600;
 }
 
-.periodo-actions {
-  display: flex;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-}
+.periodo-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
 
 ::ng-deep .sugestao-button {
   background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
@@ -489,15 +302,8 @@
   transform: translateY(-2px);
 }
 
-::ng-deep .criar-viagem-button .p-button {
-  border-color: #819d6a !important;
-  color: #819d6a !important;
-  font-weight: 600 !important;
-}
-
-::ng-deep .criar-viagem-button .p-button:hover {
-  background: rgba(129, 157, 106, 0.08) !important;
-}
+::ng-deep .criar-viagem-button .p-button { border-color: #819d6a !important; color: #819d6a !important; font-weight: 600 !important; }
+::ng-deep .criar-viagem-button .p-button:hover { background: rgba(129, 157, 106, 0.08) !important; }
 
 /* Formulário Criar Viagem Inline */
 .criar-viagem-form {
@@ -517,14 +323,7 @@
   border-bottom: 1px solid #d4e4c8;
 }
 
-.criar-viagem-label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-weight: 600;
-  color: #4a6741;
-  font-size: 0.95rem;
-}
+.criar-viagem-label { display: flex; align-items: center; gap: 0.5rem; font-weight: 600; color: #4a6741; font-size: 0.95rem; }
 
 .fechar-criar-viagem {
   background: none;
@@ -537,23 +336,9 @@
   transition: all 0.2s;
 }
 
-.fechar-criar-viagem:hover {
-  background: rgba(0, 0, 0, 0.05);
-  color: #333;
-}
-
-.criar-viagem-body {
-  padding: 1.25rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.form-field-agenda {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-}
+.fechar-criar-viagem:hover { background: rgba(0, 0, 0, 0.05); color: #333; }
+.criar-viagem-body { padding: 1.25rem; display: flex; flex-direction: column; gap: 1rem; }
+.form-field-agenda { display: flex; flex-direction: column; gap: 0.4rem; }
 
 .field-label-agenda {
   font-size: 0.9rem;
@@ -564,16 +349,8 @@
   gap: 0.4rem;
 }
 
-.field-label-agenda i {
-  color: #819d6a;
-  font-size: 0.95rem;
-}
-
-.datas-grid-agenda {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-}
+.field-label-agenda i { color: #819d6a; font-size: 0.95rem; }
+.datas-grid-agenda { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 
 .criar-viagem-actions {
   display: flex;
@@ -594,30 +371,12 @@
   transform: translateY(-2px);
 }
 
-.destino-autocomplete-item {
-  display: flex;
-  flex-direction: column;
-  padding: 0.25rem 0;
-}
+.destino-autocomplete-item { display: flex; flex-direction: column; padding: 0.25rem 0; }
+.destino-ac-nome { font-weight: 600; color: #333; font-size: 0.95rem; }
+.destino-ac-local { font-size: 0.8rem; color: #888; }
 
-.destino-ac-nome {
-  font-weight: 600;
-  color: #333;
-  font-size: 0.95rem;
-}
-
-.destino-ac-local {
-  font-size: 0.8rem;
-  color: #888;
-}
-
-::ng-deep .criar-viagem-form .p-autocomplete-input {
-  width: 100% !important;
-}
-
-::ng-deep .criar-viagem-form .p-autocomplete {
-  width: 100% !important;
-}
+::ng-deep .criar-viagem-form .p-autocomplete-input,
+::ng-deep .criar-viagem-form .p-autocomplete { width: 100% !important; }
 
 /* Sugestão Resultado */
 .sugestao-resultado {
@@ -637,27 +396,10 @@
   border-bottom: 1px solid #fde68a;
 }
 
-.sugestao-label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-weight: 600;
-  color: #92400e;
-  font-size: 0.9rem;
-}
+.sugestao-label { display: flex; align-items: center; gap: 0.5rem; font-weight: 600; color: #92400e; font-size: 0.9rem; }
 
-.fechar-sugestao {
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #92400e;
-  font-size: 1rem;
-  padding: 0.25rem;
-}
-
-.fechar-sugestao:hover {
-  color: #78350f;
-}
+.fechar-sugestao { background: none; border: none; cursor: pointer; color: #92400e; font-size: 1rem; padding: 0.25rem; }
+.fechar-sugestao:hover { color: #78350f; }
 
 .sugestao-texto {
   padding: 1rem;
@@ -668,27 +410,10 @@
   word-wrap: break-word;
 }
 
-/* Destinos sugeridos - salvar viagem */
-.destinos-sugeridos {
-  padding: 1rem;
-  border-top: 1px solid #fde68a;
-}
-
-.destinos-sugeridos-header {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-weight: 600;
-  color: #92400e;
-  font-size: 0.9rem;
-  margin-bottom: 0.75rem;
-}
-
-.destinos-sugeridos-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
+/* Destinos sugeridos */
+.destinos-sugeridos { padding: 1rem; border-top: 1px solid #fde68a; }
+.destinos-sugeridos-header { display: flex; align-items: center; gap: 0.5rem; font-weight: 600; color: #92400e; font-size: 0.9rem; margin-bottom: 0.75rem; }
+.destinos-sugeridos-grid { display: flex; flex-direction: column; gap: 0.5rem; }
 
 .destino-sugerido-card {
   display: flex;
@@ -702,10 +427,7 @@
   background: white;
 }
 
-.destino-sugerido-card:hover {
-  border-color: #819d6a;
-  background: #f0f4ed;
-}
+.destino-sugerido-card:hover { border-color: #819d6a; background: #f0f4ed; }
 
 .destino-sugerido-card.selecionado {
   border-color: #819d6a;
@@ -713,40 +435,12 @@
   box-shadow: 0 2px 8px rgba(129, 157, 106, 0.2);
 }
 
-.destino-sugerido-card > .pi-map-marker {
-  color: #819d6a;
-  font-size: 1.1rem;
-  flex-shrink: 0;
-}
-
-.destino-sugerido-info {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-
-.destino-sugerido-nome {
-  font-weight: 600;
-  color: #333;
-  font-size: 0.95rem;
-}
-
-.destino-sugerido-local {
-  font-size: 0.85rem;
-  color: #666;
-}
-
-.destino-check {
-  color: #819d6a;
-  font-size: 1.1rem;
-  font-weight: bold;
-}
-
-.salvar-viagem-section {
-  margin-top: 0.75rem;
-  display: flex;
-  justify-content: flex-end;
-}
+.destino-sugerido-card > .pi-map-marker { color: #819d6a; font-size: 1.1rem; flex-shrink: 0; }
+.destino-sugerido-info { display: flex; flex-direction: column; flex: 1; }
+.destino-sugerido-nome { font-weight: 600; color: #333; font-size: 0.95rem; }
+.destino-sugerido-local { font-size: 0.85rem; color: #666; }
+.destino-check { color: #819d6a; font-size: 1.1rem; font-weight: bold; }
+.salvar-viagem-section { margin-top: 0.75rem; display: flex; justify-content: flex-end; }
 
 ::ng-deep .salvar-viagem-button {
   background: linear-gradient(135deg, #819d6a 0%, #6b8558 100%) !important;
@@ -759,12 +453,8 @@
   transform: translateY(-2px);
 }
 
-/* Streaming dots animation */
-.streaming-indicator {
-  display: flex;
-  gap: 4px;
-  padding: 0.5rem 1rem 1rem;
-}
+/* Streaming dots */
+.streaming-indicator { display: flex; gap: 4px; padding: 0.5rem 1rem 1rem; }
 
 .dot {
   width: 8px;
@@ -784,114 +474,33 @@
 
 /* Responsive */
 @media screen and (max-width: 992px) {
-  .header-content {
-    padding: 1.5rem;
-  }
-
-  .page-title {
-    font-size: 1.75rem;
-  }
-
-  .content-wrapper {
-    padding: 1.5rem;
-  }
-
-  .card-body {
-    padding: 1.5rem;
-  }
-
-  .periodo-info {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
+  .header-content { padding: 1.5rem; }
+  .page-title { font-size: 1.75rem; }
+  .content-wrapper { padding: 1.5rem; }
+  .card-body { padding: 1.5rem; }
+  .periodo-info { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
 }
 
 @media screen and (max-width: 768px) {
-  .header-left {
-    flex-direction: column;
-    text-align: center;
-    gap: 1rem;
-  }
-
-  .icon-wrapper {
-    width: 50px;
-    height: 50px;
-  }
-
-  .icon-wrapper i {
-    font-size: 1.5rem;
-  }
-
-  .page-title {
-    font-size: 1.5rem;
-  }
-
-  .content-wrapper {
-    padding: 1rem;
-  }
-
-  .card-header {
-    padding: 1rem 1.5rem;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-
-  .mes-navigation {
-    margin-left: 0;
-    width: 100%;
-    justify-content: center;
-    margin-top: 0.5rem;
-  }
-
-  .connection-badge {
-    margin-left: 0;
-  }
-
-  .connected-section {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .evento-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.25rem;
-  }
-
-  .datas-grid-agenda {
-    grid-template-columns: 1fr;
-  }
-
-  .periodo-actions {
-    flex-direction: column;
-  }
+  .header-left { flex-direction: column; text-align: center; gap: 1rem; }
+  .icon-wrapper { width: 50px; height: 50px; }
+  .icon-wrapper i { font-size: 1.5rem; }
+  .page-title { font-size: 1.5rem; }
+  .content-wrapper { padding: 1rem; }
+  .card-header { padding: 1rem 1.5rem; flex-wrap: wrap; gap: 0.5rem; }
+  .mes-navigation { margin-left: 0; width: 100%; justify-content: center; margin-top: 0.5rem; }
+  .connection-badge { margin-left: 0; }
+  .connected-section { flex-direction: column; align-items: flex-start; }
+  .evento-header { flex-direction: column; align-items: flex-start; gap: 0.25rem; }
+  .datas-grid-agenda { grid-template-columns: 1fr; }
+  .periodo-actions { flex-direction: column; }
 }
 
 @media screen and (max-width: 480px) {
-  .content-wrapper {
-    padding: 0.5rem;
-  }
-
-  .section-card {
-    border-radius: 8px;
-  }
-
-  .card-header {
-    padding: 1rem;
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .card-body {
-    padding: 1rem;
-  }
-
-  .salvar-viagem-section {
-    justify-content: center;
-  }
-
-  .criar-viagem-actions {
-    flex-direction: column;
-  }
+  .content-wrapper { padding: 0.5rem; }
+  .section-card { border-radius: 8px; }
+  .card-header { padding: 1rem; flex-direction: column; text-align: center; }
+  .card-body { padding: 1rem; }
+  .salvar-viagem-section { justify-content: center; }
+  .criar-viagem-actions { flex-direction: column; }
 }
