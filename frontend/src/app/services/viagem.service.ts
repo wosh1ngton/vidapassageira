@@ -69,4 +69,8 @@ export class ViagemService {
   criarDaAgenda(dto: ViagemAgendaCreateDTO): Observable<ViagemResponseDTO> {
     return this.http.post<ViagemResponseDTO>(`${this.baseUrl}/viagens/criar-da-agenda`, dto);
   }
+
+  deletarItinerarioDaViagem(viagemId: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/viagens/itinerario/viagem/${viagemId}`);
+  }
 }

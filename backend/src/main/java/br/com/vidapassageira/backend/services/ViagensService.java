@@ -168,6 +168,10 @@ public class ViagensService {
         return itinerarioViagemRepository.marcarComoConcluido(id);
     }
 
+    public void deletarItinerarioDaViagem(Long viagemId) {
+        itinerarioViagemRepository.deleteAllByViagem_Id(viagemId);
+    }
+
     public ViagemResponseDTO criarDaAgenda(ViagemAgendaCreateDTO dto, String keycloakId) {
         Usuario usuario = usuarioRepository.findByKeyCloakId(keycloakId);
 

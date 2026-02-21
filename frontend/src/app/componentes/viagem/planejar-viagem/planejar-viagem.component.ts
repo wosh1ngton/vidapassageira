@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { IAService } from '../../../services/ia.service';
 import { CommonModule, DatePipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { MarkdownModule } from 'ngx-markdown';
 import { PrimeNgModule } from '../../../shared/prime.module';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -31,6 +32,7 @@ import { DateUtil } from '../../../shared/util/date-util';
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
     MarkdownModule,
     PrimeNgModule,
     SugestaoIaComponent,
@@ -72,6 +74,11 @@ export class PlanejarViagemComponent implements OnInit {
   exibirBtnSalvarOpiniaoIA: boolean = false;
   loadingIA: boolean = false;
   loadingMessage: string = '';
+
+  // Dialog de regeneração
+  mostrarDialogRegenerar = false;
+  instrucaoUsuario = '';
+  regenerandoTipo: TipoSugestaoIaEnum | null = null;
 
   setMenuSelecionado(label: string) {
     this.menuSelecionado = label;
@@ -192,7 +199,7 @@ export class PlanejarViagemComponent implements OnInit {
     });
   }
 
-  gerarOpiniao(tipoSugestao: TipoSugestaoIaEnum | undefined) {
+  gerarOpiniao(tipoSugestao: TipoSugestaoIaEnum | undefined, instrucao?: string) {
     let resultado = '';
     this.tipoSugestaoSelected = tipoSugestao;
     this.loadingIA = true;
@@ -214,7 +221,7 @@ export class PlanejarViagemComponent implements OnInit {
 
     const tipoSugestaoName = TipoSugestaoIaEnum[tipoSugestao!];
     this.iaService
-      .gerarOpiniaoStream(this.viagemId, tipoSugestaoName)
+      .gerarOpiniaoStream(this.viagemId, tipoSugestaoName, instrucao)
       .subscribe({
         next: (chunk: string) => {
           const decodedChunk = JSON.parse(chunk);
@@ -244,16 +251,17 @@ export class PlanejarViagemComponent implements OnInit {
       });
   }
 
-  gerarOpiniaoOndeIr(tipoSugestao: TipoSugestaoIaEnum | undefined) {
+  gerarOpiniaoOndeIr(tipoSugestao: TipoSugestaoIaEnum | undefined, instrucao?: string) {
     this.selectedSubMenu = tipoSugestao;
     this.rawResultado = '';
     this.atividades = [];
+    this.itinerarioDaViagem = [];
     this.loadingIA = true;
     this.loadingMessage = 'Preparando seu itinerário...';
     const tipoSugestaoName = TipoSugestaoIaEnum[tipoSugestao!];
 
     this.iaService
-      .gerarOpiniaoStream(this.viagemId, tipoSugestaoName)
+      .gerarOpiniaoStream(this.viagemId, tipoSugestaoName, instrucao)
       .subscribe({
         next: (chunk: string) => {
           const decodedChunk = JSON.parse(chunk);
@@ -545,9 +553,63 @@ export class PlanejarViagemComponent implements OnInit {
           summary: 'Erro',
           detail: `${err.error.message}`,
         }),
-      
+
     });
   }
 
-  
+  abrirDialogRegenerar(tipo: TipoSugestaoIaEnum | undefined): void {
+    if (!tipo) return;
+    this.regenerandoTipo = tipo;
+    this.instrucaoUsuario = '';
+    this.mostrarDialogRegenerar = true;
+  }
+
+  cancelarRegenerar(): void {
+    this.mostrarDialogRegenerar = false;
+    this.instrucaoUsuario = '';
+    this.regenerandoTipo = null;
+  }
+
+  confirmarRegenerar(): void {
+    if (!this.regenerandoTipo) return;
+
+    const tipo = this.regenerandoTipo;
+    const instrucao = this.instrucaoUsuario.trim() || undefined;
+    this.mostrarDialogRegenerar = false;
+
+    if (tipo === TipoSugestaoIaEnum.ONDE_IR) {
+      this.viagemService.deletarItinerarioDaViagem(this.viagemId).subscribe({
+        next: () => {
+          this.hasItinerario = false;
+          this.gerarOpiniaoOndeIr(tipo, instrucao);
+        },
+        error: () => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail: 'Erro ao limpar itinerário antigo.',
+          });
+        },
+      });
+    } else {
+      const tipoId = tipo as number;
+      this.sugestaoIaService.deletarPorViagemETipo(this.viagemId, tipoId).subscribe({
+        next: () => {
+          this.sugestoes.delete(tipo);
+          this.sugestoesIds.delete(tipo);
+          this.gerarOpiniao(tipo, instrucao);
+        },
+        error: () => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail: 'Erro ao limpar sugestão anterior.',
+          });
+        },
+      });
+    }
+
+    this.instrucaoUsuario = '';
+    this.regenerandoTipo = null;
+  }
 }

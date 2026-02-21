@@ -103,4 +103,8 @@ public class SugestaoIAService {
                 .map(SugestaoIAMapper.INSTANCE::toResponseDTO).toList();
         return sugestoesDTO;
     }
+
+    public void deletarPorViagemETipo(Long viagemId, Integer tipoSugestaoIAId) {
+        sugestaoIARepository.deleteByViagem_IdAndTipoSugestaoIA_Id(viagemId, tipoSugestaoIAId);
+    }
 }

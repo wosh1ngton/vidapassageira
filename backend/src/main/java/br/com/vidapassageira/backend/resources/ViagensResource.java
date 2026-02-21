@@ -195,6 +195,22 @@ public class ViagensResource {
     }
 
     @Operation(
+        summary = "Excluir todo o itinerário de uma viagem",
+        description = "Remove todas as atividades do itinerário de uma viagem específica"
+    )
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "204", description = "Itinerário excluído com sucesso"),
+        @ApiResponse(responseCode = "401", description = "Não autenticado")
+    })
+    @DeleteMapping("/itinerario/viagem/{viagemId}")
+    public ResponseEntity<Void> deletarItinerarioDaViagem(
+        @Parameter(description = "ID da viagem") @PathVariable Long viagemId
+    ) {
+        viagensService.deletarItinerarioDaViagem(viagemId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Operation(
         summary = "Excluir viagem",
         description = "Remove uma viagem e todos os seus itens de itinerário"
     )

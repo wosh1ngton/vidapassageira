@@ -15,17 +15,23 @@ export class IAService {
 
    gerarOpiniaoStream(
   idDestino: number,
-  tipoSugestao: string
+  tipoSugestao: string,
+  instrucaoUsuario?: string
 ): Observable<string> {
   return new Observable<string>((observer) => {
     const controller = new AbortController();
 
     const token = this.authService.token;
 
-    fetch(
-      `${environment.mainUrlAPI}/planejamento-ia/gerar-async?destino=${encodeURIComponent(
+    let url = `${environment.mainUrlAPI}/planejamento-ia/gerar-async?destino=${encodeURIComponent(
         idDestino
-      )}&tipo=${encodeURIComponent(tipoSugestao)}`,
+      )}&tipo=${encodeURIComponent(tipoSugestao)}`;
+    if (instrucaoUsuario) {
+      url += `&instrucaoUsuario=${encodeURIComponent(instrucaoUsuario)}`;
+    }
+
+    fetch(
+      url,
       {
         headers: {
           Authorization: `Bearer ${token}`,

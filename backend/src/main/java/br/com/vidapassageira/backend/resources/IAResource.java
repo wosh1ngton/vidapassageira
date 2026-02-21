@@ -40,16 +40,19 @@ public class IAResource {
     @GetMapping(value = "/gerar-async", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter gerarSugestao(
         @RequestParam Long destino,
-        @RequestParam TipoSugestaoEnum tipo
-       
-        ) { 
-    
+        @RequestParam TipoSugestaoEnum tipo,
+        @RequestParam(required = false) String instrucaoUsuario
+        ) {
+
         SseEmitter emitter = new SseEmitter(60_000L);
 
         CompletableFuture.runAsync(() -> {
             try {
-                ViagemResponseDTO viagemDto = this.viagensService.buscarPorId(destino);     
+                ViagemResponseDTO viagemDto = this.viagensService.buscarPorId(destino);
                 String prompt = sugestaoIAService.gerarPrompt(tipo, viagemDto);
+                if (instrucaoUsuario != null && !instrucaoUsuario.isBlank()) {
+                    prompt += "\n\nInstrução adicional do usuário: " + instrucaoUsuario;
+                }
                 iaservice.streamCompletion(prompt, emitter);                
             } catch(Exception e) {
                 try {

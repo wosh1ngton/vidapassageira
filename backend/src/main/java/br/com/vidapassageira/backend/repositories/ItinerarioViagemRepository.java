@@ -18,9 +18,13 @@ public interface ItinerarioViagemRepository extends JpaRepository<ItinerarioViag
     @Modifying
     @Transactional
     @Query("""
-            UPDATE ItinerarioViagem it 
+            UPDATE ItinerarioViagem it
             SET it.itinerarioConcluido = true
             WHERE it.id = :id
     """)
     int marcarComoConcluido(@Param("id") Long id);
+
+    @Modifying
+    @Transactional
+    void deleteAllByViagem_Id(Long viagemId);
 }

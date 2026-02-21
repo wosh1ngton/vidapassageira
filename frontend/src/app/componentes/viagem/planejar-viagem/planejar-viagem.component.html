@@ -76,11 +76,17 @@
                     <p>Adicione atividades manualmente ou peça sugestões à IA</p>
                 </div>
 
-                <button pButton
+                <button pButton *ngIf="!hasItinerario"
                         label="Gerar Itinerário com IA"
                         icon="pi pi-sparkles"
                         class="p-button-lg ia-button"
                         (click)="gerarOpiniaoOndeIr(selectedSubMenu)">
+                </button>
+                <button pButton *ngIf="hasItinerario"
+                        label="Regenerar Itinerário com IA"
+                        icon="pi pi-refresh"
+                        class="p-button-lg regenerar-button"
+                        (click)="abrirDialogRegenerar(selectedSubMenu)">
                 </button>
             </ng-container>
 
@@ -108,12 +114,18 @@
                             [id]="sugestoesIds.get(selectedSubMenu)">
                         </app-sugestao-ia>
                     </div>
-                    <div class="card-footer" *ngIf="exibirBtnSalvarOpiniaoIA">
-                        <button pButton
+                    <div class="card-footer">
+                        <button pButton *ngIf="exibirBtnSalvarOpiniaoIA"
                                 label="Salvar Sugestão"
                                 icon="pi pi-check"
                                 class="p-button-success"
                                 (click)="salvarOpiniaoIA(sugestoes.get(selectedSubMenu))">
+                        </button>
+                        <button pButton *ngIf="sugestoesIds.get(selectedSubMenu!)"
+                                label="Regenerar com IA"
+                                icon="pi pi-refresh"
+                                class="regenerar-button"
+                                (click)="abrirDialogRegenerar(selectedSubMenu)">
                         </button>
                     </div>
                 </div>
@@ -132,4 +144,32 @@
             </ng-container>
         </div>
     </div>
+
+    <!-- Dialog de Regeneração -->
+    <p-dialog header="Regenerar Sugestão" [(visible)]="mostrarDialogRegenerar"
+              [modal]="true" [style]="{width: '500px'}" [closable]="true"
+              [breakpoints]="{'640px': '90vw'}">
+        <div class="regenerar-dialog-content">
+            <p class="regenerar-dialog-info">
+                <i class="pi pi-info-circle"></i>
+                O conteúdo atual será substituído por uma nova sugestão da IA.
+            </p>
+            <div class="regenerar-field">
+                <label class="regenerar-label">Instrução personalizada (opcional)</label>
+                <textarea pInputTextarea [(ngModel)]="instrucaoUsuario"
+                          placeholder="Ex: Gostaria de opções mais econômicas, priorizando a natureza..."
+                          rows="3" [style]="{width: '100%'}" [autoResize]="true">
+                </textarea>
+            </div>
+        </div>
+        <ng-template pTemplate="footer">
+            <div class="regenerar-dialog-footer">
+                <p-button label="Cancelar" icon="pi pi-times" severity="secondary"
+                          [outlined]="true" (onClick)="cancelarRegenerar()"></p-button>
+                <p-button label="Regenerar" icon="pi pi-sparkles"
+                          styleClass="regenerar-confirm-button"
+                          (onClick)="confirmarRegenerar()"></p-button>
+            </div>
+        </ng-template>
+    </p-dialog>
 </div>

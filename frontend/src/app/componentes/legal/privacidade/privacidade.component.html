@@ -35,11 +35,86 @@
           <li><strong>Dados de Uso:</strong> interações com a plataforma, histórico de buscas</li>
           <li><strong>Dados Técnicos:</strong> endereço IP, tipo de navegador, dispositivo utilizado</li>
           <li><strong>Dados de Consentimento:</strong> registro de aceitação dos termos e desta política</li>
+          <li><strong>Dados do Google Calendar:</strong> nomes de calendários, eventos (títulos, datas,
+            horários e locais) dos calendários selecionados por você (somente quando a integração é ativada)</li>
         </ul>
       </section>
 
       <section class="legal-section">
-        <h2>3. Base Legal e Finalidades do Tratamento</h2>
+        <h2>3. Dados Obtidos via Google APIs</h2>
+        <p>
+          Quando você opta por conectar sua conta Google ao VidaPassageira, acessamos dados através
+          das APIs do Google Calendar. Esta seção descreve como esses dados são tratados.
+        </p>
+        <h3>3.1. Dados acessados</h3>
+        <ul>
+          <li>Lista de calendários da sua conta Google (nomes, identificadores e cores)</li>
+          <li>Eventos dos calendários que você selecionar (títulos, datas de início e fim, horários e locais)</li>
+          <li>Seu endereço de e-mail da conta Google (para identificação da conexão)</li>
+        </ul>
+        <h3>3.2. Como usamos esses dados</h3>
+        <p>
+          Os dados do Google Calendar são utilizados exclusivamente para:
+        </p>
+        <ul>
+          <li>Exibir seus calendários e eventos na interface da agenda</li>
+          <li>Identificar períodos livres na sua agenda para sugerir oportunidades de viagem</li>
+          <li>Gerar sugestões de viagem personalizadas com base na sua disponibilidade, utilizando inteligência artificial</li>
+          <li>Permitir a criação de viagens vinculadas aos períodos livres identificados</li>
+        </ul>
+        <h3>3.3. Armazenamento e retenção</h3>
+        <p>
+          Os tokens de autenticação do Google são armazenados de forma segura no nosso servidor para
+          manter a conexão ativa. Os dados de eventos do calendário são consultados em tempo real e
+          <strong>não são armazenados permanentemente</strong> em nossos servidores — são obtidos sob demanda
+          cada vez que você acessa a funcionalidade de agenda.
+        </p>
+        <h3>3.4. Compartilhamento</h3>
+        <p>
+          Os dados obtidos do Google Calendar <strong>não são compartilhados com terceiros</strong>.
+          As sugestões de viagem geradas por IA são processadas sem transmitir seus dados de calendário
+          a provedores externos — apenas informações de datas dos períodos livres são utilizadas
+          para gerar as sugestões.
+        </p>
+        <h3>3.5. Conformidade com a Google API Services User Data Policy</h3>
+        <p>
+          O uso e a transferência de informações recebidas das APIs do Google para qualquer outro aplicativo
+          estão em conformidade com a
+          <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" class="contact-link">
+            Google API Services User Data Policy</a>, incluindo os requisitos de Uso Limitado (Limited Use).
+          Em particular:
+        </p>
+        <ul>
+          <li>Não utilizamos dados do Google para exibir, vender ou fornecer publicidade, incluindo publicidade
+            redirecionada, personalizada ou baseada em interesses</li>
+          <li>Não transferimos dados do Google a terceiros, exceto quando necessário para fornecer ou melhorar
+            recursos voltados ao usuário visíveis na aplicação, para cumprir leis aplicáveis, ou como parte
+            de uma fusão, aquisição ou venda de ativos com consentimento prévio do usuário</li>
+          <li>Não permitimos que pessoas leiam dados do Google, exceto com seu consentimento afirmativo e explícito,
+            para fins de segurança (como investigação de abuso), para cumprir leis aplicáveis, ou quando
+            os dados são agregados e anonimizados para operações internas</li>
+          <li>Não utilizamos dados do Google para determinar solvência creditícia ou para fins de empréstimo</li>
+        </ul>
+        <h3>3.6. Revogação do acesso</h3>
+        <p>
+          Você pode desconectar sua conta Google a qualquer momento pela funcionalidade de agenda
+          na plataforma. Ao desconectar:
+        </p>
+        <ul>
+          <li>Os tokens de acesso são imediatamente invalidados e removidos dos nossos servidores</li>
+          <li>Cessamos todo e qualquer acesso aos seus dados do Google Calendar</li>
+          <li>Viagens criadas anteriormente a partir de períodos livres permanecem na plataforma,
+            pois são dados do VidaPassageira e não contêm dados do Google</li>
+        </ul>
+        <p>
+          Você também pode revogar o acesso diretamente nas
+          <a href="https://myaccount.google.com/permissions" target="_blank" class="contact-link">
+            configurações de segurança da sua conta Google</a>.
+        </p>
+      </section>
+
+      <section class="legal-section">
+        <h2>4. Base Legal e Finalidades do Tratamento</h2>
         <p>
           Tratamos seus dados pessoais com base nas seguintes hipóteses legais previstas na LGPD:
         </p>
@@ -52,7 +127,7 @@
       </section>
 
       <section class="legal-section">
-        <h2>4. Finalidades do Tratamento</h2>
+        <h2>5. Finalidades do Tratamento</h2>
         <p>
           Utilizamos seus dados pessoais para:
         </p>
@@ -68,7 +143,7 @@
       </section>
 
       <section class="legal-section">
-        <h2>5. Compartilhamento de Dados</h2>
+        <h2>6. Compartilhamento de Dados</h2>
         <p>
           Seus dados pessoais podem ser compartilhados com:
         </p>
@@ -85,7 +160,7 @@
       </section>
 
       <section class="legal-section">
-        <h2>6. Transferência Internacional de Dados</h2>
+        <h2>7. Transferência Internacional de Dados</h2>
         <p>
           Alguns de nossos provedores de serviço (como serviços de IA) podem estar localizados fora do Brasil.
           Nestes casos, garantimos que medidas adequadas de proteção sejam implementadas, em conformidade
@@ -94,7 +169,7 @@
       </section>
 
       <section class="legal-section">
-        <h2>7. Segurança dos Dados</h2>
+        <h2>8. Segurança dos Dados</h2>
         <p>
           Implementamos medidas técnicas e organizacionais para proteger seus dados pessoais:
         </p>
@@ -108,7 +183,7 @@
       </section>
 
       <section class="legal-section">
-        <h2>8. Retenção de Dados</h2>
+        <h2>9. Retenção de Dados</h2>
         <p>
           Mantemos seus dados pessoais apenas pelo tempo necessário para cumprir as finalidades descritas
           nesta política, ou conforme exigido por lei. Após esse período, os dados são excluídos ou anonimizados.
@@ -116,7 +191,7 @@
       </section>
 
       <section class="legal-section">
-        <h2>9. Seus Direitos como Titular de Dados</h2>
+        <h2>10. Seus Direitos como Titular de Dados</h2>
         <p>
           De acordo com a LGPD, você tem os seguintes direitos:
         </p>
@@ -136,7 +211,7 @@
       </section>
 
       <section class="legal-section">
-        <h2>10. Cookies e Tecnologias Similares</h2>
+        <h2>11. Cookies e Tecnologias Similares</h2>
         <p>
           Utilizamos cookies e tecnologias similares para:
         </p>
@@ -152,7 +227,7 @@
       </section>
 
       <section class="legal-section">
-        <h2>11. Crianças e Adolescentes</h2>
+        <h2>12. Crianças e Adolescentes</h2>
         <p>
           Nossos serviços são destinados a pessoas maiores de 18 anos. Não coletamos
           intencionalmente dados de menores de idade. Se identificarmos que coletamos dados
@@ -161,7 +236,7 @@
       </section>
 
       <section class="legal-section">
-        <h2>12. Alterações nesta Política</h2>
+        <h2>13. Alterações nesta Política</h2>
         <p>
           Podemos atualizar esta Política de Privacidade periodicamente. Notificaremos você
           sobre mudanças significativas através do e-mail cadastrado ou de um aviso em nossa plataforma.
@@ -169,7 +244,7 @@
       </section>
 
       <section class="legal-section">
-        <h2>13. Encarregado de Dados (DPO)</h2>
+        <h2>14. Encarregado de Dados (DPO)</h2>
         <p>
           Nosso Encarregado de Proteção de Dados pode ser contatado através do e-mail:
         </p>
@@ -179,7 +254,7 @@
       </section>
 
       <section class="legal-section">
-        <h2>14. Autoridade Nacional de Proteção de Dados (ANPD)</h2>
+        <h2>15. Autoridade Nacional de Proteção de Dados (ANPD)</h2>
         <p>
           Caso não esteja satisfeito com nossas respostas, você pode apresentar uma reclamação
           à Autoridade Nacional de Proteção de Dados (ANPD).
@@ -190,7 +265,7 @@
       </section>
 
       <section class="legal-section">
-        <h2>15. Contato</h2>
+        <h2>16. Contato</h2>
         <p>
           Para dúvidas sobre esta Política de Privacidade ou sobre o tratamento de seus dados pessoais,
           entre em contato:

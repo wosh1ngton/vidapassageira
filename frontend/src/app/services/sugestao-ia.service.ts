@@ -36,5 +36,9 @@ export class SugestaoIaService extends AbstractService<SugestaoIaCreateDTO> {
     );
   }
 
-  
+  deletarPorViagemETipo(viagemId: number, tipoSugestaoId: number): Observable<void> {
+    return this.http.delete<void>(
+      `${this.baseUrl}/sugestao-ia/${viagemId}/${tipoSugestaoId}`
+    );
+  }
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -51,6 +52,12 @@ public class SugestaoIAResource {
         var response = this.sugestaoIAService.getByViagemId(viagemId);
         return ResponseEntity.ok(response);
     }
-    
+
+    @DeleteMapping("/{viagemId}/{tipoSugestaoId}")
+    public ResponseEntity<Void> deletarPorViagemETipo(
+            @PathVariable Long viagemId, @PathVariable Integer tipoSugestaoId) {
+        this.sugestaoIAService.deletarPorViagemETipo(viagemId, tipoSugestaoId);
+        return ResponseEntity.noContent().build();
+    }
 
 }

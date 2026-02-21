@@ -497,3 +497,89 @@
 .menu-tab:nth-child(2) { animation-delay: 0.1s; }
 .menu-tab:nth-child(3) { animation-delay: 0.15s; }
 .menu-tab:nth-child(4) { animation-delay: 0.2s; }
+
+/* =============================================
+   BOTÃO REGENERAR
+   ============================================= */
+
+.regenerar-button {
+    background: transparent !important;
+    border: 2px solid #819d6a !important;
+    color: #819d6a !important;
+    border-radius: 12px !important;
+    padding: 0.75rem 1.5rem !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease !important;
+    margin-top: 1rem;
+}
+
+.regenerar-button:hover {
+    background: #819d6a !important;
+    color: white !important;
+}
+
+/* =============================================
+   DIALOG DE REGENERAÇÃO
+   ============================================= */
+
+.regenerar-dialog-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding: 0.5rem 0;
+}
+
+.regenerar-dialog-info {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.875rem 1rem;
+    background: #fff8e1;
+    border-radius: 10px;
+    border-left: 4px solid #ffc107;
+    color: #6d5c00;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.regenerar-dialog-info i {
+    color: #ffc107;
+    font-size: 1.1rem;
+    margin-top: 2px;
+}
+
+.regenerar-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.regenerar-label {
+    font-weight: 600;
+    color: #495057;
+    font-size: 0.9rem;
+}
+
+.regenerar-dialog-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+}
+
+:host ::ng-deep .regenerar-confirm-button {
+    background: linear-gradient(135deg, #819d6a 0%, #6b8558 100%) !important;
+    border: none !important;
+    border-radius: 10px !important;
+}
+
+:host ::ng-deep .regenerar-confirm-button:hover {
+    background: linear-gradient(135deg, #6b8558 0%, #5a7249 100%) !important;
+}
+
+.card-footer {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
