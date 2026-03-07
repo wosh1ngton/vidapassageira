@@ -127,6 +127,7 @@ public class GoogleCalendarAuthService {
         return token.getAccessToken();
     }
 
+    @Transactional
     private String refreshAccessToken(GoogleCalendarToken token) {
         try {
             String response = WebClient.create("https://oauth2.googleapis.com")
@@ -137,10 +138,22 @@ public class GoogleCalendarAuthService {
                             .with("client_secret", config.getClientSecret())
                             .with("grant_type", "refresh_token"))
                     .retrieve()
+                    .onStatus(status -> status.is4xxClientError(), clientResponse ->
+                            clientResponse.bodyToMono(String.class).map(body -> new RuntimeException("google_error:" + body)))
                     .bodyToMono(String.class)
                     .block();
 
             JsonNode tokenResponse = objectMapper.readTree(response);
+
+            if (tokenResponse.has("error")) {
+                String error = tokenResponse.get("error").asText();
+                log.warn("Refresh token inválido para usuário ID: {} - erro: {}", token.getUsuario().getId(), error);
+                // Token revogado ou expirado (comum em apps não verificados: expira em 7 dias)
+                selecaoRepository.deleteByUsuario_Id(token.getUsuario().getId());
+                tokenRepository.delete(token);
+                throw new GoogleCalendarException("Sessão com Google Calendar expirada. Por favor, reconecte sua conta Google.");
+            }
+
             String newAccessToken = tokenResponse.get("access_token").asText();
             int expiresIn = tokenResponse.get("expires_in").asInt();
 
@@ -152,6 +165,8 @@ public class GoogleCalendarAuthService {
             log.info("Token Google renovado para usuário ID: {}", token.getUsuario().getId());
             return newAccessToken;
 
+        } catch (GoogleCalendarException e) {
+            throw e;
         } catch (Exception e) {
             log.error("Erro ao renovar token Google", e);
             throw new GoogleCalendarException("Erro ao renovar conexão com Google Calendar.", e);

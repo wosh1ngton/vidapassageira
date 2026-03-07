@@ -47,6 +47,8 @@ public class KeycloakUserService {
         user.put("username", username);
         user.put("email", email);
         user.put("enabled", true);
+        user.put("emailVerified", false);
+        user.put("requiredActions", new String[]{"VERIFY_EMAIL"});
 
         HttpEntity<Map<String, Object>> request = new HttpEntity<>(user, headers);
 
