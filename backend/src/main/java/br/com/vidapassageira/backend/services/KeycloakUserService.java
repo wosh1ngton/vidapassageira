@@ -72,6 +72,8 @@ public class KeycloakUserService {
     private String getAdminAccessToken() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.set("X-Forwarded-Proto", "https");
+        headers.set("X-Forwarded-Host", serverUrl.replaceAll("https?://", "").replaceAll(":\\d+$", ""));
 
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", "password");
