@@ -40,9 +40,8 @@ public class KeycloakUserService {
     public String createUser(String username, String email, String password) {
         String token = getAdminAccessToken();
 
-        HttpHeaders headers = new HttpHeaders();
+        HttpHeaders headers = createHeaders(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(token);
-        headers.setContentType(MediaType.APPLICATION_JSON);
 
         Map<String, Object> user = new HashMap<>();
         user.put("username", username);
@@ -69,11 +68,16 @@ public class KeycloakUserService {
         return path.substring(path.lastIndexOf('/') + 1);
     }
 
-    private String getAdminAccessToken() {
+    private HttpHeaders createHeaders(MediaType contentType) {
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.setContentType(contentType);
         headers.set("X-Forwarded-Proto", "https");
         headers.set("X-Forwarded-Host", serverUrl.replaceAll("https?://", "").replaceAll(":\\d+$", ""));
+        return headers;
+    }
+
+    private String getAdminAccessToken() {
+        HttpHeaders headers = createHeaders(MediaType.APPLICATION_FORM_URLENCODED);
 
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", "password");
@@ -90,9 +94,8 @@ public class KeycloakUserService {
     }
 
     private void setPasswordForUser(String username, String password, String token) {
-        HttpHeaders headers = new HttpHeaders();
+        HttpHeaders headers = createHeaders(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(token);
-        headers.setContentType(MediaType.APPLICATION_JSON);
 
         String searchUrl = serverUrl + "/admin/realms/" + targetRealm + "/users?username=" + username;
 

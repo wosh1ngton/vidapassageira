@@ -263,19 +263,74 @@ interface AutoCompleteCompleteEvent {
     }
 
     /* Responsividade */
-    @media screen and (max-width: 480px) {
-      .actions-section {
-        flex-direction: column;
-      }
-
-      .cancel-button,
-      .share-button {
-        width: 100%;
+    @media screen and (max-width: 768px) {
+      .compartilhamento-container {
+        gap: 1rem;
+        padding: 0.5rem;
       }
 
       .info-section {
         flex-direction: column;
         text-align: center;
+        padding: 1rem;
+        gap: 0.75rem;
+      }
+
+      .icon-wrapper {
+        width: 42px;
+        height: 42px;
+      }
+
+      .icon-wrapper i {
+        font-size: 1.25rem;
+      }
+
+      .info-title {
+        font-size: 1.1rem;
+      }
+
+      .info-description {
+        font-size: 0.85rem;
+      }
+
+      .selected-user {
+        padding: 0.75rem;
+      }
+
+      .user-avatar {
+        width: 38px;
+        height: 38px;
+      }
+
+      .user-avatar i {
+        font-size: 1rem;
+      }
+
+      .actions-section {
+        flex-direction: column-reverse;
+      }
+
+      .cancel-button,
+      .share-button {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    /* Dialog responsivo */
+    ::ng-deep .p-dialog {
+      max-width: 95vw !important;
+    }
+
+    @media screen and (max-width: 480px) {
+      ::ng-deep .p-dialog {
+        width: 100vw !important;
+        max-width: 100vw !important;
+        margin: 0 !important;
+      }
+
+      ::ng-deep .p-dialog-content {
+        padding: 0.75rem !important;
       }
     }
   `],
