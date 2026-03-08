@@ -25,7 +25,9 @@ import br.com.vidapassageira.backend.repositories.DestinoRepository;
 import br.com.vidapassageira.backend.repositories.ItinerarioViagemRepository;
 import br.com.vidapassageira.backend.repositories.UsuarioRepository;
 import br.com.vidapassageira.backend.repositories.ViagemCompartilhamentoRepository;
+import br.com.vidapassageira.backend.repositories.SugestaoIARepository;
 import br.com.vidapassageira.backend.repositories.ViagemRepository;
+import jakarta.transaction.Transactional;
 
 @Service
 public class ViagensService {
@@ -41,6 +43,9 @@ public class ViagensService {
 
     @Autowired
     private ItinerarioViagemRepository itinerarioViagemRepository;
+
+    @Autowired
+    private SugestaoIARepository sugestaoIARepository;
 
     @Autowired
     private DestinoRepository destinoRepository;
@@ -154,10 +159,14 @@ public class ViagensService {
         itinerarioViagemRepository.deleteById(id);
     }
 
+    @Transactional
     public void deletarViagem(Long id) {
         if (!viagemRepository.existsById(id)) {
             throw new EntityNotFoundException("Viagem com ID " + id + " não encontrado.");
         }
+        sugestaoIARepository.deleteAllByViagem_Id(id);
+        itinerarioViagemRepository.deleteAllByViagem_Id(id);
+        viagemCompartilhamentoRepository.deleteAllByViagem_Id(id);
         viagemRepository.deleteById(id);
     }
     

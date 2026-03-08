@@ -20,4 +20,8 @@ public interface SugestaoIARepository extends JpaRepository<SugestaoIA, Long> {
     @Transactional
     void deleteByViagem_IdAndTipoSugestaoIA_Id(Long viagemId, Integer tipoSugestaoIAId);
 
+    @Modifying
+    @Transactional
+    void deleteAllByViagem_Id(Long viagemId);
+
 }

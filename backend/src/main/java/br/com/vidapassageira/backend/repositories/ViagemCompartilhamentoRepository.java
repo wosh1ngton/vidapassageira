@@ -14,5 +14,7 @@ public interface ViagemCompartilhamentoRepository extends JpaRepository<ViagemCo
     
     
     List<ViagemCompartilhamento> findByUsuario_Id(Long usuarioId);
-    
+
+    void deleteAllByViagem_Id(Long viagemId);
+
 }

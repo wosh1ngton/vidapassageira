@@ -5,7 +5,7 @@ services:
     image: mysql:8.0
     command: mysqld --default-authentication-plugin=mysql_native_password
     container_name: mysql
-    restart: always
+    restart: no
     env_file:
       - .env.docker    
     volumes:
@@ -18,7 +18,7 @@ services:
   backend:
     image: ghcr.io/wosh1ngton/vp-backend:latest
     container_name: backend
-    restart: always
+    restart: no
     depends_on:
       mysql:
         condition: service_healthy
@@ -35,7 +35,7 @@ services:
   frontend:
     image: ghcr.io/wosh1ngton/vp-frontend:latest
     container_name: frontend
-    restart: always
+    restart: no
     depends_on:
       backend:
         condition: service_healthy    
