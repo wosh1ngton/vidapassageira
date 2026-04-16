@@ -210,6 +210,84 @@ body.vp-login {
     color: #6b8558;
 }
 
+/* Social Providers (Login com Google, etc.) */
+.social-providers {
+    margin-top: 1.5rem;
+}
+
+.social-divider {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.25rem;
+    gap: 1rem;
+}
+
+.social-divider::before,
+.social-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #e0e0e0;
+}
+
+.social-divider span {
+    color: #999999;
+    font-size: 0.85rem;
+    text-transform: lowercase;
+}
+
+.social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #333333;
+    background: #ffffff;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 0.5rem;
+    font-family: inherit;
+}
+
+.social-btn:hover {
+    background: #f8f9fa;
+    border-color: #ccc;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transform: translateY(-1px);
+}
+
+.social-btn:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+.social-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+.social-icon-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background: #819d6a;
+    color: #ffffff;
+    border-radius: 50%;
+    font-size: 0.75rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
 /* Mensagens de erro */
 .alert {
     padding: 0.875rem 1rem;

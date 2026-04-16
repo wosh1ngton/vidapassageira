@@ -365,6 +365,7 @@ env.dev
 .env.dev
 .env.docker
 keycloak/realm/vp-realm.dev.json
+keycloak/realm-dev/vp-realm.dev.json
 compose.yaml
 
 # Production environment files (NEVER commit these!)
