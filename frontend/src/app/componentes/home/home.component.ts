@@ -28,6 +28,8 @@ export class HomeComponent {
     private router: Router
   ) {}
 
+  currentYear = new Date().getFullYear();
+
   features: Feature[] = [
     {
       icon: 'pi pi-building',
