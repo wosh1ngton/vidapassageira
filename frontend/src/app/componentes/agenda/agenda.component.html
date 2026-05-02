@@ -206,13 +206,13 @@
                             </div>
                         </div>
 
-                        <div class="periodo-actions" *ngIf="sugestaoAtiva !== i && criarViagemAtiva !== i">
+                        <div class="periodo-actions" *ngIf="sugestaoAtiva !== i && criarViagemAtiva !== i && confirmacaoAtiva !== i">
                             <p-button
                                 label="Gerar sugestões"
                                 icon="pi pi-sparkles"
                                 styleClass="sugestao-button"
                                 [disabled]="sugestaoEmStreaming"
-                                (onClick)="gerarSugestao(i, periodo)">
+                                (onClick)="abrirConfirmacaoSugestao(i, periodo)">
                             </p-button>
                             <p-button
                                 label="Criar nova viagem"
@@ -221,6 +221,77 @@
                                 [outlined]="true"
                                 (onClick)="abrirCriarViagem(i, periodo)">
                             </p-button>
+                        </div>
+
+                        <!-- Formulário de confirmação manual de datas antes de enviar à IA -->
+                        <div class="criar-viagem-form" *ngIf="confirmacaoAtiva === i">
+                            <div class="criar-viagem-header">
+                                <span class="criar-viagem-label">
+                                    <i class="pi pi-sparkles"></i>
+                                    Confirmar datas para sugestões da IA
+                                </span>
+                                <button class="fechar-criar-viagem" (click)="cancelarConfirmacaoSugestao()">
+                                    <i class="pi pi-times"></i>
+                                </button>
+                            </div>
+                            <div class="criar-viagem-body">
+                                <div class="connect-info">
+                                    <i class="pi pi-info-circle"></i>
+                                    <p>
+                                        Revise e ajuste as datas conforme necessário. Apenas as datas confirmadas
+                                        por você serão enviadas ao nosso assistente de IA para gerar sugestões.
+                                        Nenhum dado do seu Google Calendar será compartilhado com o serviço de IA.
+                                    </p>
+                                </div>
+                                <div class="datas-grid-agenda">
+                                    <div class="form-field-agenda">
+                                        <label class="field-label-agenda">
+                                            <i class="pi pi-calendar"></i>
+                                            Data de ida
+                                        </label>
+                                        <p-calendar
+                                            [(ngModel)]="sugestaoDataIda"
+                                            dateFormat="dd/mm/yy"
+                                            [showIcon]="true"
+                                            [iconDisplay]="'input'"
+                                            appendTo="body"
+                                            placeholder="Data de ida"
+                                            [style]="{'width': '100%'}">
+                                        </p-calendar>
+                                    </div>
+                                    <div class="form-field-agenda">
+                                        <label class="field-label-agenda">
+                                            <i class="pi pi-calendar"></i>
+                                            Data de volta
+                                        </label>
+                                        <p-calendar
+                                            [(ngModel)]="sugestaoDataVolta"
+                                            dateFormat="dd/mm/yy"
+                                            [showIcon]="true"
+                                            [iconDisplay]="'input'"
+                                            appendTo="body"
+                                            placeholder="Data de volta"
+                                            [style]="{'width': '100%'}">
+                                        </p-calendar>
+                                    </div>
+                                </div>
+                                <div class="criar-viagem-actions">
+                                    <p-button
+                                        label="Cancelar"
+                                        icon="pi pi-times"
+                                        severity="secondary"
+                                        [outlined]="true"
+                                        (onClick)="cancelarConfirmacaoSugestao()">
+                                    </p-button>
+                                    <p-button
+                                        label="Confirmar e gerar"
+                                        icon="pi pi-sparkles"
+                                        styleClass="confirmar-criar-viagem-button"
+                                        [disabled]="!sugestaoDataIda || !sugestaoDataVolta"
+                                        (onClick)="confirmarEGerarSugestao(i)">
+                                    </p-button>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Formulário inline: Criar nova viagem -->

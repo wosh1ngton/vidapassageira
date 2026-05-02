@@ -46,6 +46,11 @@ export class AgendaComponent implements OnInit, OnDestroy {
   sugestaoEmStreaming = false;
   private sugestaoSubscription?: Subscription;
 
+  // Confirmacao manual de datas antes de enviar a IA
+  confirmacaoAtiva: number | null = null;
+  sugestaoDataIda: Date | null = null;
+  sugestaoDataVolta: Date | null = null;
+
   // Salvar viagem da sugestao
   destinosSugeridos: DestinoSugerido[] = [];
   destinoSelecionado: DestinoSugerido | null = null;
@@ -256,16 +261,35 @@ export class AgendaComponent implements OnInit, OnDestroy {
     this.carregarEventos();
   }
 
-  gerarSugestao(index: number, periodo: SugestaoViagemAgendaDTO): void {
+  abrirConfirmacaoSugestao(index: number, periodo: SugestaoViagemAgendaDTO): void {
     if (this.sugestaoEmStreaming) return;
 
+    this.confirmacaoAtiva = index;
+    this.sugestaoDataIda = new Date(periodo.inicioFolga + 'T00:00:00');
+    this.sugestaoDataVolta = new Date(periodo.fimFolga + 'T00:00:00');
+  }
+
+  cancelarConfirmacaoSugestao(): void {
+    this.confirmacaoAtiva = null;
+    this.sugestaoDataIda = null;
+    this.sugestaoDataVolta = null;
+  }
+
+  confirmarEGerarSugestao(index: number): void {
+    if (!this.sugestaoDataIda || !this.sugestaoDataVolta) return;
+    if (this.sugestaoEmStreaming) return;
+
+    const inicio = this.formatarDataParaApi(this.sugestaoDataIda);
+    const fim = this.formatarDataParaApi(this.sugestaoDataVolta);
+
+    this.confirmacaoAtiva = null;
     this.sugestaoAtiva = index;
     this.sugestaoTexto = '';
     this.sugestaoEmStreaming = true;
 
     this.sugestaoSubscription?.unsubscribe();
     this.sugestaoSubscription = this.agendaIAService
-      .gerarSugestaoViagemStream(periodo.inicioFolga, periodo.fimFolga)
+      .gerarSugestaoViagemStream(inicio, fim)
       .subscribe({
         next: (chunk) => {
           try {
@@ -297,6 +321,13 @@ export class AgendaComponent implements OnInit, OnDestroy {
     this.sugestaoEmStreaming = false;
     this.destinosSugeridos = [];
     this.destinoSelecionado = null;
+  }
+
+  private formatarDataParaApi(data: Date): string {
+    const ano = data.getFullYear();
+    const mes = String(data.getMonth() + 1).padStart(2, '0');
+    const dia = String(data.getDate()).padStart(2, '0');
+    return `${ano}-${mes}-${dia}`;
   }
 
   private parsearDestinos(): void {
