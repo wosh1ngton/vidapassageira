@@ -8,11 +8,10 @@ import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dy
 import { FormViagemComponent } from '../form-viagem/form-viagem.component';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { UsuarioBuscaComponent } from '../../usuario/usuario-busca/usuario-busca.component';
-import { BannerAgendaComponent } from '../banner-agenda/banner-agenda.component';
 
 @Component({
   selector: 'app-listar-viagem',
-  imports: [PrimeNgModule, CommonModule, RouterModule, BannerAgendaComponent],
+  imports: [PrimeNgModule, CommonModule, RouterModule],
   templateUrl: './listar-viagem.component.html',
   styleUrl: './listar-viagem.component.css',
 

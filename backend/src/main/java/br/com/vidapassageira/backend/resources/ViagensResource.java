@@ -18,10 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.vidapassageira.backend.dtos.itinerario.ItinerarioCreateDto;
 import br.com.vidapassageira.backend.dtos.itinerario.ItinerarioResponseDto;
-import br.com.vidapassageira.backend.dtos.viagem.ViagemAgendaCreateDTO;
 import br.com.vidapassageira.backend.dtos.viagem.ViagemCreateDTO;
 import br.com.vidapassageira.backend.dtos.viagem.ViagemResponseDTO;
-import br.com.vidapassageira.backend.services.CompartilhamentoService;
 import br.com.vidapassageira.backend.services.ViagensService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -225,22 +223,5 @@ public class ViagensResource {
     ) {
         viagensService.deletarViagem(id);
         return ResponseEntity.noContent().build();
-    }
-
-    @Operation(
-        summary = "Criar viagem a partir da agenda",
-        description = "Cria um destino (se necessário) e uma viagem a partir de uma sugestão da agenda"
-    )
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "201", description = "Viagem criada com sucesso"),
-        @ApiResponse(responseCode = "400", description = "Dados inválidos"),
-        @ApiResponse(responseCode = "401", description = "Não autenticado")
-    })
-    @PostMapping("/criar-da-agenda")
-    public ResponseEntity<ViagemResponseDTO> criarDaAgenda(
-            @RequestBody ViagemAgendaCreateDTO dto,
-            @AuthenticationPrincipal Jwt jwt) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(viagensService.criarDaAgenda(dto, jwt.getSubject()));
     }
 }
