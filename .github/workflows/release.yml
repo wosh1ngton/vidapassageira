@@ -58,18 +58,20 @@ jobs:
       # ==================================
       # FRONTEND
       # ==================================
-      - name: Build frontend image
-        run: |
-          docker build \
-            -t ghcr.io/${{ github.repository_owner }}/vp-frontend:${{ steps.version.outputs.version }} \
-            -t ghcr.io/${{ github.repository_owner }}/vp-frontend:latest \
-            -f frontend/Dockerfile.prod \
-            frontend
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-      - name: Push frontend images
-        run: |
-          docker push ghcr.io/${{ github.repository_owner }}/vp-frontend:${{ steps.version.outputs.version }}
-          docker push ghcr.io/${{ github.repository_owner }}/vp-frontend:latest
+      - name: Build and push frontend image
+        uses: docker/build-push-action@v6
+        with:
+          context: frontend
+          file: frontend/Dockerfile.prod
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/vp-frontend:${{ steps.version.outputs.version }}
+            ghcr.io/${{ github.repository_owner }}/vp-frontend:latest
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/vp-frontend:buildcache
+          cache-to: type=registry,ref=ghcr.io/${{ github.repository_owner }}/vp-frontend:buildcache,mode=max
 
       # ==================================
       # SUMMARY

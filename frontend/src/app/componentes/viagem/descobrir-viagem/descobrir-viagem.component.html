@@ -1,0 +1,84 @@
+<div class="descobrir-container">
+  <div class="descobrir-header">
+    <h1><i class="pi pi-compass"></i> Descobrir viagem</h1>
+    <p class="subtitulo">
+      Informe quando você está livre e quanto pretende gastar. A IA sugere destinos que
+      combinam com o período, o clima e o seu histórico de viagens.
+    </p>
+  </div>
+
+  <div class="descobrir-form">
+    <div class="campo">
+      <label for="periodo">Período livre</label>
+      <p-datePicker
+        inputId="periodo"
+        [(ngModel)]="periodo"
+        selectionMode="range"
+        [readonlyInput]="true"
+        [minDate]="dataMinima"
+        dateFormat="dd/mm/yy"
+        placeholder="Data de ida — Data de volta"
+        styleClass="w-full"
+        appendTo="body">
+      </p-datePicker>
+    </div>
+
+    <div class="campo">
+      <label for="orcamento">Orçamento por pessoa (opcional)</label>
+      <input
+        pInputText
+        id="orcamento"
+        type="number"
+        min="0"
+        [(ngModel)]="orcamento"
+        placeholder="Ex.: 2000" />
+      <small>Deixe em branco para receber opções econômica, moderada e premium.</small>
+    </div>
+
+    <button
+      pButton
+      type="button"
+      label="Descobrir destinos"
+      icon="pi pi-sparkles"
+      [disabled]="carregando || !periodoValido"
+      (click)="descobrir()">
+    </button>
+  </div>
+
+  <div class="descobrir-loading" *ngIf="carregando && !textoExibicao">
+    <i class="pi pi-spin pi-spinner"></i>
+    <span>Consultando o melhor destino para você...</span>
+  </div>
+
+  <div class="descobrir-resultado" *ngIf="textoExibicao">
+    <markdown [data]="textoExibicao"></markdown>
+    <div class="digitando" *ngIf="carregando">
+      <i class="pi pi-spin pi-spinner"></i> gerando...
+    </div>
+  </div>
+
+  <div class="destinos-sugeridos" *ngIf="destinosSugeridos.length">
+    <h2>Destinos sugeridos</h2>
+    <p class="destinos-ajuda">
+      Crie a viagem em um clique — o destino e a imagem são gerados automaticamente
+      usando o período que você selecionou.
+    </p>
+    <div class="destinos-grid">
+      <div class="destino-card" *ngFor="let destino of destinosSugeridos">
+        <div class="destino-info">
+          <span class="destino-nome">{{ destino.nome }}</span>
+          <span class="destino-local"><i class="pi pi-map-marker"></i> {{ destino.localizacao }}</span>
+        </div>
+        <button
+          pButton
+          type="button"
+          [label]="criandoDestino === destino.nome ? 'Criando...' : 'Criar viagem'"
+          [icon]="criandoDestino === destino.nome ? 'pi pi-spin pi-spinner' : 'pi pi-calendar-plus'"
+          class="p-button-sm"
+          [disabled]="criandoDestino !== null"
+          (click)="criarViagem(destino)">
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

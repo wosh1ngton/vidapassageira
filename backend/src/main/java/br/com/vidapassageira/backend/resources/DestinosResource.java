@@ -16,7 +16,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import br.com.vidapassageira.backend.dtos.destino.DestinoCreateDTO;
 import br.com.vidapassageira.backend.dtos.destino.DestinoReponseDTO;
+import br.com.vidapassageira.backend.dtos.destino.DestinosDTO;
 import br.com.vidapassageira.backend.services.DestinosService;
+import org.springframework.web.bind.annotation.RequestBody;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -85,6 +87,23 @@ public class DestinosResource {
 
     {
         DestinoReponseDTO response = destinosService.cadastrar(nome, descricao, localizacao, imagem.getBytes());
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @Operation(
+        summary = "Cadastrar destino automaticamente",
+        description = "Cria um destino a partir de uma sugestão (nome/localização), buscando a imagem "
+                + "automaticamente ou gerando um placeholder. Reutiliza o destino se ele já existir."
+    )
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Destino cadastrado ou reutilizado com sucesso"),
+        @ApiResponse(responseCode = "400", description = "Dados inválidos"),
+        @ApiResponse(responseCode = "401", description = "Não autenticado")
+    })
+    @PostMapping(value = "/auto", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<DestinoReponseDTO> cadastrarAutomatico(@RequestBody DestinosDTO request) {
+        DestinoReponseDTO response = destinosService.cadastrarAutomatico(
+                request.getNome(), request.getDescricao(), request.getLocalizacao());
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 

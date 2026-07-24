@@ -34,6 +34,14 @@ export class DestinosService {
     );
   }
 
+  criarAutomatico(dto: {
+    nome: string;
+    descricao: string;
+    localizacao: string;
+  }): Observable<DestinoResponseDTO> {
+    return this.http.post<DestinoResponseDTO>(`${this.baseUrl}/destinos/auto`, dto);
+  }
+
   atualizar(formData: FormData, id: number): Observable<DestinoResponseDTO> {
     return this.http.put<DestinoResponseDTO>(
       `${this.baseUrl}/destinos/${id}`,

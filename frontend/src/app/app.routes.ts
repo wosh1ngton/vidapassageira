@@ -3,6 +3,7 @@ import { DestinoComponent } from './componentes/viagem/destino/listar-destino/de
 import { HomeComponent } from './componentes/home/home.component';
 import { ListarViagemComponent } from './componentes/viagem/listar-viagem/listar-viagem.component';
 import { PlanejarViagemComponent } from './componentes/viagem/planejar-viagem/planejar-viagem.component';
+import { DescobrirViagemComponent } from './componentes/viagem/descobrir-viagem/descobrir-viagem.component';
 import { RegistroComponent } from './componentes/registro/registro.component';
 import { PageNotFoundComponent } from './componentes/shared/page-not-found/page-not-found.component';
 import { TermosComponent } from './componentes/legal/termos/termos.component';
@@ -29,6 +30,10 @@ export const routes: Routes = [
     {
         path: 'destinos',
         component: DestinoComponent
+    },
+    {
+        path: 'descobrir',
+        component: DescobrirViagemComponent,
     },
     {
         path: 'planejar/:id',

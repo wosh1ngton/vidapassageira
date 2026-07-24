@@ -99,8 +99,8 @@ export class DestinoComponent implements OnInit, OnDestroy {
     });
   }
 
-  abrirDestinoDialog() { 
-    this.destinoSelecionado = undefined;   
+  abrirDestinoDialog() {
+    this.destinoSelecionado = undefined;
     this.modalDialog.set(true);
   }
 

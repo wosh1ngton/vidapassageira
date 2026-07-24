@@ -19,6 +19,32 @@ public class DestinosService {
     @Autowired
     private DestinoRepository destinoRepository;
 
+    @Autowired
+    private ImagemDestinoService imagemDestinoService;
+
+    /**
+     * Cria um destino automaticamente a partir de uma sugestão da IA, buscando
+     * uma imagem representativa (ou gerando um placeholder). Se já existir um
+     * destino com o mesmo nome, reutiliza o existente em vez de duplicar.
+     */
+    public DestinoReponseDTO cadastrarAutomatico(String nome, String descricao, String localizacao) {
+        return destinoRepository.findFirstByNomeIgnoreCase(nome)
+                .map(this::toResponseComImagem)
+                .orElseGet(() -> {
+                    byte[] imagem = imagemDestinoService.obterImagem(nome, localizacao);
+                    return cadastrar(nome, descricao, localizacao, imagem);
+                });
+    }
+
+    private DestinoReponseDTO toResponseComImagem(Destino destino) {
+        DestinoReponseDTO dto = DestinoMapper.INSTANCE.toResponseDto(destino);
+        if (destino.getImagem() != null) {
+            String base64 = Base64.getEncoder().encodeToString(destino.getImagem());
+            dto.setImagemBase64("data:image/jpeg;base64," + base64);
+        }
+        return dto;
+    }
+
     public DestinoReponseDTO cadastrar(String nome, String descricao, String localizacao, byte[] imagem) {
         if (destinoRepository.existsByNomeIgnoreCase(nome)) {
             throw new IllegalArgumentException("Já existe um destino cadastrado com o nome '" + nome + "'.");
