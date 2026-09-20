@@ -12,7 +12,7 @@ import jakarta.transaction.Transactional;
 
 
 public interface ItinerarioViagemRepository extends JpaRepository<ItinerarioViagem, Long> {
-    List<ItinerarioViagem> findAllByViagem_Id(Long id);
+    List<ItinerarioViagem> findAllByViagem_IdOrderByDiaAsc(Long id);
     boolean existsByViagem_Id(Long id);
 
     @Modifying

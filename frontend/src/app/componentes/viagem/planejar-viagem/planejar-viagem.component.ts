@@ -185,7 +185,9 @@ export class PlanejarViagemComponent implements OnInit {
 
       next: (item: ItinerarioResponseDto[]) => {
         this.itinerarioDaViagem = item.sort((a, b) => {
-          return new Date(a.dia).getDate() - new Date(b.dia).getDate();
+          const dataA = a.dia ? new Date(a.dia).getTime() : Number.MAX_SAFE_INTEGER;
+          const dataB = b.dia ? new Date(b.dia).getTime() : Number.MAX_SAFE_INTEGER;
+          return dataA - dataB;
         });        
       },
       error: (err) => {

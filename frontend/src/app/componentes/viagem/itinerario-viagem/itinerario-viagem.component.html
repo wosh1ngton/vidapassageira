@@ -4,6 +4,17 @@
 
     <div class="timeline-wrapper" *ngIf="itensTimeLine.length > 0">
         <p-timeline [value]="itensTimeLine" align="alternate" class="custom-timeline">
+            <!-- Data do Evento (lado oposto ao card) -->
+            <ng-template #opposite let-event>
+                <div class="timeline-date" [class.completed]="event.itinerarioConcluido" *ngIf="event.dia">
+                    <i class="pi pi-clock"></i>
+                    <span class="timeline-date-info">
+                        <span class="timeline-date-value">{{ event.dia | date: 'dd/MM/yyyy' }}</span>
+                        <span class="timeline-date-weekday">{{ event.dia | date: 'EEEE' }}</span>
+                    </span>
+                </div>
+            </ng-template>
+
             <!-- Marcador da Timeline -->
             <ng-template #marker let-event>
                 <div class="timeline-marker" [class.completed]="event.itinerarioConcluido">
@@ -19,7 +30,7 @@
                         <div class="header-info">
                             <h3 class="activity-title">{{ event.nome }}</h3>
                             <div class="activity-meta">
-                                <span class="meta-item">
+                                <span class="meta-item meta-item-data">
                                     <i class="pi pi-calendar"></i>
                                     {{ event.dia | date: 'dd/MM/yyyy' }}
                                 </span>

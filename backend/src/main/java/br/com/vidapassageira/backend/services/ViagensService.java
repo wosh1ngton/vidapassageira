@@ -131,7 +131,7 @@ public class ViagensService {
     }
 
     public List<ItinerarioResponseDto> listarItinerario(Long id) {
-        List<ItinerarioViagem> itinerarioDaViagem = this.itinerarioViagemRepository.findAllByViagem_Id(id);
+        List<ItinerarioViagem> itinerarioDaViagem = this.itinerarioViagemRepository.findAllByViagem_IdOrderByDiaAsc(id);
         if(itinerarioDaViagem.isEmpty()) {
             throw new NoResourceFoundException("item não localizado");
         }

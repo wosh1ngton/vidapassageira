@@ -54,6 +54,67 @@
 }
 
 /* =============================================
+   DATA DESTACADA (LADO OPOSTO AO CARD)
+   ============================================= */
+
+.timeline-date {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem 1rem;
+    border-radius: 10px;
+    background: rgba(129, 157, 106, 0.1);
+    border: 1px solid rgba(129, 157, 106, 0.25);
+    text-align: left;
+}
+
+.timeline-date i {
+    font-size: 1.35rem;
+    color: #819d6a;
+}
+
+.timeline-date-info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+
+.timeline-date-value {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #4f6440;
+    white-space: nowrap;
+}
+
+.timeline-date-weekday {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #7a8a6d;
+    text-transform: capitalize;
+    white-space: nowrap;
+}
+
+.timeline-date.completed {
+    background: linear-gradient(135deg, #819d6a 0%, #6b8558 100%);
+    border-color: #819d6a;
+}
+
+.timeline-date.completed i,
+.timeline-date.completed .timeline-date-value,
+.timeline-date.completed .timeline-date-weekday {
+    color: white;
+}
+
+/* Alinha a data em direção ao marcador nos dois lados da timeline */
+::ng-deep .custom-timeline.p-timeline-alternate .p-timeline-event:nth-child(odd) .p-timeline-event-opposite {
+    text-align: right;
+}
+
+::ng-deep .custom-timeline.p-timeline-alternate .p-timeline-event:nth-child(even) .p-timeline-event-opposite {
+    text-align: left;
+}
+
+/* =============================================
    CARD DE ATIVIDADE
    ============================================= */
 
@@ -129,6 +190,11 @@
 .meta-item i {
     color: #819d6a;
     font-size: 0.95rem;
+}
+
+/* No desktop a data aparece ao lado do marcador; evita duplicar no card */
+.meta-item-data {
+    display: none;
 }
 
 .status-badge {
@@ -250,6 +316,10 @@
 
     ::ng-deep .custom-timeline .p-timeline-event-opposite {
         display: none;
+    }
+
+    .meta-item-data {
+        display: flex;
     }
 
     .activity-card {
